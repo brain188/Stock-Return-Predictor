@@ -1,0 +1,78 @@
+2026-09-09 22:53:11 | ERROR    | __main__:main:64 | Fetch failed
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\entrypoint\fetch.py", line 48, in main
+    config = load_config(args.config)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\config.py", line 429, in load_config
+    data=DataConfig.from_dict(raw["data"], PROJECT_ROOT),
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\config.py", line 97, in from_dict
+    massive_api_key=raw["massive_api_key"],
+                    ~~~^^^^^^^^^^^^^^^^^^^
+KeyError: 'massive_api_key'
+2026-09-09 23:22:42 | ERROR    | __main__:main:64 | Fetch failed
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\entrypoint\fetch.py", line 48, in main
+    config = load_config(args.config)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\config.py", line 442, in load_config
+    data=DataConfig.from_dict(raw["data"], PROJECT_ROOT),
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\config.py", line 101, in from_dict
+    massive_api_key=os.getenv["MASSIVE_API_KEY", ""],
+                    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'function' object is not subscriptable
+2026-09-09 23:24:11 | INFO     | __main__:log_config:157 | Config       : C:\Users\BRAIN\Desktop\ML\stock-return-predictor\config\config.yaml
+2026-09-09 23:24:11 | INFO     | __main__:log_config:158 | Universe     : 11 tickers, 2005-01-01 to 2024-12-31
+2026-09-09 23:24:11 | INFO     | __main__:log_config:164 | Labelling    : fixed_horizon (labels overlap: False)
+2026-09-09 23:24:11 | INFO     | __main__:log_config:169 | Estimator    : random_forest
+2026-09-09 23:24:11 | INFO     | __main__:log_config:170 | Embargo      : 1.0% of the sample
+2026-09-09 23:24:11 | INFO     | __main__:log_config:171 | Round trip   : 0.100% per trade
+2026-09-09 23:24:11 | INFO     | __main__:log_step:113 | START  Fetching the universe
+2026-09-09 23:24:11 | ERROR    | __main__:log_step:119 | FAILED Fetching the universe after 0.00s
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\logger.py", line 117, in log_step
+    yield
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\entrypoint\fetch.py", line 52, in main
+    frames, failed = fetch_universe(config, refresh=args.refresh)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\data\loaders.py", line 240, in fetch_universe
+    result = fetch_ticker(ticker, config, refresh=refresh)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\data\loaders.py", line 204, in fetch_ticker
+    frame = SOURCES[name](ticker, start, end)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: _fetch_massive() missing 1 required positional argument: 'api_key'
+2026-09-09 23:24:11 | ERROR    | __main__:main:64 | Fetch failed
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\entrypoint\fetch.py", line 52, in main
+    frames, failed = fetch_universe(config, refresh=args.refresh)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\data\loaders.py", line 240, in fetch_universe
+    result = fetch_ticker(ticker, config, refresh=refresh)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\data\loaders.py", line 204, in fetch_ticker
+    frame = SOURCES[name](ticker, start, end)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: _fetch_massive() missing 1 required positional argument: 'api_key'
+2026-09-09 23:29:35 | INFO     | __main__:log_config:157 | Config       : C:\Users\BRAIN\Desktop\ML\stock-return-predictor\config\config.yaml
+2026-09-09 23:29:35 | INFO     | __main__:log_config:158 | Universe     : 11 tickers, 2005-01-01 to 2024-12-31
+2026-09-09 23:29:35 | INFO     | __main__:log_config:164 | Labelling    : fixed_horizon (labels overlap: False)
+2026-09-09 23:29:35 | INFO     | __main__:log_config:169 | Estimator    : random_forest
+2026-09-09 23:29:35 | INFO     | __main__:log_config:170 | Embargo      : 1.0% of the sample
+2026-09-09 23:29:35 | INFO     | __main__:log_config:171 | Round trip   : 0.100% per trade
+2026-09-09 23:29:35 | INFO     | __main__:log_step:113 | START  Fetching the universe
+2026-09-09 23:29:52 | WARNING  | src.data.loaders:fetch_universe:253 | Skipping SPY: only 80 bars, need 500
+2026-09-09 23:29:53 | WARNING  | src.data.loaders:fetch_universe:253 | Skipping AAPL: only 80 bars, need 500
+2026-09-09 23:29:53 | WARNING  | src.data.loaders:fetch_universe:253 | Skipping MSFT: only 80 bars, need 500
+2026-09-09 23:29:54 | WARNING  | src.data.loaders:fetch_universe:253 | Skipping JNJ: only 80 bars, need 500
+2026-09-09 23:29:55 | WARNING  | src.data.loaders:fetch_universe:253 | Skipping JPM: only 80 bars, need 500
+2026-09-09 23:29:57 | DEBUG    | src.data.loaders:fetch_ticker:213 | XOM: massive failed for XOM: HTTPSConnectionPool(host='api.massive.com', port=443): Max retries exceeded with url: /v2/aggs/ticker/XOM/range/1/day/2005-01-01/2024-12-31?adjusted=true&sort=asc&limit=50000 (Caused by ResponseError('too many 429 error responses'))
+2026-09-09 23:30:32 | INFO     | src.data.loaders:fetch_universe:263 | XOM    5,032 bars  2005-01-03 to 2024-12-30  via yfinance
+2026-09-09 23:30:33 | WARNING  | src.data.loaders:fetch_universe:253 | Skipping PG: only 80 bars, need 500
+2026-09-09 23:30:35 | WARNING  | src.data.loaders:fetch_universe:253 | Skipping KO: only 80 bars, need 500
+2026-09-09 23:30:36 | WARNING  | src.data.loaders:fetch_universe:253 | Skipping WMT: only 80 bars, need 500
+2026-09-09 23:30:36 | WARNING  | src.data.loaders:fetch_universe:253 | Skipping GE: only 80 bars, need 500
+2026-09-09 23:30:37 | WARNING  | src.data.loaders:fetch_universe:253 | Skipping INTC: only 80 bars, need 500
+2026-09-09 23:30:37 | INFO     | src.data.loaders:fetch_universe:271 | Fetched 1 of 11 tickers
+2026-09-09 23:30:37 | INFO     | __main__:log_step:122 | DONE   Fetching the universe (61.91s)

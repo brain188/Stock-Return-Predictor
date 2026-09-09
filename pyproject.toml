@@ -1,0 +1,101 @@
+[project]
+name = "stock-return-predictor"
+version = "0.1.0"
+description = "Predicting next-day equity returns, with honest validation and backtesting"
+readme = "README.md"
+requires-python = ">=3.12"
+
+
+dependencies = [
+    # --- Core ---------------------------------------------------------------
+    "numpy>=1.26,<3",
+    "pandas>=2.2,<3",
+    "scipy>=1.11,<2",
+    # --- Modelling ----------------------------------------------------------
+    "scikit-learn>=1.5,<2",
+    "lightgbm>=4.3,<5",
+    # ADF test, for choosing the fractional differentiation order.
+    "statsmodels>=0.14,<1",
+    # --- Data ---------------------------------------------------------------
+    # Stooq needs no API key and serves plain CSV. yfinance scrapes unofficial
+    # endpoints and breaks periodically, so it is only the fallback.
+    "pandas-datareader>=0.10",
+    "yfinance>=0.2.40",
+    # Cached price data. Parquet keeps dtypes and reloads in milliseconds.
+    "pyarrow>=15.0",
+    # --- Configuration ------------------------------------------------------
+    "pyyaml>=6.0,<7",
+    "joblib>=1.3,<2",
+    # --- Plotting -----------------------------------------------------------
+    "matplotlib>=3.8,<4",
+    "massive>=2.8.0",
+    "python-dotenv>=1.2.3",
+]
+ 
+[dependency-groups]
+# Installed by default with `uv sync`, excluded by `uv sync --no-dev`.
+dev = [
+    "pytest>=8.0,<9",
+    "ruff>=0.6,<1",
+    "jupyterlab>=4.0,<5",
+    "ipykernel>=6.29,<7",
+]
+ 
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+ 
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+ 
+# ---------------------------------------------------------------------------
+# Lint and format
+#
+# The rule set is chosen rather than left at the default: what is enabled here
+# catches bugs, and each exclusion below says why it is off.
+# ---------------------------------------------------------------------------
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+exclude = [".venv", "notebooks", "__pycache__", "data"]
+ 
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes: unused imports, undefined names
+    "I",   # import sorting
+    "UP",  # pyupgrade
+    "B",   # bugbear
+    "C4",  # comprehension style
+    "SIM", # simplification
+    "PTH", # prefer pathlib
+    "RUF", # ruff's own rules
+]
+ 
+ignore = [
+    # A broad except is deliberate where a data source or an optional
+    # dependency fails: the pipeline degrades rather than stopping. Every such
+    # site logs and is justified in a comment.
+    "BLE001",
+]
+ 
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]
+ 
+# Entry points put the project root on sys.path before importing from it.
+"entrypoint/*" = ["E402"]
+ 
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+ 
+# ---------------------------------------------------------------------------
+# Tests
+# ---------------------------------------------------------------------------
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-q --strict-markers"
+markers = ["network: needs a live data source"]
+filterwarnings = ["ignore::DeprecationWarning"]

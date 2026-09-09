@@ -1,0 +1,62 @@
+# ---------------------------------------------------------------------------
+# Logging configuration, loaded through logging.config.dictConfig.
+# ---------------------------------------------------------------------------
+
+version: 1
+disable_existing_loggers: false
+
+formatters:
+  console:
+    format: "%(asctime)s | %(levelname)-8s | %(message)s"
+    datefmt: "%H:%M:%S"
+
+  detailed:
+    format: "%(asctime)s | %(levelname)-8s | %(name)s:%(funcName)s:%(lineno)d | %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: console
+    stream: ext://sys.stdout
+
+  # Rotates so a long run cannot fill the disk.
+  file:
+    class: logging.handlers.RotatingFileHandler
+    level: DEBUG
+    formatter: detailed
+    filename: logs/pipeline.log
+    maxBytes: 5242880
+    backupCount: 3
+    encoding: utf8
+
+  error_file:
+    class: logging.handlers.RotatingFileHandler
+    level: ERROR
+    formatter: detailed
+    filename: logs/errors.log
+    maxBytes: 1048576
+    backupCount: 2
+    encoding: utf8
+
+loggers:
+  src:
+    level: DEBUG
+    handlers: [console, file, error_file]
+    propagate: false
+
+  # These libraries log at INFO on every call.
+  matplotlib:
+    level: WARNING
+    propagate: true
+  urllib3:
+    level: WARNING
+    propagate: true
+  peewee:
+    level: WARNING
+    propagate: true
+
+root:
+  level: INFO
+  handlers: [console, file, error_file]

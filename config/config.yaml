@@ -1,0 +1,158 @@
+# ---------------------------------------------------------------------------
+# Stock Return Predictor
+#
+# Every value the pipeline depends on lives here. Paths are relative to the
+# project root.
+# ---------------------------------------------------------------------------
+
+project:
+  name: stock-return-predictor
+  random_seed: 42
+
+# --- Universe ---------------------------------------------------------------
+universe:
+  # Fixed as of the start date and held throughout. Picking today's index
+  # members would only include companies that survived, which inflates every
+  # backtest that follows.
+  tickers:
+    - SPY
+    - AAPL
+    - MSFT
+    - JNJ
+    - JPM
+    - XOM
+    - PG
+    - KO
+    - WMT
+    - GE
+    - INTC
+
+  benchmark: SPY
+
+  # Starts before 2008 so the sample contains two crashes. A model trained
+  # only on a bull run learns to go long and looks excellent until it does not.
+  start_date: "2005-01-01"
+  end_date: "2024-12-31"
+
+  # Known survivorship bias, stated rather than hidden: these tickers were all
+  # listed in 2005 and still trade today.
+  survivorship_bias: acknowledged
+
+# --- Data -------------------------------------------------------------------
+data:
+  # Stooq needs no API key and serves plain CSV. yfinance scrapes unofficial
+  # endpoints and breaks periodically, so it is the fallback only.
+  primary_source: massive
+  fallback_source: yfinance
+
+  cache_dir: data/01-raw
+  bars_dir: data/02-bars
+  features_dir: data/03-features
+
+  # Pulled once, then read from disk. Set to false to force a refresh.
+  use_cache: true
+
+  price_column: close
+  min_history_days: 500
+  adjusted: true
+
+# --- Cleaning ---------------------------------------------------------------
+cleaning:
+  drop_zero_volume: true
+
+  # Daily moves beyond this are usually unadjusted splits rather than real
+  # returns. Flagged for inspection, not dropped silently.
+  max_abs_daily_return: 0.50
+
+  max_forward_fill_days: 3
+
+# --- Features ---------------------------------------------------------------
+features:
+  lagged_returns: [1, 2, 3, 5, 10, 21]
+  moving_averages: [5, 10, 21, 63]
+  volatility_windows: [10, 21, 63]
+  rsi_window: 14
+
+  # Fractional differentiation. Returns are differencing of order 1, which
+  # over-differentiates and wipes out the memory the model needs.
+  fracdiff:
+    enabled: true
+    search_grid: [0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+    adf_confidence: 0.95
+    weight_threshold: 1.0e-4
+
+# --- Labelling --------------------------------------------------------------
+labelling:
+  # fixed_horizon: next-day return, simple, labels do not overlap.
+  # triple_barrier: path-dependent and volatility-scaled, labels do overlap,
+  # which makes purging mandatory rather than merely prudent.
+  method: fixed_horizon
+
+  fixed_horizon:
+    horizon_days: 1
+    threshold: 0.0
+
+  triple_barrier:
+    profit_multiple: 2.0
+    stop_multiple: 2.0
+    max_holding_days: 5
+    volatility_window: 21
+
+# --- Validation -------------------------------------------------------------
+validation:
+  # Rolling features overlap between neighbouring rows, so an embargo is
+  # needed even when the labels themselves do not overlap.
+  embargo_pct: 0.01
+
+  n_splits: 6
+
+  cpcv:
+    n_groups: 6
+    n_test_groups: 2
+
+  test_start: "2020-01-01"
+
+# --- Model ------------------------------------------------------------------
+model:
+  estimator: random_forest
+
+  random_forest:
+    n_estimators: 300
+    max_depth: 6
+    min_samples_leaf: 50
+    max_features: sqrt
+    n_jobs: -1
+
+  lightgbm:
+    n_estimators: 400
+    learning_rate: 0.03
+    num_leaves: 15
+    min_child_samples: 100
+    subsample: 0.8
+    colsample_bytree: 0.8
+    verbose: -1
+
+# --- Backtest ---------------------------------------------------------------
+backtest:
+  # Costs are applied from the first run, not added later. A daily long/short
+  # strategy at 10 bps round trip needs a large gross return to break even.
+  commission_bps: 2.0
+  slippage_bps: 3.0
+
+  initial_capital: 100000.0
+  max_position_size: 1.0
+  allow_short: true
+  rebalance: daily
+
+# --- Evaluation -------------------------------------------------------------
+evaluation:
+  # Every configuration tried is logged here. The deflated Sharpe needs the
+  # trial count, and it cannot be reconstructed after the fact.
+  trial_log: reports/trial_log.csv
+
+  monte_carlo_runs: 1000
+  trading_days_per_year: 252
+
+  # A random forecaster reaches roughly this hit rate on daily data. Anything
+  # near it is noise.
+  random_hit_rate: 0.534

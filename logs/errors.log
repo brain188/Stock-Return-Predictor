@@ -1,0 +1,50 @@
+2026-09-09 22:53:11 | ERROR    | __main__:main:64 | Fetch failed
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\entrypoint\fetch.py", line 48, in main
+    config = load_config(args.config)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\config.py", line 429, in load_config
+    data=DataConfig.from_dict(raw["data"], PROJECT_ROOT),
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\config.py", line 97, in from_dict
+    massive_api_key=raw["massive_api_key"],
+                    ~~~^^^^^^^^^^^^^^^^^^^
+KeyError: 'massive_api_key'
+2026-09-09 23:22:42 | ERROR    | __main__:main:64 | Fetch failed
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\entrypoint\fetch.py", line 48, in main
+    config = load_config(args.config)
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\config.py", line 442, in load_config
+    data=DataConfig.from_dict(raw["data"], PROJECT_ROOT),
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\config.py", line 101, in from_dict
+    massive_api_key=os.getenv["MASSIVE_API_KEY", ""],
+                    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: 'function' object is not subscriptable
+2026-09-09 23:24:11 | ERROR    | __main__:log_step:119 | FAILED Fetching the universe after 0.00s
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\logger.py", line 117, in log_step
+    yield
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\entrypoint\fetch.py", line 52, in main
+    frames, failed = fetch_universe(config, refresh=args.refresh)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\data\loaders.py", line 240, in fetch_universe
+    result = fetch_ticker(ticker, config, refresh=refresh)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\data\loaders.py", line 204, in fetch_ticker
+    frame = SOURCES[name](ticker, start, end)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: _fetch_massive() missing 1 required positional argument: 'api_key'
+2026-09-09 23:24:11 | ERROR    | __main__:main:64 | Fetch failed
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\entrypoint\fetch.py", line 52, in main
+    frames, failed = fetch_universe(config, refresh=args.refresh)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\data\loaders.py", line 240, in fetch_universe
+    result = fetch_ticker(ticker, config, refresh=refresh)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\data\loaders.py", line 204, in fetch_ticker
+    frame = SOURCES[name](ticker, start, end)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: _fetch_massive() missing 1 required positional argument: 'api_key'
