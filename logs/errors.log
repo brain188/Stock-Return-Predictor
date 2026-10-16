@@ -64,3 +64,13 @@ TypeError: _fetch_massive() missing 1 required positional argument: 'api_key'
 2026-10-16 13:23:53 | ERROR    | yfinance:_download_impl:192 | 
 1 Failed download:
 2026-10-16 13:23:53 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-16 13:42:21 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-16 13:42:22 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-16 13:42:22 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-16 13:42:22 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-16 13:42:58 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-16 13:42:58 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-16 13:42:58 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-16 13:42:58 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found

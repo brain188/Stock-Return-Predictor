@@ -4,7 +4,7 @@
 # no virtualenv to be activated first.
 
 .DEFAULT_GOAL := help
-.PHONY: help setup fetch lint format test ci lock clean
+.PHONY: help setup fetch eda lint format test ci lock clean
 
 help:  ## Show the available targets
 	@grep -E '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) \
@@ -15,6 +15,10 @@ setup:  ## Create the environment and install everything
 
 fetch:  ## Pull and cache the price data
 	uv run python entrypoint/fetch.py
+
+eda:  ## Rebuild the exploratory figures and the stationarity table
+	uv run python -m src.reporting.figures
+	uv run python -m src.reporting.stationarity
 
 lint:  ## Check style and formatting
 	uv run ruff check .

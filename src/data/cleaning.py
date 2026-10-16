@@ -28,10 +28,6 @@ logger = get_logger(__name__)
 
 PRICE_COLUMNS = ["open", "high", "low", "close", "adj_close"]
 
-# Returns are computed from the adjusted close, which includes dividends and
-# splits. The raw close drops dividends and understates total return.
-RETURN_PRICE_COLUMN = "adj_close"
-
 # Columns the cleaned panel carries on top of OHLCV.
 FLAG_COLUMNS = ["return", "gap_flag", "filled"]
 
@@ -207,7 +203,9 @@ def clean_panel(
     The order is: drop zero-volume days, flag gaps on what remains, align to
     the benchmark calendar, then compute and winsorise returns. Gaps are
     flagged before alignment so a move is always measured between two real
-    traded bars.
+    traded bars. Returns come from config.data.price_column, which should be
+    the adjusted close: the raw close ignores dividends and understates total
+    return.
 
     Args:
         panel: Raw bars per ticker, as fetch_universe returns them.
@@ -246,7 +244,7 @@ def clean_panel(
 
     gap_rows = []
     for ticker, frame in aligned.items():
-        returns = frame[RETURN_PRICE_COLUMN].pct_change(fill_method=None)
+        returns = frame[config.data.price_column].pct_change(fill_method=None)
         capped = winsorise_returns(returns, config)
         frame["return"] = capped
 
@@ -321,3 +319,33 @@ def save_clean_panel(cleaned: pd.DataFrame, config: Config) -> Path:
     logger.info("Saved cleaned panel to %s", path)
 
     return path
+
+
+def load_clean_panel(config: Config, *, rebuild: bool = False) -> pd.DataFrame:
+    """Read the cleaned panel from disk, building it from the raw cache if absent.
+
+    Args:
+        config: Loaded project configuration.
+        rebuild: Re-run cleaning even if a saved panel exists.
+
+    Returns:
+        The cleaned panel, indexed by (date, ticker).
+    """
+    path = config.data.bars_dir / "bars.parquet"
+
+    if path.is_file() and not rebuild:
+        cleaned = pd.read_parquet(path)
+        log_frame(logger, cleaned, "Cleaned panel (from disk)")
+        return cleaned
+
+    # Imported here so reading a saved panel never needs the data sources.
+    from src.data.loaders import fetch_universe
+
+    frames, failed = fetch_universe(config)
+    if failed:
+        raise CleaningError(f"cannot build the clean panel, failed to load {failed}")
+
+    cleaned, _ = clean_panel(frames, config)
+    save_clean_panel(cleaned, config)
+
+    return cleaned

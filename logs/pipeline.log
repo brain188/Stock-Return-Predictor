@@ -279,3 +279,237 @@ TypeError: _fetch_massive() missing 1 required positional argument: 'api_key'
 2026-10-16 13:23:54 | WARNING  | src.data.universe:validate_universe:241 | BBB flagged: 10 bars short of SPY
 2026-10-16 13:23:54 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
 2026-10-16 13:23:54 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 200 bars short of SPY
+2026-10-16 13:37:25 | WARNING  | src.features.fracdiff:min_ffd_order:294 | noise passes ADF undifferenced (d*=0). Expected for returns; for a price series check that returns were not passed in by mistake.
+2026-10-16 13:37:26 | WARNING  | src.features.fracdiff:min_ffd_order:288 | RW: no order in [0.0] passes the ADF test
+2026-10-16 13:38:31 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-16 13:38:31 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-16 13:38:32 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-16 13:38:32 | INFO     | src.reporting.stationarity:write_stationarity_table:140 | Saved stationarity table to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-16\test_table_is_written0\stationarity.csv
+2026-10-16 13:38:32 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 599 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 1 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 13:38:32 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 3 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:38:32 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 591 rows in, 2 zero-volume dropped, 1 off-calendar dropped, 5 forward filled, 7 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 13:38:32 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 57 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:38:33 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 1 gaps flagged, 1 returns winsorised
+2026-10-16 13:38:33 | WARNING  | src.data.cleaning:_log_report:298 | Gap flagged: AAA on 2005-06-20, return -50.43%
+2026-10-16 13:38:33 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:38:33 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 13:38:33 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:38:33 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 13:38:33 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:40:18 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 13:40:19 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 13:40:19 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 13:40:20 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 13:40:21 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 13:40:22 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 13:40:22 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 13:40:23 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 13:40:24 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 13:40:24 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 13:40:25 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 13:40:25 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 13:40:26 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 13:40:26 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 13:40:27 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 13:40:27 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 13:40:28 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 13:40:28 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 13:40:29 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 13:40:30 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 13:40:30 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 13:40:31 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 13:40:31 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 13:40:32 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 13:40:44 | INFO     | __main__:log_step:113 | START  Stationarity table
+2026-10-16 13:40:44 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel (from disk): 55,352 rows x 9 columns, 11 missing, (Timestamp('2005-01-03 00:00:00'), 'AAPL') to (Timestamp('2024-12-30 00:00:00'), 'XOM')
+2026-10-16 13:40:47 | INFO     | __main__:stationarity_table:114 | Stationarity: 0 of 11 log prices stationary, 11 of 11 returns, median d* 0.50
+2026-10-16 13:40:47 | INFO     | __main__:write_stationarity_table:140 | Saved stationarity table to C:\Users\BRAIN\Desktop\ML\stock-return-predictor\reports\results\stationarity.csv
+2026-10-16 13:40:47 | INFO     | __main__:log_step:122 | DONE   Stationarity table (3.38s)
+2026-10-16 13:40:56 | INFO     | __main__:log_step:113 | START  Exploratory figures
+2026-10-16 13:40:56 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel (from disk): 55,352 rows x 9 columns, 11 missing, (Timestamp('2005-01-03 00:00:00'), 'AAPL') to (Timestamp('2024-12-30 00:00:00'), 'XOM')
+2026-10-16 13:40:59 | INFO     | __main__:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 13:41:00 | INFO     | __main__:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 13:41:00 | INFO     | __main__:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 13:41:01 | INFO     | __main__:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 13:41:02 | INFO     | __main__:_save:75 | Saved figure eda_correlation.png
+2026-10-16 13:41:03 | INFO     | __main__:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 13:41:03 | INFO     | __main__:log_step:122 | DONE   Exploratory figures (6.96s)
+2026-10-16 13:41:45 | INFO     | __main__:log_step:113 | START  Exploratory figures
+2026-10-16 13:41:45 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel (from disk): 55,352 rows x 9 columns, 11 missing, (Timestamp('2005-01-03 00:00:00'), 'AAPL') to (Timestamp('2024-12-30 00:00:00'), 'XOM')
+2026-10-16 13:41:48 | INFO     | __main__:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 13:41:49 | INFO     | __main__:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 13:41:49 | INFO     | __main__:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 13:41:50 | INFO     | __main__:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 13:41:51 | INFO     | __main__:_save:75 | Saved figure eda_correlation.png
+2026-10-16 13:41:52 | INFO     | __main__:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 13:41:52 | INFO     | __main__:log_step:122 | DONE   Exploratory figures (7.17s)
+2026-10-16 13:42:01 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 599 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 1 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 13:42:01 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 3 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:42:01 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 591 rows in, 2 zero-volume dropped, 1 off-calendar dropped, 5 forward filled, 7 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 13:42:01 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 57 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:42:02 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 1 gaps flagged, 1 returns winsorised
+2026-10-16 13:42:02 | WARNING  | src.data.cleaning:_log_report:298 | Gap flagged: AAA on 2005-06-20, return -50.43%
+2026-10-16 13:42:02 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:42:02 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 13:42:02 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:42:02 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 13:42:02 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:42:03 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 13:42:04 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 13:42:04 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 13:42:05 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 13:42:05 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 13:42:05 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 13:42:06 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 13:42:07 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 13:42:07 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 13:42:08 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 13:42:08 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 13:42:09 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 13:42:09 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 13:42:10 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 13:42:10 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 13:42:11 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 13:42:11 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 13:42:12 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 13:42:13 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 13:42:13 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 13:42:14 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 13:42:14 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 13:42:15 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 13:42:15 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 13:42:16 | WARNING  | src.features.fracdiff:min_ffd_order:294 | noise passes ADF undifferenced (d*=0). Expected for returns; for a price series check that returns were not passed in by mistake.
+2026-10-16 13:42:17 | WARNING  | src.features.fracdiff:min_ffd_order:288 | RW: no order in [0.0] passes the ADF test
+2026-10-16 13:42:21 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-16 13:42:22 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-16 13:42:22 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-16 13:42:22 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-16 13:42:22 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: yfinance returned no rows for NOTAREALTICKER
+2026-10-16 13:42:22 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: stooq failed for NOTAREALTICKER: data_source='stooq' is not implemented
+2026-10-16 13:42:22 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-16 13:42:22 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-16 13:42:22 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-16 13:42:22 | INFO     | src.reporting.stationarity:write_stationarity_table:140 | Saved stationarity table to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-18\test_table_is_written0\stationarity.csv
+2026-10-16 13:42:22 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: first
+2026-10-16 13:42:22 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: second
+2026-10-16 13:42:22 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: third
+2026-10-16 13:42:22 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-16 13:42:22 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-16 13:42:22 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 5 logged: t4
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: rf
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: before_restart
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: after_restart
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: old
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: new
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: c
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: low
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: high
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: only
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-16 13:42:23 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: with_config
+2026-10-16 13:42:23 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 0 flagged
+2026-10-16 13:42:23 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 13:42:23 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 300 bars short of SPY
+2026-10-16 13:42:23 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 13:42:23 | WARNING  | src.data.universe:validate_universe:241 | BBB flagged: 10 bars short of SPY
+2026-10-16 13:42:23 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 13:42:23 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 200 bars short of SPY
+2026-10-16 13:42:35 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 599 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 1 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 13:42:35 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 3 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:42:35 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 591 rows in, 2 zero-volume dropped, 1 off-calendar dropped, 5 forward filled, 7 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 13:42:35 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 57 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:42:36 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 1 gaps flagged, 1 returns winsorised
+2026-10-16 13:42:36 | WARNING  | src.data.cleaning:_log_report:298 | Gap flagged: AAA on 2005-06-20, return -50.43%
+2026-10-16 13:42:36 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:42:36 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 13:42:36 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:42:36 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 13:42:36 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:42:37 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 13:42:38 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 13:42:39 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 13:42:40 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 13:42:40 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 13:42:40 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 13:42:41 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 13:42:42 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 13:42:43 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 13:42:44 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 13:42:45 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 13:42:45 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 13:42:45 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 13:42:46 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 13:42:46 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 13:42:47 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 13:42:47 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 13:42:48 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 13:42:49 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 13:42:49 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 13:42:50 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 13:42:51 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 13:42:52 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 13:42:52 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 13:42:53 | WARNING  | src.features.fracdiff:min_ffd_order:294 | noise passes ADF undifferenced (d*=0). Expected for returns; for a price series check that returns were not passed in by mistake.
+2026-10-16 13:42:54 | WARNING  | src.features.fracdiff:min_ffd_order:288 | RW: no order in [0.0] passes the ADF test
+2026-10-16 13:42:58 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-16 13:42:58 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-16 13:42:58 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-16 13:42:58 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-16 13:42:58 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: yfinance returned no rows for NOTAREALTICKER
+2026-10-16 13:42:58 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: stooq failed for NOTAREALTICKER: data_source='stooq' is not implemented
+2026-10-16 13:42:59 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-16 13:42:59 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-16 13:42:59 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-16 13:42:59 | INFO     | src.reporting.stationarity:write_stationarity_table:140 | Saved stationarity table to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-19\test_table_is_written0\stationarity.csv
+2026-10-16 13:42:59 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: first
+2026-10-16 13:42:59 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: second
+2026-10-16 13:42:59 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: third
+2026-10-16 13:42:59 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-16 13:42:59 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 5 logged: t4
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: rf
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: before_restart
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: after_restart
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: old
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: new
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: c
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: low
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: high
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: only
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-16 13:43:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: with_config
+2026-10-16 13:43:00 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 0 flagged
+2026-10-16 13:43:00 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 13:43:00 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 300 bars short of SPY
+2026-10-16 13:43:00 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 13:43:00 | WARNING  | src.data.universe:validate_universe:241 | BBB flagged: 10 bars short of SPY
+2026-10-16 13:43:01 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 13:43:01 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 200 bars short of SPY
