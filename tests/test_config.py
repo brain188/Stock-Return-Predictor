@@ -42,6 +42,10 @@ def test_derived_values_are_computed(config):
             *config.features.moving_averages,
             *config.features.volatility_windows,
             config.features.rsi_window,
+            *config.features.momentum_windows,
+            config.features.high_window,
+            config.features.volume_window,
+            *config.features.vol_ratio_windows,
         ]
     )
     assert config.backtest.round_trip_cost > 0

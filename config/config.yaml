@@ -70,6 +70,18 @@ features:
   volatility_windows: [10, 21, 63]
   rsi_window: 14
 
+  # Cumulative return over a quarter, and how far price sits below its
+  # quarterly high. Longer windows would cost a year of warm-up per ticker.
+  momentum_windows: [63]
+  high_window: 63
+
+  # Today's volume against its 21 day average.
+  volume_window: 21
+
+  # Short volatility over long volatility, a regime proxy. Above 1 means
+  # conditions are heating up.
+  vol_ratio_windows: [10, 63]
+
   # Fractional differentiation. Returns are differencing of order 1, which
   # over-differentiates and wipes out the memory the model needs.
   fracdiff:

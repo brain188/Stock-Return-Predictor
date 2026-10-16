@@ -150,6 +150,10 @@ class FeaturesConfig:
     moving_averages: list[int]
     volatility_windows: list[int]
     rsi_window: int
+    momentum_windows: list[int]
+    high_window: int
+    volume_window: int
+    vol_ratio_windows: list[int]
     fracdiff: FracDiffConfig
 
     @classmethod
@@ -160,22 +164,40 @@ class FeaturesConfig:
             moving_averages=list(raw["moving_averages"]),
             volatility_windows=list(raw["volatility_windows"]),
             rsi_window=raw["rsi_window"],
+            momentum_windows=list(raw["momentum_windows"]),
+            high_window=raw["high_window"],
+            volume_window=raw["volume_window"],
+            vol_ratio_windows=list(raw["vol_ratio_windows"]),
             fracdiff=FracDiffConfig(**raw["fracdiff"]),
         )
 
     @property
+    def windows(self) -> list[int]:
+        """Every window any feature uses, fracdiff aside."""
+        return [
+            *self.lagged_returns,
+            *self.moving_averages,
+            *self.volatility_windows,
+            self.rsi_window,
+            *self.momentum_windows,
+            self.high_window,
+            self.volume_window,
+            *self.vol_ratio_windows,
+        ]
+
+    @property
     def max_lookback(self) -> int:
         """Longest window any feature needs, used to trim the warm-up period."""
-        return max(
-            [*self.lagged_returns, *self.moving_averages, *self.volatility_windows, self.rsi_window]
-        )
+        return max(self.windows)
 
     def validate(self) -> None:
-        """Check every window is positive."""
-        windows = [*self.lagged_returns, *self.moving_averages, *self.volatility_windows]
-
-        if any(w <= 0 for w in windows) or self.rsi_window <= 0:
+        """Check every window is positive and the volatility ratio is short over long."""
+        if any(w <= 0 for w in self.windows):
             raise ConfigError("features windows must all be positive")
+
+        short, long = self.vol_ratio_windows
+        if short >= long:
+            raise ConfigError("features.vol_ratio_windows must be [short, long] with short < long")
 
         self.fracdiff.validate()
 

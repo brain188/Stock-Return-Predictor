@@ -513,3 +513,523 @@ TypeError: _fetch_massive() missing 1 required positional argument: 'api_key'
 2026-10-16 13:43:00 | WARNING  | src.data.universe:validate_universe:241 | BBB flagged: 10 bars short of SPY
 2026-10-16 13:43:01 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
 2026-10-16 13:43:01 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 200 bars short of SPY
+2026-10-16 14:19:34 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-16 14:19:34 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:19:34 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-16 14:19:34 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:19:34 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 58.7% up
+2026-10-16 14:19:34 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 6,000 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2016-07-01 00:00:00'), 'SPY')
+2026-10-16 14:21:54 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:21:54 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:21:54 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:21:54 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:21:54 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:21:54 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:21:54 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:21:54 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:21:54 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:21:55 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1343 rows identical up to 2006-11-06
+2026-10-16 14:21:55 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:21:55 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,103 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:21:56 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:21:56 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:21:56 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:21:56 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:21:56 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:21:56 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:21:56 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-07
+2026-10-16 14:21:56 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:21:56 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-10 00:00:00'), 'AAA') to (Timestamp('2007-04-23 00:00:00'), 'SPY')
+2026-10-16 14:21:56 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:21:56 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:21:56 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:21:56 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:21:57 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 49.4% up
+2026-10-16 14:21:57 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 1,800 rows x 3 columns, 9 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:21:57 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:21:57 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:21:57 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:21:57 | INFO     | src.features.build:choose_fracdiff_order:87 | Fracdiff order d=0.50 (max of per-ticker d* before 2020-01-01)
+2026-10-16 14:21:58 | INFO     | src.features.build:choose_fracdiff_order:87 | Fracdiff order d=0.50 (max of per-ticker d* before 2020-01-01)
+2026-10-16 14:22:13 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:22:13 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:22:13 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:22:14 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:22:14 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:22:14 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:22:14 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:22:14 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:22:14 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:22:14 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1343 rows identical up to 2006-11-06
+2026-10-16 14:22:14 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:22:14 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,103 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:22:14 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:22:14 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:22:14 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:22:14 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:22:14 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:22:14 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:22:14 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-07
+2026-10-16 14:22:14 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:22:14 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-10 00:00:00'), 'AAA') to (Timestamp('2007-04-23 00:00:00'), 'SPY')
+2026-10-16 14:22:14 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:22:15 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:22:15 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:22:15 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:22:15 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 49.4% up
+2026-10-16 14:22:15 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 1,800 rows x 3 columns, 9 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:22:15 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:22:15 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:22:15 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:22:15 | INFO     | src.features.build:choose_fracdiff_order:87 | Fracdiff order d=0.50 (max of per-ticker d* before 2020-01-01)
+2026-10-16 14:22:16 | INFO     | src.features.build:choose_fracdiff_order:87 | Fracdiff order d=0.50 (max of per-ticker d* before 2020-01-01)
+2026-10-16 14:24:03 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-16 14:24:03 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:24:03 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-16 14:24:03 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:24:03 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 58.7% up
+2026-10-16 14:24:03 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 6,000 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2016-07-01 00:00:00'), 'SPY')
+2026-10-16 14:24:03 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 45.8%, upper 27.4%, lower 26.8%, 51.6% up
+2026-10-16 14:24:03 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 600 rows x 4 columns, 104 missing, (Timestamp('2005-01-03 00:00:00'), 'SPY') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:24:03 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 45.8%, upper 27.4%, lower 26.8%, 51.6% up
+2026-10-16 14:24:03 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 600 rows x 4 columns, 104 missing, (Timestamp('2005-01-03 00:00:00'), 'SPY') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:24:03 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 47.5%, lower 29.4%, upper 23.1%, 47.5% up
+2026-10-16 14:24:03 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 800 rows x 4 columns, 208 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:24:03 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-16 14:24:03 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:24:03 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 47.5%, lower 29.4%, upper 23.1%, 47.5% up
+2026-10-16 14:24:03 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 800 rows x 4 columns, 208 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:24:04 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-16 14:24:04 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:24:04 | INFO     | src.labelling.sample_weights:sample_weights:145 | Sample weights (fixed_horizon, decay 1.00): mean 1.000, 798 effective of 798 labels
+2026-10-16 14:24:04 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 47.5%, lower 29.4%, upper 23.1%, 47.5% up
+2026-10-16 14:24:04 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 800 rows x 4 columns, 208 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:24:04 | INFO     | src.labelling.sample_weights:sample_weights:145 | Sample weights (fixed_horizon, decay 1.00): mean 0.253, 189 effective of 748 labels
+2026-10-16 14:24:30 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:24:30 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:24:30 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:24:30 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:24:30 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:24:30 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:24:31 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:24:31 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:24:31 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:24:31 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1343 rows identical up to 2006-11-06
+2026-10-16 14:24:31 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:24:31 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,103 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:24:31 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:24:31 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:24:31 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:24:31 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:24:31 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:24:31 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:24:31 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-07
+2026-10-16 14:24:31 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:24:31 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-10 00:00:00'), 'AAA') to (Timestamp('2007-04-23 00:00:00'), 'SPY')
+2026-10-16 14:24:31 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:24:31 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:24:31 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:24:31 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:24:31 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 49.4% up
+2026-10-16 14:24:31 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 1,800 rows x 3 columns, 9 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:24:32 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:24:32 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:24:32 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:24:32 | INFO     | src.features.build:choose_fracdiff_order:87 | Fracdiff order d=0.50 (max of per-ticker d* before 2020-01-01)
+2026-10-16 14:24:32 | INFO     | src.features.build:choose_fracdiff_order:87 | Fracdiff order d=0.50 (max of per-ticker d* before 2020-01-01)
+2026-10-16 14:24:33 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 599 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 1 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 14:24:33 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 3 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 14:24:33 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 591 rows in, 2 zero-volume dropped, 1 off-calendar dropped, 5 forward filled, 7 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 14:24:33 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 57 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 14:24:33 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 1 gaps flagged, 1 returns winsorised
+2026-10-16 14:24:33 | WARNING  | src.data.cleaning:_log_report:298 | Gap flagged: AAA on 2005-06-20, return -50.43%
+2026-10-16 14:24:33 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 14:24:33 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 14:24:33 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 14:24:33 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 14:24:33 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 14:24:34 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 14:24:35 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 14:24:36 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 14:24:36 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 14:24:37 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 14:24:37 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 14:24:38 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 14:24:39 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 14:24:40 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 14:24:41 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 14:24:41 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 14:24:42 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 14:24:42 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 14:24:42 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 14:24:43 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 14:24:43 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 14:24:44 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 14:24:44 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 14:24:45 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 14:24:45 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 14:24:46 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 14:24:46 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 14:24:47 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 14:24:47 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 14:24:48 | WARNING  | src.features.fracdiff:min_ffd_order:294 | noise passes ADF undifferenced (d*=0). Expected for returns; for a price series check that returns were not passed in by mistake.
+2026-10-16 14:24:49 | WARNING  | src.features.fracdiff:min_ffd_order:288 | RW: no order in [0.0] passes the ADF test
+2026-10-16 14:24:49 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-16 14:24:49 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:24:49 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-16 14:24:49 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:24:49 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 58.7% up
+2026-10-16 14:24:49 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 6,000 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2016-07-01 00:00:00'), 'SPY')
+2026-10-16 14:24:49 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 45.8%, upper 27.4%, lower 26.8%, 51.6% up
+2026-10-16 14:24:49 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 600 rows x 4 columns, 104 missing, (Timestamp('2005-01-03 00:00:00'), 'SPY') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:24:49 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 45.8%, upper 27.4%, lower 26.8%, 51.6% up
+2026-10-16 14:24:49 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 600 rows x 4 columns, 104 missing, (Timestamp('2005-01-03 00:00:00'), 'SPY') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:24:49 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 47.5%, lower 29.4%, upper 23.1%, 47.5% up
+2026-10-16 14:24:49 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 800 rows x 4 columns, 208 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:24:49 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-16 14:24:49 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:24:49 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 47.5%, lower 29.4%, upper 23.1%, 47.5% up
+2026-10-16 14:24:49 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 800 rows x 4 columns, 208 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:24:49 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-16 14:24:49 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:24:49 | INFO     | src.labelling.sample_weights:sample_weights:145 | Sample weights (fixed_horizon, decay 1.00): mean 1.000, 798 effective of 798 labels
+2026-10-16 14:24:49 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 47.5%, lower 29.4%, upper 23.1%, 47.5% up
+2026-10-16 14:24:49 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 800 rows x 4 columns, 208 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:24:49 | INFO     | src.labelling.sample_weights:sample_weights:145 | Sample weights (fixed_horizon, decay 1.00): mean 0.253, 189 effective of 748 labels
+2026-10-16 14:24:56 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-16 14:24:57 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-16 14:24:57 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-16 14:24:57 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-16 14:24:57 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: yfinance returned no rows for NOTAREALTICKER
+2026-10-16 14:24:57 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: stooq failed for NOTAREALTICKER: data_source='stooq' is not implemented
+2026-10-16 14:24:57 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-16 14:24:57 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-16 14:24:57 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-16 14:24:57 | INFO     | src.reporting.stationarity:write_stationarity_table:140 | Saved stationarity table to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-21\test_table_is_written0\stationarity.csv
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: first
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: second
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: third
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 5 logged: t4
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: rf
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: before_restart
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: after_restart
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: old
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: new
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: c
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: low
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: high
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: only
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-16 14:24:58 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: with_config
+2026-10-16 14:24:58 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 0 flagged
+2026-10-16 14:24:58 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 14:24:58 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 300 bars short of SPY
+2026-10-16 14:24:58 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 14:24:58 | WARNING  | src.data.universe:validate_universe:241 | BBB flagged: 10 bars short of SPY
+2026-10-16 14:24:59 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 14:24:59 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 200 bars short of SPY
+2026-10-16 14:25:04 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel (from disk): 55,352 rows x 9 columns, 11 missing, (Timestamp('2005-01-03 00:00:00'), 'AAPL') to (Timestamp('2024-12-30 00:00:00'), 'XOM')
+2026-10-16 14:25:04 | INFO     | src.features.build:choose_fracdiff_order:87 | Fracdiff order d=0.60 (max of per-ticker d* before 2019-12-31)
+2026-10-16 14:25:05 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 44286 rows identical up to 2020-12-29
+2026-10-16 14:25:05 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 139 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:25:05 | INFO     | src.features.build:log_frame:140 | Feature matrix: 53,823 rows x 19 columns, 0 missing, (Timestamp('2005-07-22 00:00:00'), 'AAPL') to (Timestamp('2024-12-30 00:00:00'), 'XOM')
+2026-10-16 14:25:05 | INFO     | src.features.build:save_features:264 | Saved feature matrix to C:\Users\BRAIN\Desktop\ML\stock-return-predictor\data\03-features\features.parquet
+2026-10-16 14:25:05 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 51.9% up
+2026-10-16 14:25:05 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 55,352 rows x 3 columns, 33 missing, (Timestamp('2005-01-03 00:00:00'), 'AAPL') to (Timestamp('2024-12-30 00:00:00'), 'XOM')
+2026-10-16 14:25:06 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 51.8%, upper 26.1%, lower 22.1%, 55.0% up
+2026-10-16 14:25:06 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 55,352 rows x 4 columns, 1,144 missing, (Timestamp('2005-01-03 00:00:00'), 'AAPL') to (Timestamp('2024-12-30 00:00:00'), 'XOM')
+2026-10-16 14:25:06 | INFO     | src.labelling.sample_weights:sample_weights:145 | Sample weights (fixed_horizon, decay 1.00): mean 0.251, 13,819 effective of 55,066 labels
+2026-10-16 14:25:28 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:25:28 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:25:28 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:25:29 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:25:29 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:25:29 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:25:29 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:25:29 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:25:29 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:25:29 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1343 rows identical up to 2006-11-06
+2026-10-16 14:25:29 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:25:29 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,103 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:25:29 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:25:29 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:25:29 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:25:29 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:25:29 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:25:29 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:25:29 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-07
+2026-10-16 14:25:29 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:25:29 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-10 00:00:00'), 'AAA') to (Timestamp('2007-04-23 00:00:00'), 'SPY')
+2026-10-16 14:25:29 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:25:30 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:25:30 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:25:30 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:25:30 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 49.4% up
+2026-10-16 14:25:30 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 1,800 rows x 3 columns, 9 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:25:30 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:25:30 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:25:30 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:25:30 | INFO     | src.features.build:choose_fracdiff_order:87 | Fracdiff order d=0.50 (max of per-ticker d* before 2020-01-01)
+2026-10-16 14:25:31 | INFO     | src.features.build:choose_fracdiff_order:87 | Fracdiff order d=0.50 (max of per-ticker d* before 2020-01-01)
+2026-10-16 14:25:31 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 599 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 1 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 14:25:31 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 3 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 14:25:31 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 591 rows in, 2 zero-volume dropped, 1 off-calendar dropped, 5 forward filled, 7 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 14:25:31 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 57 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 14:25:31 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 1 gaps flagged, 1 returns winsorised
+2026-10-16 14:25:31 | WARNING  | src.data.cleaning:_log_report:298 | Gap flagged: AAA on 2005-06-20, return -50.43%
+2026-10-16 14:25:31 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 14:25:31 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 14:25:31 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 14:25:31 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 14:25:31 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 14:25:32 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 14:25:33 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 14:25:33 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 14:25:34 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 14:25:34 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 14:25:35 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 14:25:35 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 14:25:36 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 14:25:37 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 14:25:37 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 14:25:38 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 14:25:38 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 14:25:40 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 14:25:41 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 14:25:41 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 14:25:42 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 14:25:43 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 14:25:44 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 14:25:45 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 14:25:45 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 14:25:46 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 14:25:46 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 14:25:47 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 14:25:47 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 14:25:48 | WARNING  | src.features.fracdiff:min_ffd_order:294 | noise passes ADF undifferenced (d*=0). Expected for returns; for a price series check that returns were not passed in by mistake.
+2026-10-16 14:25:49 | WARNING  | src.features.fracdiff:min_ffd_order:288 | RW: no order in [0.0] passes the ADF test
+2026-10-16 14:25:49 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-16 14:25:49 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:25:49 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-16 14:25:49 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:25:49 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 58.7% up
+2026-10-16 14:25:49 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 6,000 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2016-07-01 00:00:00'), 'SPY')
+2026-10-16 14:25:49 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 45.8%, upper 27.4%, lower 26.8%, 51.6% up
+2026-10-16 14:25:49 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 600 rows x 4 columns, 104 missing, (Timestamp('2005-01-03 00:00:00'), 'SPY') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:25:49 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 45.8%, upper 27.4%, lower 26.8%, 51.6% up
+2026-10-16 14:25:49 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 600 rows x 4 columns, 104 missing, (Timestamp('2005-01-03 00:00:00'), 'SPY') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:25:49 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 47.5%, lower 29.4%, upper 23.1%, 47.5% up
+2026-10-16 14:25:49 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 800 rows x 4 columns, 208 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:25:49 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-16 14:25:49 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:25:49 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 47.5%, lower 29.4%, upper 23.1%, 47.5% up
+2026-10-16 14:25:49 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 800 rows x 4 columns, 208 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:25:49 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-16 14:25:49 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:25:49 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (fixed_horizon, decay 1.00): mean 1.000, 798 effective of 798 labels
+2026-10-16 14:25:49 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 47.5%, lower 29.4%, upper 23.1%, 47.5% up
+2026-10-16 14:25:49 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 800 rows x 4 columns, 208 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:25:49 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (triple_barrier, decay 1.00): mean 0.253, 189 effective of 748 labels
+2026-10-16 14:25:59 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-16 14:25:59 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-16 14:25:59 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-16 14:25:59 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-16 14:25:59 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: yfinance returned no rows for NOTAREALTICKER
+2026-10-16 14:25:59 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: stooq failed for NOTAREALTICKER: data_source='stooq' is not implemented
+2026-10-16 14:26:00 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-16 14:26:00 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-16 14:26:00 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-16 14:26:00 | INFO     | src.reporting.stationarity:write_stationarity_table:140 | Saved stationarity table to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-22\test_table_is_written0\stationarity.csv
+2026-10-16 14:26:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: first
+2026-10-16 14:26:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: second
+2026-10-16 14:26:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: third
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 5 logged: t4
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: rf
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: before_restart
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: after_restart
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: old
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: new
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: c
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: low
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: high
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: only
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-16 14:26:01 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: with_config
+2026-10-16 14:26:01 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 0 flagged
+2026-10-16 14:26:01 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 14:26:01 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 300 bars short of SPY
+2026-10-16 14:26:01 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 14:26:01 | WARNING  | src.data.universe:validate_universe:241 | BBB flagged: 10 bars short of SPY
+2026-10-16 14:26:01 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 14:26:01 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 200 bars short of SPY
+2026-10-16 14:26:11 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:26:11 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:26:11 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:26:11 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:26:11 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:26:11 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:26:11 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:26:11 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:26:11 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:26:11 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1343 rows identical up to 2006-11-06
+2026-10-16 14:26:11 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:26:11 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,103 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:26:11 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:26:11 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:26:11 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:26:12 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:26:12 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:26:12 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:26:12 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-07
+2026-10-16 14:26:12 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:26:12 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-10 00:00:00'), 'AAA') to (Timestamp('2007-04-23 00:00:00'), 'SPY')
+2026-10-16 14:26:12 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:26:12 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:26:12 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:26:12 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:26:12 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 49.4% up
+2026-10-16 14:26:12 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 1,800 rows x 3 columns, 9 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:26:12 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-16 14:26:12 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-16 14:26:12 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:26:13 | INFO     | src.features.build:choose_fracdiff_order:87 | Fracdiff order d=0.50 (max of per-ticker d* before 2020-01-01)
+2026-10-16 14:26:13 | INFO     | src.features.build:choose_fracdiff_order:87 | Fracdiff order d=0.50 (max of per-ticker d* before 2020-01-01)
+2026-10-16 14:26:13 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 599 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 1 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 14:26:13 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 3 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 14:26:13 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 591 rows in, 2 zero-volume dropped, 1 off-calendar dropped, 5 forward filled, 7 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 14:26:13 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 57 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 14:26:13 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 1 gaps flagged, 1 returns winsorised
+2026-10-16 14:26:13 | WARNING  | src.data.cleaning:_log_report:298 | Gap flagged: AAA on 2005-06-20, return -50.43%
+2026-10-16 14:26:13 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 14:26:13 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 14:26:13 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 14:26:13 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 14:26:13 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 14:26:15 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 14:26:16 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 14:26:16 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 14:26:17 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 14:26:17 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 14:26:18 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 14:26:19 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 14:26:19 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 14:26:20 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 14:26:21 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 14:26:21 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 14:26:21 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 14:26:22 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 14:26:22 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 14:26:23 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 14:26:23 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 14:26:24 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 14:26:24 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 14:26:25 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-16 14:26:25 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-16 14:26:26 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-16 14:26:27 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-16 14:26:27 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-16 14:26:27 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-16 14:26:28 | WARNING  | src.features.fracdiff:min_ffd_order:294 | noise passes ADF undifferenced (d*=0). Expected for returns; for a price series check that returns were not passed in by mistake.
+2026-10-16 14:26:29 | WARNING  | src.features.fracdiff:min_ffd_order:288 | RW: no order in [0.0] passes the ADF test
+2026-10-16 14:26:29 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-16 14:26:29 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:26:29 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-16 14:26:29 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:26:29 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 58.7% up
+2026-10-16 14:26:29 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 6,000 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2016-07-01 00:00:00'), 'SPY')
+2026-10-16 14:26:29 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 45.8%, upper 27.4%, lower 26.8%, 51.6% up
+2026-10-16 14:26:29 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 600 rows x 4 columns, 104 missing, (Timestamp('2005-01-03 00:00:00'), 'SPY') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:26:29 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 45.8%, upper 27.4%, lower 26.8%, 51.6% up
+2026-10-16 14:26:29 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 600 rows x 4 columns, 104 missing, (Timestamp('2005-01-03 00:00:00'), 'SPY') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-16 14:26:29 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 47.5%, lower 29.4%, upper 23.1%, 47.5% up
+2026-10-16 14:26:29 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 800 rows x 4 columns, 208 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:26:29 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-16 14:26:29 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:26:29 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 47.5%, lower 29.4%, upper 23.1%, 47.5% up
+2026-10-16 14:26:29 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 800 rows x 4 columns, 208 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:26:29 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-16 14:26:29 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:26:29 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (fixed_horizon, decay 1.00): mean 1.000, 798 effective of 798 labels
+2026-10-16 14:26:29 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 47.5%, lower 29.4%, upper 23.1%, 47.5% up
+2026-10-16 14:26:29 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 800 rows x 4 columns, 208 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-16 14:26:29 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (triple_barrier, decay 1.00): mean 0.253, 189 effective of 748 labels
+2026-10-16 14:26:42 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-16 14:26:46 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-16 14:26:46 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-16 14:26:46 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-16 14:26:46 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: yfinance returned no rows for NOTAREALTICKER
+2026-10-16 14:26:46 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: stooq failed for NOTAREALTICKER: data_source='stooq' is not implemented
+2026-10-16 14:26:46 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-16 14:26:46 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-16 14:26:46 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-16 14:26:46 | INFO     | src.reporting.stationarity:write_stationarity_table:140 | Saved stationarity table to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-23\test_table_is_written0\stationarity.csv
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: first
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: second
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: third
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 5 logged: t4
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: rf
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: before_restart
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: after_restart
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: old
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: new
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: c
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: low
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: high
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: only
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-16 14:26:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: with_config
+2026-10-16 14:26:48 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 0 flagged
+2026-10-16 14:26:48 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 14:26:48 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 300 bars short of SPY
+2026-10-16 14:26:48 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 14:26:48 | WARNING  | src.data.universe:validate_universe:241 | BBB flagged: 10 bars short of SPY
+2026-10-16 14:26:48 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 14:26:48 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 200 bars short of SPY
