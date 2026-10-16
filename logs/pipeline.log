@@ -76,3 +76,23 @@ TypeError: _fetch_massive() missing 1 required positional argument: 'api_key'
 2026-09-09 23:30:37 | WARNING  | src.data.loaders:fetch_universe:253 | Skipping INTC: only 80 bars, need 500
 2026-09-09 23:30:37 | INFO     | src.data.loaders:fetch_universe:271 | Fetched 1 of 11 tickers
 2026-09-09 23:30:37 | INFO     | __main__:log_step:122 | DONE   Fetching the universe (61.91s)
+2026-09-26 15:19:27 | INFO     | __main__:log_config:157 | Config       : C:\Users\BRAIN\Desktop\ML\stock-return-predictor\config\config.yaml
+2026-09-26 15:19:27 | INFO     | __main__:log_config:158 | Universe     : 11 tickers, 2005-01-01 to 2024-12-31
+2026-09-26 15:19:27 | INFO     | __main__:log_config:164 | Labelling    : fixed_horizon (labels overlap: False)
+2026-09-26 15:19:27 | INFO     | __main__:log_config:169 | Estimator    : random_forest
+2026-09-26 15:19:27 | INFO     | __main__:log_config:170 | Embargo      : 1.0% of the sample
+2026-09-26 15:19:27 | INFO     | __main__:log_config:171 | Round trip   : 0.100% per trade
+2026-09-26 15:19:27 | INFO     | __main__:log_step:113 | START  Fetching the universe
+2026-09-26 15:19:50 | INFO     | src.data.loaders:fetch_universe:233 | SPY    5,032 bars  2005-01-03 to 2024-12-30  via yfinance
+2026-09-26 15:19:52 | INFO     | src.data.loaders:fetch_universe:233 | AAPL   5,032 bars  2005-01-03 to 2024-12-30  via yfinance
+2026-09-26 15:19:54 | INFO     | src.data.loaders:fetch_universe:233 | MSFT   5,032 bars  2005-01-03 to 2024-12-30  via yfinance
+2026-09-26 15:19:56 | INFO     | src.data.loaders:fetch_universe:233 | JNJ    5,032 bars  2005-01-03 to 2024-12-30  via yfinance
+2026-09-26 15:19:58 | INFO     | src.data.loaders:fetch_universe:233 | JPM    5,032 bars  2005-01-03 to 2024-12-30  via yfinance
+2026-09-26 15:20:00 | INFO     | src.data.loaders:fetch_universe:233 | XOM    5,032 bars  2005-01-03 to 2024-12-30  via yfinance
+2026-09-26 15:20:02 | INFO     | src.data.loaders:fetch_universe:233 | PG     5,032 bars  2005-01-03 to 2024-12-30  via yfinance
+2026-09-26 15:20:04 | INFO     | src.data.loaders:fetch_universe:233 | KO     5,032 bars  2005-01-03 to 2024-12-30  via yfinance
+2026-09-26 15:20:06 | INFO     | src.data.loaders:fetch_universe:233 | WMT    5,032 bars  2005-01-03 to 2024-12-30  via yfinance
+2026-09-26 15:20:08 | INFO     | src.data.loaders:fetch_universe:233 | GE     5,032 bars  2005-01-03 to 2024-12-30  via yfinance
+2026-09-26 15:20:11 | INFO     | src.data.loaders:fetch_universe:233 | INTC   5,032 bars  2005-01-03 to 2024-12-30  via yfinance
+2026-09-26 15:20:11 | INFO     | src.data.loaders:fetch_universe:241 | Fetched 11 of 11 tickers
+2026-09-26 15:20:11 | INFO     | __main__:log_step:122 | DONE   Fetching the universe (44.61s)

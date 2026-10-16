@@ -6,7 +6,6 @@ frozen dataclasses so a typo raises rather than returning None.
 
 from __future__ import annotations
 
-import os
 from dataclasses import dataclass, field
 from datetime import date
 from pathlib import Path
@@ -14,12 +13,9 @@ from typing import Any
 
 import pandas as pd
 import yaml
-from dotenv import load_dotenv
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CONFIG_PATH = PROJECT_ROOT / "config" / "config.yaml"
-
-load_dotenv(PROJECT_ROOT / ".env")
 
 LABELLING_METHODS = {"fixed_horizon", "triple_barrier"}
 ESTIMATORS = {"random_forest", "lightgbm"}
@@ -84,7 +80,6 @@ class DataConfig:
 
     primary_source: str
     fallback_source: str
-    massive_api_key: str
     cache_dir: Path
     bars_dir: Path
     features_dir: Path
@@ -98,7 +93,6 @@ class DataConfig:
         return cls(
             primary_source=raw["primary_source"],
             fallback_source=raw["fallback_source"],
-            massive_api_key=os.getenv("MASSIVE_API_KEY", ""),
             cache_dir=(root / raw["cache_dir"]).resolve(),
             bars_dir=(root / raw["bars_dir"]).resolve(),
             features_dir=(root / raw["features_dir"]).resolve(),
@@ -111,14 +105,6 @@ class DataConfig:
         """Create every directory the pipeline writes to."""
         for directory in (self.cache_dir, self.bars_dir, self.features_dir):
             directory.mkdir(parents=True, exist_ok=True)
-
-    def validate(self) -> None:
-        """Validate data-source configuration."""
-
-        if self.primary_source == "massive" and not self.massive_api_key:
-            raise ConfigError(
-                "MASSIVE_API_KEY is required when Massive is the primary data source"
-            )
 
 
 @dataclass(frozen=True)
@@ -381,7 +367,6 @@ class Config:
     def validate(self) -> None:
         """Run every section's own checks, then the cross-section ones."""
         self.universe.validate()
-        self.data.validate()
         self.cleaning.validate()
         self.features.validate()
         self.labelling.validate()

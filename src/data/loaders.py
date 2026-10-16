@@ -1,8 +1,6 @@
 """Fetching daily price data, with a cache and a fallback source.
 
-Stooq is the primary source: it needs no API key and serves plain CSV. yfinance
-scrapes unofficial endpoints and breaks whenever Yahoo changes them, so it is
-only used when Stooq has nothing.
+yfinance is the primary source while stooq act as a fall
 
 Everything is cached to parquet on first pull. After that the network is never
 touched, so a source outage cannot stop work already in progress.
@@ -15,7 +13,8 @@ from datetime import date
 from pathlib import Path
 
 import pandas as pd
-import os
+import yfinance as yf
+from pandas_datareader import data as web
 
 from src.config import Config
 from src.logger import get_logger
@@ -88,61 +87,30 @@ def _normalise(frame: pd.DataFrame) -> pd.DataFrame:
     return out.sort_index()
 
 
-def _fetch_massive(
-    ticker: str,
-    start: date,
-    end: date,
-) -> pd.DataFrame:
-    """Pull daily bars from Massive."""
+def _fetch_stooq(ticker: str, start: date, end: date) -> pd.DataFrame:
+    """Pull daily bars from Stooq.
 
-    api_key = os.getenv("MASSIVE_API_KEY")
+    Args:
+        ticker: Symbol without a market suffix.
+        start: First date to request.
+        end: Last date to request.
 
-    if not api_key:
-        raise DataSourceError(
-            "MASSIVE_API_KEY is not configured"
-        )
+    Returns:
+        Normalised daily bars.
 
+    Raises:
+        DataSourceError: If the request fails or returns nothing.
+    """
     try:
-        from massive import RESTClient
-
-        client = RESTClient(api_key)
-
-        rows = []
-
-        for bar in client.list_aggs(
-            ticker,
-            1,
-            "day",
-            start.isoformat(),
-            end.isoformat(),
-            adjusted=True,
-            sort="asc",
-            limit=50000,
-        ):
-            rows.append(
-                {
-                    "date": pd.to_datetime(bar.timestamp, unit="ms"),
-                    "open": bar.open,
-                    "high": bar.high,
-                    "low": bar.low,
-                    "close": bar.close,
-                    "volume": bar.volume,
-                }
-            )
-
+        frame = web.DataReader(f"{ticker}{STOOQ_SUFFIX}", "stooq", start, end)
     except Exception as exc:
-        raise DataSourceError(
-            f"massive failed for {ticker}: {exc}"
-        ) from exc
+        raise DataSourceError(f"stooq failed for {ticker}: {exc}") from exc
 
-    if not rows:
-        raise DataSourceError(
-            f"massive returned no rows for {ticker}"
-        )
-
-    frame = pd.DataFrame(rows).set_index("date")
+    if frame.empty:
+        raise DataSourceError(f"stooq returned no rows for {ticker}")
 
     return _normalise(frame)
+
 
 def _fetch_yfinance(ticker: str, start: date, end: date) -> pd.DataFrame:
     """Pull daily bars from Yahoo via yfinance.
@@ -159,8 +127,6 @@ def _fetch_yfinance(ticker: str, start: date, end: date) -> pd.DataFrame:
         DataSourceError: If the request fails or returns nothing.
     """
     try:
-        import yfinance as yf
-
         frame = yf.download(
             ticker,
             start=start,
@@ -178,7 +144,7 @@ def _fetch_yfinance(ticker: str, start: date, end: date) -> pd.DataFrame:
     return _normalise(frame)
 
 
-SOURCES = {"massive": _fetch_massive, "yfinance": _fetch_yfinance}
+SOURCES = {"stooq": _fetch_stooq, "yfinance": _fetch_yfinance}
 
 
 def fetch_ticker(ticker: str, config: Config, *, refresh: bool = False) -> FetchResult:

@@ -14,11 +14,8 @@ dependencies = [
     # --- Modelling ----------------------------------------------------------
     "scikit-learn>=1.5,<2",
     "lightgbm>=4.3,<5",
-    # ADF test, for choosing the fractional differentiation order.
     "statsmodels>=0.14,<1",
     # --- Data ---------------------------------------------------------------
-    # Stooq needs no API key and serves plain CSV. yfinance scrapes unofficial
-    # endpoints and breaks periodically, so it is only the fallback.
     "pandas-datareader>=0.10",
     "yfinance>=0.2.40",
     # Cached price data. Parquet keeps dtypes and reloads in milliseconds.

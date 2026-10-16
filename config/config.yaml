@@ -34,16 +34,13 @@ universe:
   start_date: "2005-01-01"
   end_date: "2024-12-31"
 
-  # Known survivorship bias, stated rather than hidden: these tickers were all
-  # listed in 2005 and still trade today.
+  # Known survivorship bias, stated rather than hidden
   survivorship_bias: acknowledged
 
 # --- Data -------------------------------------------------------------------
 data:
-  # Stooq needs no API key and serves plain CSV. yfinance scrapes unofficial
-  # endpoints and breaks periodically, so it is the fallback only.
-  primary_source: massive
-  fallback_source: yfinance
+  primary_source: yfinance
+  fallback_source: stooq
 
   cache_dir: data/01-raw
   bars_dir: data/02-bars
