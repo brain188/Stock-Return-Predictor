@@ -96,3 +96,186 @@ TypeError: _fetch_massive() missing 1 required positional argument: 'api_key'
 2026-09-26 15:20:11 | INFO     | src.data.loaders:fetch_universe:233 | INTC   5,032 bars  2005-01-03 to 2024-12-30  via yfinance
 2026-09-26 15:20:11 | INFO     | src.data.loaders:fetch_universe:241 | Fetched 11 of 11 tickers
 2026-09-26 15:20:11 | INFO     | __main__:log_step:122 | DONE   Fetching the universe (44.61s)
+2026-10-16 12:44:08 | ERROR    | yfinance:_fetch_ticker_tz:190 | Failed to get ticker 'NOTAREALTICKER' reason: Failed to perform, curl: (28) Connection timed out after 10002 milliseconds. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-10-16 12:44:20 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-16 12:44:22 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-16 12:44:22 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-16 12:44:22 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-16 12:44:22 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: yfinance returned no rows for NOTAREALTICKER
+2026-10-16 12:44:22 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: stooq failed for NOTAREALTICKER: data_source='stooq' is not implemented
+2026-10-16 12:46:43 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: first
+2026-10-16 12:46:43 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: second
+2026-10-16 12:46:43 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: third
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 5 logged: t4
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: rf
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: before_restart
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: after_restart
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: old
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: new
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: c
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: low
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: high
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: only
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-16 12:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: with_config
+2026-10-16 12:48:55 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 0 flagged
+2026-10-16 12:48:55 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 12:48:55 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 300 bars short of SPY
+2026-10-16 12:48:55 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 12:48:55 | WARNING  | src.data.universe:validate_universe:241 | BBB flagged: 10 bars short of SPY
+2026-10-16 12:48:55 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 12:48:55 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 200 bars short of SPY
+2026-10-16 12:51:55 | INFO     | src.data.cleaning:_log_report:288 | Cleaning: 599 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 1 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 12:51:55 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 3 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 12:51:55 | INFO     | src.data.cleaning:_log_report:288 | Cleaning: 591 rows in, 2 zero-volume dropped, 1 off-calendar dropped, 5 forward filled, 7 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 12:51:55 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 57 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 12:51:55 | INFO     | src.data.cleaning:_log_report:288 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 1 gaps flagged, 1 returns winsorised
+2026-10-16 12:51:55 | WARNING  | src.data.cleaning:_log_report:300 | Gap flagged: AAA on 2005-06-20, return -50.43%
+2026-10-16 12:51:55 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 12:51:56 | INFO     | src.data.cleaning:_log_report:288 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 12:51:56 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 12:51:56 | INFO     | src.data.cleaning:_log_report:288 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 12:51:56 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 12:52:08 | INFO     | src.data.cleaning:_log_report:288 | Cleaning: 599 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 1 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 12:52:08 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 3 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 12:52:08 | INFO     | src.data.cleaning:_log_report:288 | Cleaning: 591 rows in, 2 zero-volume dropped, 1 off-calendar dropped, 5 forward filled, 7 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 12:52:08 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 57 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 12:52:08 | INFO     | src.data.cleaning:_log_report:288 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 1 gaps flagged, 1 returns winsorised
+2026-10-16 12:52:08 | WARNING  | src.data.cleaning:_log_report:300 | Gap flagged: AAA on 2005-06-20, return -50.43%
+2026-10-16 12:52:08 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 12:52:08 | INFO     | src.data.cleaning:_log_report:288 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 12:52:08 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 12:52:08 | INFO     | src.data.cleaning:_log_report:288 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 12:52:08 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 12:52:35 | WARNING  | yfinance:_make_request:450 | Cookie/crumb fetch failed (ConnectionError), continuing without crumb
+2026-10-16 12:52:44 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-16 12:52:46 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-16 12:52:46 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-16 12:52:46 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-16 12:52:46 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: yfinance returned no rows for NOTAREALTICKER
+2026-10-16 12:52:46 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: stooq failed for NOTAREALTICKER: data_source='stooq' is not implemented
+2026-10-16 12:52:46 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: first
+2026-10-16 12:52:46 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: second
+2026-10-16 12:52:46 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: third
+2026-10-16 12:52:46 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-16 12:52:46 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-16 12:52:46 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-16 12:52:46 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-16 12:52:46 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 5 logged: t4
+2026-10-16 12:52:46 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-16 12:52:46 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: rf
+2026-10-16 12:52:46 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: before_restart
+2026-10-16 12:52:46 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: after_restart
+2026-10-16 12:52:46 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-16 12:52:46 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: old
+2026-10-16 12:52:46 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: new
+2026-10-16 12:52:46 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 12:52:46 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-16 12:52:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: c
+2026-10-16 12:52:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 12:52:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: low
+2026-10-16 12:52:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: high
+2026-10-16 12:52:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 12:52:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-16 12:52:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-16 12:52:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-16 12:52:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-16 12:52:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: only
+2026-10-16 12:52:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 12:52:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-16 12:52:47 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: with_config
+2026-10-16 12:52:47 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 0 flagged
+2026-10-16 12:52:47 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 12:52:47 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 300 bars short of SPY
+2026-10-16 12:52:47 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 12:52:47 | WARNING  | src.data.universe:validate_universe:241 | BBB flagged: 10 bars short of SPY
+2026-10-16 12:52:47 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 12:52:47 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 200 bars short of SPY
+2026-10-16 12:52:58 | INFO     | src.data.loaders:fetch_universe:229 | SPY    5,032 bars  2005-01-03 to 2024-12-30  via cache
+2026-10-16 12:52:58 | INFO     | src.data.loaders:fetch_universe:229 | AAPL   5,032 bars  2005-01-03 to 2024-12-30  via cache
+2026-10-16 12:52:58 | INFO     | src.data.loaders:fetch_universe:229 | MSFT   5,032 bars  2005-01-03 to 2024-12-30  via cache
+2026-10-16 12:52:58 | INFO     | src.data.loaders:fetch_universe:229 | JNJ    5,032 bars  2005-01-03 to 2024-12-30  via cache
+2026-10-16 12:52:58 | INFO     | src.data.loaders:fetch_universe:229 | JPM    5,032 bars  2005-01-03 to 2024-12-30  via cache
+2026-10-16 12:52:58 | INFO     | src.data.loaders:fetch_universe:229 | XOM    5,032 bars  2005-01-03 to 2024-12-30  via cache
+2026-10-16 12:52:58 | INFO     | src.data.loaders:fetch_universe:229 | PG     5,032 bars  2005-01-03 to 2024-12-30  via cache
+2026-10-16 12:52:58 | INFO     | src.data.loaders:fetch_universe:229 | KO     5,032 bars  2005-01-03 to 2024-12-30  via cache
+2026-10-16 12:52:58 | INFO     | src.data.loaders:fetch_universe:229 | WMT    5,032 bars  2005-01-03 to 2024-12-30  via cache
+2026-10-16 12:52:58 | INFO     | src.data.loaders:fetch_universe:229 | GE     5,032 bars  2005-01-03 to 2024-12-30  via cache
+2026-10-16 12:52:58 | INFO     | src.data.loaders:fetch_universe:229 | INTC   5,032 bars  2005-01-03 to 2024-12-30  via cache
+2026-10-16 12:52:58 | INFO     | src.data.loaders:fetch_universe:237 | Fetched 11 of 11 tickers
+2026-10-16 12:52:58 | INFO     | src.data.universe:validate_universe:234 | Universe: 11 tickers, 5,032 expected bars each, 0 flagged
+2026-10-16 12:52:59 | INFO     | src.data.cleaning:_log_report:288 | Cleaning: 55,352 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 12:52:59 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 55,352 rows x 9 columns, 11 missing, (Timestamp('2005-01-03 00:00:00'), 'AAPL') to (Timestamp('2024-12-30 00:00:00'), 'XOM')
+2026-10-16 12:52:59 | INFO     | src.data.cleaning:save_clean_panel:321 | Saved cleaned panel to C:\Users\BRAIN\Desktop\ML\stock-return-predictor\data\02-bars\bars.parquet
+2026-10-16 13:23:33 | INFO     | src.data.cleaning:_log_report:288 | Cleaning: 599 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 1 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 13:23:33 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 3 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:23:33 | INFO     | src.data.cleaning:_log_report:288 | Cleaning: 591 rows in, 2 zero-volume dropped, 1 off-calendar dropped, 5 forward filled, 7 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 13:23:33 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 57 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:23:34 | INFO     | src.data.cleaning:_log_report:288 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 1 gaps flagged, 1 returns winsorised
+2026-10-16 13:23:34 | WARNING  | src.data.cleaning:_log_report:300 | Gap flagged: AAA on 2005-06-20, return -50.43%
+2026-10-16 13:23:34 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:23:34 | INFO     | src.data.cleaning:_log_report:288 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 13:23:34 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:23:34 | INFO     | src.data.cleaning:_log_report:288 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-16 13:23:34 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-16 13:23:53 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-16 13:23:53 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-16 13:23:53 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-16 13:23:53 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-16 13:23:53 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: yfinance returned no rows for NOTAREALTICKER
+2026-10-16 13:23:53 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: stooq failed for NOTAREALTICKER: data_source='stooq' is not implemented
+2026-10-16 13:23:53 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: first
+2026-10-16 13:23:53 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: second
+2026-10-16 13:23:53 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: third
+2026-10-16 13:23:53 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-16 13:23:53 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-16 13:23:53 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-16 13:23:53 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-16 13:23:53 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 5 logged: t4
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: rf
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: before_restart
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: after_restart
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: old
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: new
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: c
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: low
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: high
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: only
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-16 13:23:54 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: with_config
+2026-10-16 13:23:54 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 0 flagged
+2026-10-16 13:23:54 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 13:23:54 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 300 bars short of SPY
+2026-10-16 13:23:54 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 13:23:54 | WARNING  | src.data.universe:validate_universe:241 | BBB flagged: 10 bars short of SPY
+2026-10-16 13:23:54 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-16 13:23:54 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 200 bars short of SPY

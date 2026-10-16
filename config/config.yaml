@@ -49,7 +49,7 @@ data:
   # Pulled once, then read from disk. Set to false to force a refresh.
   use_cache: true
 
-  price_column: close
+  price_column: adj_close
   min_history_days: 500
   adjusted: true
 

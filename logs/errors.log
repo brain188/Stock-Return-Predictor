@@ -48,3 +48,19 @@ Traceback (most recent call last):
     frame = SOURCES[name](ticker, start, end)
             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 TypeError: _fetch_massive() missing 1 required positional argument: 'api_key'
+2026-10-16 12:44:08 | ERROR    | yfinance:_fetch_ticker_tz:190 | Failed to get ticker 'NOTAREALTICKER' reason: Failed to perform, curl: (28) Connection timed out after 10002 milliseconds. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-10-16 12:44:20 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-16 12:44:22 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-16 12:44:22 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-16 12:44:22 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-16 12:52:44 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-16 12:52:46 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-16 12:52:46 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-16 12:52:46 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-16 13:23:53 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-16 13:23:53 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-16 13:23:53 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-16 13:23:53 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
