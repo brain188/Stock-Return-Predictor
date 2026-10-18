@@ -18,7 +18,8 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CONFIG_PATH = PROJECT_ROOT / "config" / "config.yaml"
 
 LABELLING_METHODS = {"fixed_horizon", "triple_barrier"}
-ESTIMATORS = {"random_forest", "lightgbm"}
+ESTIMATORS = {"random_forest", "lightgbm", "lstm"}
+TASKS = {"regression", "classification"}
 
 
 class ConfigError(Exception):
@@ -304,8 +305,10 @@ class ModelConfig:
     """Estimator choice and its hyperparameters."""
 
     estimator: str
+    task: str
     random_forest: dict[str, Any]
     lightgbm: dict[str, Any]
+    lstm: dict[str, Any]
 
     @property
     def params(self) -> dict[str, Any]:
@@ -313,11 +316,17 @@ class ModelConfig:
         return getattr(self, self.estimator)
 
     def validate(self) -> None:
-        """Check the estimator is one we support."""
+        """Check the estimator and task are ones we support."""
         if self.estimator not in ESTIMATORS:
             raise ConfigError(
                 f"model.estimator must be one of {sorted(ESTIMATORS)}, got '{self.estimator}'"
             )
+
+        if self.task not in TASKS:
+            raise ConfigError(f"model.task must be one of {sorted(TASKS)}, got '{self.task}'")
+
+        if not 0 < self.lstm["validation_fraction"] < 0.5:
+            raise ConfigError("model.lstm.validation_fraction must be between 0 and 0.5")
 
 
 @dataclass(frozen=True)

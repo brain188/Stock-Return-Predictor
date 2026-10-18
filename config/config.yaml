@@ -123,7 +123,13 @@ validation:
 
 # --- Model ------------------------------------------------------------------
 model:
+  # random_forest, lightgbm, or lstm. Tickers are pooled into one model, which
+  # assumes the signal is shared across them.
   estimator: random_forest
+
+  # regression predicts the forward return; classification predicts up or
+  # not up. Notebook 3 used regression.
+  task: regression
 
   random_forest:
     n_estimators: 300
@@ -139,7 +145,22 @@ model:
     min_child_samples: 100
     subsample: 0.8
     colsample_bytree: 0.8
+    # Without a bagging frequency LightGBM ignores subsample entirely.
+    subsample_freq: 1
     verbose: -1
+
+  # Deliberately small: 5,000 bars per ticker is very little data for a
+  # recurrent network, and daily returns have almost no autocorrelation.
+  lstm:
+    lookback: 21
+    hidden_size: 16
+    num_layers: 1
+    dropout: 0.0
+    learning_rate: 0.001
+    batch_size: 256
+    max_epochs: 50
+    patience: 5
+    validation_fraction: 0.2
 
 # --- Backtest ---------------------------------------------------------------
 backtest:
@@ -164,4 +185,4 @@ evaluation:
 
   # A random forecaster reaches roughly this hit rate on daily data. Anything
   # near it is noise.
-  random_hit_rate: 0.534
+  random_hit_rate: 0.50

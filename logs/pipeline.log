@@ -1033,3 +1033,190 @@ TypeError: _fetch_massive() missing 1 required positional argument: 'api_key'
 2026-10-16 14:26:48 | WARNING  | src.data.universe:validate_universe:241 | BBB flagged: 10 bars short of SPY
 2026-10-16 14:26:48 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
 2026-10-16 14:26:48 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 200 bars short of SPY
+2026-10-18 02:12:04 | INFO     | src.models.estimator:fit_with_weights:210 | Fitting random_forest_regression: dropped 10 rows with no label or weight
+2026-10-18 02:12:48 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 3 epochs, best validation loss 0.925529
+2026-10-18 02:12:48 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 3 epochs, best validation loss 0.925529
+2026-10-18 02:12:49 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 5 epochs, best validation loss 0.685459
+2026-10-18 02:12:49 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 5 epochs, best validation loss 0.685459
+2026-10-18 02:12:49 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 3 epochs, best validation loss 0.925529
+2026-10-18 02:12:49 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 5 epochs, best validation loss 0.685459
+2026-10-18 02:12:49 | INFO     | src.models.persistence:save_model:167 | Saved random_forest_regression to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-25\test_round_trip_gives_identica0\bundle
+2026-10-18 02:12:50 | INFO     | src.models.persistence:load_model:204 | Loaded random_forest_regression from C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-25\test_round_trip_gives_identica0\bundle (commit 635b605e6a12fa0abfe941bd256dfdf8e0c6f330)
+2026-10-18 02:12:50 | INFO     | src.models.persistence:save_model:167 | Saved lightgbm_classification to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-25\test_round_trip_gives_identica1\bundle
+2026-10-18 02:12:50 | INFO     | src.models.persistence:load_model:204 | Loaded lightgbm_classification from C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-25\test_round_trip_gives_identica1\bundle (commit 635b605e6a12fa0abfe941bd256dfdf8e0c6f330)
+2026-10-18 02:12:50 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 5 epochs, best validation loss 0.902376
+2026-10-18 02:12:50 | INFO     | src.models.persistence:save_model:167 | Saved lstm_regression to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-25\test_round_trip_gives_identica2\bundle
+2026-10-18 02:12:50 | INFO     | src.models.persistence:load_model:204 | Loaded lstm_regression from C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-25\test_round_trip_gives_identica2\bundle (commit 635b605e6a12fa0abfe941bd256dfdf8e0c6f330)
+2026-10-18 02:12:50 | INFO     | src.models.persistence:save_model:167 | Saved random_forest_regression to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-25\test_load_refuses_a_changed_fe0\bundle
+2026-10-18 02:13:10 | INFO     | src.models.estimator:fit_with_weights:210 | Fitting random_forest_regression: dropped 10 rows with no label or weight
+2026-10-18 02:13:13 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 3 epochs, best validation loss 0.925529
+2026-10-18 02:13:13 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 3 epochs, best validation loss 0.925529
+2026-10-18 02:13:13 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 5 epochs, best validation loss 0.685459
+2026-10-18 02:13:14 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 5 epochs, best validation loss 0.685459
+2026-10-18 02:13:14 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 3 epochs, best validation loss 0.925529
+2026-10-18 02:13:14 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 5 epochs, best validation loss 0.685459
+2026-10-18 02:13:14 | INFO     | src.models.persistence:save_model:167 | Saved random_forest_regression to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-26\test_round_trip_gives_identica0\bundle
+2026-10-18 02:13:14 | INFO     | src.models.persistence:load_model:204 | Loaded random_forest_regression from C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-26\test_round_trip_gives_identica0\bundle (commit 635b605e6a12fa0abfe941bd256dfdf8e0c6f330)
+2026-10-18 02:13:14 | INFO     | src.models.persistence:save_model:167 | Saved lightgbm_classification to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-26\test_round_trip_gives_identica1\bundle
+2026-10-18 02:13:14 | INFO     | src.models.persistence:load_model:204 | Loaded lightgbm_classification from C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-26\test_round_trip_gives_identica1\bundle (commit 635b605e6a12fa0abfe941bd256dfdf8e0c6f330)
+2026-10-18 02:13:15 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 5 epochs, best validation loss 0.902376
+2026-10-18 02:13:15 | INFO     | src.models.persistence:save_model:167 | Saved lstm_regression to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-26\test_round_trip_gives_identica2\bundle
+2026-10-18 02:13:15 | INFO     | src.models.persistence:load_model:204 | Loaded lstm_regression from C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-26\test_round_trip_gives_identica2\bundle (commit 635b605e6a12fa0abfe941bd256dfdf8e0c6f330)
+2026-10-18 02:13:15 | INFO     | src.models.persistence:save_model:167 | Saved random_forest_regression to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-26\test_load_refuses_a_changed_fe0\bundle
+2026-10-18 02:13:53 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-18 02:13:53 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 02:13:53 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 02:13:53 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-18 02:13:53 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 02:13:53 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 02:13:53 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-18 02:13:53 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 02:13:53 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 02:13:53 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1343 rows identical up to 2006-11-06
+2026-10-18 02:13:53 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 02:13:53 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,103 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 02:13:54 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-18 02:13:54 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 02:13:54 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 02:13:54 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-18 02:13:54 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 02:13:54 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 02:13:54 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-07
+2026-10-18 02:13:54 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 02:13:54 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-10 00:00:00'), 'AAA') to (Timestamp('2007-04-23 00:00:00'), 'SPY')
+2026-10-18 02:13:54 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-18 02:13:54 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-18 02:13:54 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 02:13:54 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 02:13:54 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 49.4% up
+2026-10-18 02:13:54 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 1,800 rows x 3 columns, 9 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 02:13:55 | INFO     | src.features.build:assert_no_lookahead:193 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-18 02:13:55 | INFO     | src.features.build:build_features:248 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 02:13:55 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 02:13:56 | INFO     | src.features.build:choose_fracdiff_order:87 | Fracdiff order d=0.50 (max of per-ticker d* before 2020-01-01)
+2026-10-18 02:13:56 | INFO     | src.features.build:choose_fracdiff_order:87 | Fracdiff order d=0.50 (max of per-ticker d* before 2020-01-01)
+2026-10-18 02:13:56 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 599 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 1 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-18 02:13:56 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 3 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-18 02:13:56 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 591 rows in, 2 zero-volume dropped, 1 off-calendar dropped, 5 forward filled, 7 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-18 02:13:56 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 57 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-18 02:13:56 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 1 gaps flagged, 1 returns winsorised
+2026-10-18 02:13:56 | WARNING  | src.data.cleaning:_log_report:298 | Gap flagged: AAA on 2005-06-20, return -50.43%
+2026-10-18 02:13:56 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-18 02:13:56 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-18 02:13:56 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-18 02:13:56 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-18 02:13:56 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-18 02:13:59 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-18 02:13:59 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-18 02:14:00 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-18 02:14:00 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-18 02:14:00 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-18 02:14:01 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-18 02:14:01 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-18 02:14:02 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-18 02:14:02 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-18 02:14:03 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-18 02:14:04 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-18 02:14:04 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-18 02:14:04 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-18 02:14:05 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-18 02:14:05 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-18 02:14:05 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-18 02:14:06 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-18 02:14:06 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-18 02:14:07 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-18 02:14:07 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-18 02:14:08 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-18 02:14:08 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-18 02:14:08 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-18 02:14:09 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-18 02:14:09 | WARNING  | src.features.fracdiff:min_ffd_order:294 | noise passes ADF undifferenced (d*=0). Expected for returns; for a price series check that returns were not passed in by mistake.
+2026-10-18 02:14:10 | WARNING  | src.features.fracdiff:min_ffd_order:288 | RW: no order in [0.0] passes the ADF test
+2026-10-18 02:14:10 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-18 02:14:10 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-18 02:14:10 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-18 02:14:10 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-18 02:14:10 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 58.7% up
+2026-10-18 02:14:10 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 6,000 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2016-07-01 00:00:00'), 'SPY')
+2026-10-18 02:14:10 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 45.8%, upper 27.4%, lower 26.8%, 51.6% up
+2026-10-18 02:14:10 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 600 rows x 4 columns, 104 missing, (Timestamp('2005-01-03 00:00:00'), 'SPY') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 02:14:10 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 45.8%, upper 27.4%, lower 26.8%, 51.6% up
+2026-10-18 02:14:10 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 600 rows x 4 columns, 104 missing, (Timestamp('2005-01-03 00:00:00'), 'SPY') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 02:14:10 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 47.5%, lower 29.4%, upper 23.1%, 47.5% up
+2026-10-18 02:14:10 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 800 rows x 4 columns, 208 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-18 02:14:10 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-18 02:14:10 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-18 02:14:10 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 47.5%, lower 29.4%, upper 23.1%, 47.5% up
+2026-10-18 02:14:10 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 800 rows x 4 columns, 208 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-18 02:14:10 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-18 02:14:10 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-18 02:14:10 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (fixed_horizon, decay 1.00): mean 1.000, 798 effective of 798 labels
+2026-10-18 02:14:10 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 47.5%, lower 29.4%, upper 23.1%, 47.5% up
+2026-10-18 02:14:10 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 800 rows x 4 columns, 208 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-18 02:14:10 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (triple_barrier, decay 1.00): mean 0.253, 189 effective of 748 labels
+2026-10-18 02:14:23 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-18 02:14:24 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-18 02:14:24 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-18 02:14:24 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-18 02:14:24 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: yfinance returned no rows for NOTAREALTICKER
+2026-10-18 02:14:24 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: stooq failed for NOTAREALTICKER: data_source='stooq' is not implemented
+2026-10-18 02:14:25 | INFO     | src.models.estimator:fit_with_weights:210 | Fitting random_forest_regression: dropped 10 rows with no label or weight
+2026-10-18 02:14:39 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 3 epochs, best validation loss 0.925529
+2026-10-18 02:14:39 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 3 epochs, best validation loss 0.925529
+2026-10-18 02:14:39 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 5 epochs, best validation loss 0.685459
+2026-10-18 02:14:39 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 5 epochs, best validation loss 0.685459
+2026-10-18 02:14:40 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 3 epochs, best validation loss 0.925529
+2026-10-18 02:14:40 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 5 epochs, best validation loss 0.685459
+2026-10-18 02:14:40 | INFO     | src.models.persistence:save_model:165 | Saved random_forest_regression to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-27\test_round_trip_gives_identica0\bundle
+2026-10-18 02:14:40 | INFO     | src.models.persistence:load_model:202 | Loaded random_forest_regression from C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-27\test_round_trip_gives_identica0\bundle (commit 635b605e6a12fa0abfe941bd256dfdf8e0c6f330)
+2026-10-18 02:14:40 | INFO     | src.models.persistence:save_model:165 | Saved lightgbm_classification to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-27\test_round_trip_gives_identica1\bundle
+2026-10-18 02:14:40 | INFO     | src.models.persistence:load_model:202 | Loaded lightgbm_classification from C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-27\test_round_trip_gives_identica1\bundle (commit 635b605e6a12fa0abfe941bd256dfdf8e0c6f330)
+2026-10-18 02:14:41 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 5 epochs, best validation loss 0.902376
+2026-10-18 02:14:41 | INFO     | src.models.persistence:save_model:165 | Saved lstm_regression to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-27\test_round_trip_gives_identica2\bundle
+2026-10-18 02:14:41 | INFO     | src.models.persistence:load_model:202 | Loaded lstm_regression from C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-27\test_round_trip_gives_identica2\bundle (commit 635b605e6a12fa0abfe941bd256dfdf8e0c6f330)
+2026-10-18 02:14:41 | INFO     | src.models.persistence:save_model:165 | Saved random_forest_regression to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-27\test_load_refuses_a_changed_fe0\bundle
+2026-10-18 02:14:41 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-18 02:14:42 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-18 02:14:42 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-18 02:14:42 | INFO     | src.reporting.stationarity:write_stationarity_table:140 | Saved stationarity table to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-27\test_table_is_written0\stationarity.csv
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: first
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: second
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: third
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 5 logged: t4
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: rf
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: before_restart
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: after_restart
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: old
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: new
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: c
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-18 02:14:42 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: low
+2026-10-18 02:14:43 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: high
+2026-10-18 02:14:43 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-18 02:14:43 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-18 02:14:43 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-18 02:14:43 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-18 02:14:43 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-18 02:14:43 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: only
+2026-10-18 02:14:43 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-18 02:14:43 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-18 02:14:43 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: with_config
+2026-10-18 02:14:43 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 0 flagged
+2026-10-18 02:14:43 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-18 02:14:43 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 300 bars short of SPY
+2026-10-18 02:14:43 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-18 02:14:43 | WARNING  | src.data.universe:validate_universe:241 | BBB flagged: 10 bars short of SPY
+2026-10-18 02:14:43 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-18 02:14:43 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 200 bars short of SPY
+2026-10-18 02:14:48 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel (from disk): 55,352 rows x 9 columns, 11 missing, (Timestamp('2005-01-03 00:00:00'), 'AAPL') to (Timestamp('2024-12-30 00:00:00'), 'XOM')
+2026-10-18 02:14:48 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 51.9% up
+2026-10-18 02:14:48 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 55,352 rows x 3 columns, 33 missing, (Timestamp('2005-01-03 00:00:00'), 'AAPL') to (Timestamp('2024-12-30 00:00:00'), 'XOM')
