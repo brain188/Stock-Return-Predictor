@@ -94,3 +94,30 @@ TypeError: _fetch_massive() missing 1 required positional argument: 'api_key'
 2026-10-18 02:14:24 | ERROR    | yfinance:_download_impl:192 | 
 1 Failed download:
 2026-10-18 02:14:24 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-18 19:46:40 | ERROR    | src.pipelines.research:log_step:119 | FAILED Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon) after 0.00s
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\logger.py", line 117, in log_step
+    yield
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 492, in run_research
+    model = build_estimator(config)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\tests\test_research.py", line 113, in broken
+    raise RuntimeError("estimator exploded")
+RuntimeError: estimator exploded
+2026-10-18 19:46:48 | ERROR    | entrypoint.research:main:75 | config file not found: C:\Users\BRAIN\Desktop\ML\stock-return-predictor\does\not\exist.yaml
+2026-10-18 19:48:27 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-18 19:48:29 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-18 19:48:29 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-18 19:48:29 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-18 19:49:04 | ERROR    | src.pipelines.research:log_step:119 | FAILED Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon) after 0.00s
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\logger.py", line 117, in log_step
+    yield
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 507, in run_research
+    model = build_estimator(config)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\tests\test_research.py", line 113, in broken
+    raise RuntimeError("estimator exploded")
+RuntimeError: estimator exploded
+2026-10-18 19:49:08 | ERROR    | entrypoint.research:main:75 | config file not found: C:\Users\BRAIN\Desktop\ML\stock-return-predictor\does\not\exist.yaml

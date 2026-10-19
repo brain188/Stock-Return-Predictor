@@ -1,0 +1,16 @@
+,value
+ic_mean,0.004280857649314433
+ic_std,0.004679464284074311
+ic_min,-0.0023586481710323663
+ic_max,0.010015487211120631
+positive_ic_paths,4.0
+ic_year_t_stat,2.848056330191477
+hit_rate_mean,0.5178917891789179
+edge_over_always_up_mean,0.0002650265026502785
+edge_over_always_up_std,0.0006580931643708968
+directional_accuracy_mean,0.5014431716008007
+r2_mean,0.0021296531703742794
+n_paths,5.0
+n_splits,15.0
+n_rows,39996.0
+fracdiff_d,0.6

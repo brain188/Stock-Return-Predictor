@@ -1220,3 +1220,1156 @@ TypeError: _fetch_massive() missing 1 required positional argument: 'api_key'
 2026-10-18 02:14:48 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel (from disk): 55,352 rows x 9 columns, 11 missing, (Timestamp('2005-01-03 00:00:00'), 'AAPL') to (Timestamp('2024-12-30 00:00:00'), 'XOM')
 2026-10-18 02:14:48 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 51.9% up
 2026-10-18 02:14:48 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 55,352 rows x 3 columns, 33 missing, (Timestamp('2005-01-03 00:00:00'), 'AAPL') to (Timestamp('2024-12-30 00:00:00'), 'XOM')
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 0: test 2010-01-04 to 2010-10-08, 2370 train rows (0 purged, 30 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 1: test 2010-10-11 to 2011-07-15, 2370 train rows (0 purged, 30 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 2: test 2011-07-18 to 2012-04-20, 2370 train rows (0 purged, 30 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 3: test 2012-04-23 to 2013-01-25, 2370 train rows (0 purged, 30 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 4: test 2013-01-28 to 2013-11-01, 2400 train rows (0 purged, 0 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 0: test 2010-01-04 to 2010-10-08, 2340 train rows (0 purged, 60 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 1: test 2010-10-11 to 2011-07-15, 2340 train rows (0 purged, 60 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 2: test 2011-07-18 to 2012-04-20, 2340 train rows (0 purged, 60 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 3: test 2012-04-23 to 2013-01-25, 2340 train rows (0 purged, 60 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 4: test 2013-01-28 to 2013-11-01, 2400 train rows (0 purged, 0 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 0: test 2010-01-04 to 2010-10-08, 2250 train rows (0 purged, 150 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 1: test 2010-10-11 to 2011-07-15, 2250 train rows (0 purged, 150 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 2: test 2011-07-18 to 2012-04-20, 2250 train rows (0 purged, 150 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 3: test 2012-04-23 to 2013-01-25, 2250 train rows (0 purged, 150 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 4: test 2013-01-28 to 2013-11-01, 2400 train rows (0 purged, 0 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 0: test 2010-01-04 to 2010-08-24, 2439 train rows (0 purged, 60 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 1: test 2010-08-25 to 2011-04-14, 2439 train rows (0 purged, 60 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 2: test 2011-04-15 to 2011-12-05, 2439 train rows (0 purged, 60 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 3: test 2011-12-06 to 2012-07-25, 2439 train rows (0 purged, 60 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 4: test 2012-07-26 to 2013-03-14, 2442 train rows (0 purged, 60 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 5: test 2013-03-15 to 2013-11-01, 2502 train rows (0 purged, 0 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 0: test 2010-01-04 to 2010-08-24, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 1: test 2010-08-25 to 2011-04-14, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 2: test 2011-04-15 to 2011-12-05, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 3: test 2011-12-06 to 2012-07-25, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 4: test 2012-07-26 to 2013-03-14, 2472 train rows (0 purged, 30 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 5: test 2013-03-15 to 2013-11-01, 2502 train rows (0 purged, 0 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 0: test 2010-01-04 to 2010-08-24, 2469 train rows (12 purged, 18 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 1: test 2010-08-25 to 2011-04-14, 2457 train rows (24 purged, 18 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 2: test 2011-04-15 to 2011-12-05, 2457 train rows (24 purged, 18 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 3: test 2011-12-06 to 2012-07-25, 2457 train rows (24 purged, 18 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 4: test 2012-07-26 to 2013-03-14, 2460 train rows (24 purged, 18 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 5: test 2013-03-15 to 2013-11-01, 2490 train rows (12 purged, 0 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 0: test 2010-01-04 to 2010-08-24, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 1: test 2010-08-25 to 2011-04-14, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 2: test 2011-04-15 to 2011-12-05, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 3: test 2011-12-06 to 2012-07-25, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 4: test 2012-07-26 to 2013-03-14, 2472 train rows (0 purged, 30 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 5: test 2013-03-15 to 2013-11-01, 2502 train rows (0 purged, 0 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 0: test 2010-01-04 to 2010-12-17, 2220 train rows (0 purged, 30 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 1: test 2010-12-20 to 2011-12-02, 2220 train rows (0 purged, 30 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 2: test 2011-12-05 to 2012-11-16, 2220 train rows (0 purged, 30 embargoed)
+2026-10-18 19:39:42 | DEBUG    | src.validation.purged_cv:split:319 | Fold 3: test 2012-11-19 to 2013-11-01, 2250 train rows (0 purged, 0 embargoed)
+2026-10-18 19:39:42 | INFO     | src.validation.purged_cv:train_test_split_chronological:188 | Chronological split: 1,560 train rows to 2011-12-30, 1,440 test rows from 2012-01-02
+2026-10-18 19:39:43 | INFO     | src.validation.purged_cv:train_test_split_chronological:186 | Chronological split: purged 12 training rows
+2026-10-18 19:39:43 | INFO     | src.validation.purged_cv:train_test_split_chronological:188 | Chronological split: 1,548 train rows to 2011-12-26, 1,440 test rows from 2012-01-02
+2026-10-18 19:39:43 | INFO     | src.validation.purged_cv:train_test_split_chronological:188 | Chronological split: 1,560 train rows to 2011-12-30, 1,440 test rows from 2012-01-02
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 0: test 2010-01-04 to 2010-10-08, 2370 train rows (0 purged, 30 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 1: test 2010-10-11 to 2011-07-15, 2370 train rows (0 purged, 30 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 2: test 2011-07-18 to 2012-04-20, 2370 train rows (0 purged, 30 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 3: test 2012-04-23 to 2013-01-25, 2370 train rows (0 purged, 30 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 4: test 2013-01-28 to 2013-11-01, 2400 train rows (0 purged, 0 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 0: test 2010-01-04 to 2010-10-08, 2340 train rows (0 purged, 60 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 1: test 2010-10-11 to 2011-07-15, 2340 train rows (0 purged, 60 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 2: test 2011-07-18 to 2012-04-20, 2340 train rows (0 purged, 60 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 3: test 2012-04-23 to 2013-01-25, 2340 train rows (0 purged, 60 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 4: test 2013-01-28 to 2013-11-01, 2400 train rows (0 purged, 0 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 0: test 2010-01-04 to 2010-10-08, 2250 train rows (0 purged, 150 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 1: test 2010-10-11 to 2011-07-15, 2250 train rows (0 purged, 150 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 2: test 2011-07-18 to 2012-04-20, 2250 train rows (0 purged, 150 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 3: test 2012-04-23 to 2013-01-25, 2250 train rows (0 purged, 150 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 4: test 2013-01-28 to 2013-11-01, 2400 train rows (0 purged, 0 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 0: test 2010-01-04 to 2010-08-24, 2439 train rows (0 purged, 60 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 1: test 2010-08-25 to 2011-04-14, 2439 train rows (0 purged, 60 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 2: test 2011-04-15 to 2011-12-05, 2439 train rows (0 purged, 60 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 3: test 2011-12-06 to 2012-07-25, 2439 train rows (0 purged, 60 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 4: test 2012-07-26 to 2013-03-14, 2442 train rows (0 purged, 60 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 5: test 2013-03-15 to 2013-11-01, 2502 train rows (0 purged, 0 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 0: test 2010-01-04 to 2010-08-24, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 1: test 2010-08-25 to 2011-04-14, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 2: test 2011-04-15 to 2011-12-05, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 3: test 2011-12-06 to 2012-07-25, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 4: test 2012-07-26 to 2013-03-14, 2472 train rows (0 purged, 30 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 5: test 2013-03-15 to 2013-11-01, 2502 train rows (0 purged, 0 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 0: test 2010-01-04 to 2010-08-24, 2469 train rows (12 purged, 18 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 1: test 2010-08-25 to 2011-04-14, 2457 train rows (24 purged, 18 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 2: test 2011-04-15 to 2011-12-05, 2457 train rows (24 purged, 18 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 3: test 2011-12-06 to 2012-07-25, 2457 train rows (24 purged, 18 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 4: test 2012-07-26 to 2013-03-14, 2460 train rows (24 purged, 18 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 5: test 2013-03-15 to 2013-11-01, 2490 train rows (12 purged, 0 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 0: test 2010-01-04 to 2010-08-24, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 1: test 2010-08-25 to 2011-04-14, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 2: test 2011-04-15 to 2011-12-05, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 3: test 2011-12-06 to 2012-07-25, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 4: test 2012-07-26 to 2013-03-14, 2472 train rows (0 purged, 30 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 5: test 2013-03-15 to 2013-11-01, 2502 train rows (0 purged, 0 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 0: test 2010-01-04 to 2010-12-17, 2220 train rows (0 purged, 30 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 1: test 2010-12-20 to 2011-12-02, 2220 train rows (0 purged, 30 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 2: test 2011-12-05 to 2012-11-16, 2220 train rows (0 purged, 30 embargoed)
+2026-10-18 19:40:59 | DEBUG    | src.validation.purged_cv:split:319 | Fold 3: test 2012-11-19 to 2013-11-01, 2250 train rows (0 purged, 0 embargoed)
+2026-10-18 19:41:00 | INFO     | src.validation.purged_cv:train_test_split_chronological:188 | Chronological split: 1,560 train rows to 2011-12-30, 1,440 test rows from 2012-01-02
+2026-10-18 19:41:00 | INFO     | src.validation.purged_cv:train_test_split_chronological:186 | Chronological split: purged 12 training rows
+2026-10-18 19:41:00 | INFO     | src.validation.purged_cv:train_test_split_chronological:188 | Chronological split: 1,548 train rows to 2011-12-26, 1,440 test rows from 2012-01-02
+2026-10-18 19:41:00 | INFO     | src.validation.purged_cv:train_test_split_chronological:188 | Chronological split: 1,560 train rows to 2011-12-30, 1,440 test rows from 2012-01-02
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 744 train rows, 56 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 744 train rows, 56 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 744 train rows, 56 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 736 train rows, 64 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 736 train rows, 64 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 760 train rows, 40 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 736 train rows, 64 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 760 train rows, 40 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 760 train rows, 40 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 792 train rows, 8 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 792 train rows, 8 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 784 train rows, 16 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 784 train rows, 16 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 784 train rows, 16 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 784 train rows, 16 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 792 train rows, 8 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:41:00 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:46:26 | INFO     | src.pipelines.research:log_step:113 | START  Preparing research data
+2026-10-18 19:46:26 | INFO     | src.features.build:choose_fracdiff_order:88 | Fracdiff order d=0.60 (max of per-ticker d* before 2007-12-31)
+2026-10-18 19:46:27 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 2163 rows identical up to 2007-10-08
+2026-10-18 19:46:27 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 139 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:46:27 | INFO     | src.features.build:log_frame:140 | Feature matrix: 2,283 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:46:27 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 49.7% up
+2026-10-18 19:46:27 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 2,700 rows x 3 columns, 9 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:46:27 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (fixed_horizon, decay 1.00): mean 1.000, 2,697 effective of 2,697 labels
+2026-10-18 19:46:27 | INFO     | src.pipelines.research:prepare_research_data:200 | Development set: 1,926 of 2,283 rows before 2008-01-01 (0 dropped at the holdout boundary)
+2026-10-18 19:46:27 | INFO     | src.pipelines.research:log_frame:140 | Research features: 1,926 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2007-12-31 00:00:00'), 'SPY')
+2026-10-18 19:46:27 | INFO     | src.pipelines.research:log_step:122 | DONE   Preparing research data (1.28s)
+2026-10-18 19:46:27 | WARNING  | src.pipelines.research:run_research:474 | Embargo of 6 days is shorter than the longest feature window (63 days): training rows just after a test block still see test-period prices
+2026-10-18 19:46:27 | INFO     | src.pipelines.research:log_step:113 | START  Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon)
+2026-10-18 19:46:27 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:28 | INFO     | src.pipelines.research:run_research:502 | Split 1 of 15: 1,266 train, 642 test, IC 0.0037
+2026-10-18 19:46:28 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:46:28 | INFO     | src.pipelines.research:run_research:502 | Split 2 of 15: 1,248 train, 642 test, IC -0.0184
+2026-10-18 19:46:28 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:46:28 | INFO     | src.pipelines.research:run_research:502 | Split 3 of 15: 1,248 train, 642 test, IC 0.0112
+2026-10-18 19:46:28 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:46:28 | INFO     | src.pipelines.research:run_research:502 | Split 4 of 15: 1,248 train, 642 test, IC 0.0362
+2026-10-18 19:46:28 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:28 | INFO     | src.pipelines.research:run_research:502 | Split 5 of 15: 1,266 train, 642 test, IC 0.0592
+2026-10-18 19:46:28 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:28 | INFO     | src.pipelines.research:run_research:502 | Split 6 of 15: 1,266 train, 642 test, IC 0.0571
+2026-10-18 19:46:28 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:46:28 | INFO     | src.pipelines.research:run_research:502 | Split 7 of 15: 1,248 train, 642 test, IC 0.0336
+2026-10-18 19:46:28 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:46:28 | INFO     | src.pipelines.research:run_research:502 | Split 8 of 15: 1,248 train, 642 test, IC 0.0548
+2026-10-18 19:46:28 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:28 | INFO     | src.pipelines.research:run_research:502 | Split 9 of 15: 1,266 train, 642 test, IC 0.0663
+2026-10-18 19:46:28 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:28 | INFO     | src.pipelines.research:run_research:502 | Split 10 of 15: 1,266 train, 642 test, IC 0.0250
+2026-10-18 19:46:28 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:46:28 | INFO     | src.pipelines.research:run_research:502 | Split 11 of 15: 1,248 train, 642 test, IC 0.0078
+2026-10-18 19:46:28 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:28 | INFO     | src.pipelines.research:run_research:502 | Split 12 of 15: 1,266 train, 642 test, IC -0.0068
+2026-10-18 19:46:28 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:28 | INFO     | src.pipelines.research:run_research:502 | Split 13 of 15: 1,266 train, 642 test, IC -0.0663
+2026-10-18 19:46:28 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:28 | INFO     | src.pipelines.research:run_research:502 | Split 14 of 15: 1,266 train, 642 test, IC 0.0057
+2026-10-18 19:46:28 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 1284 train rows, 0 removed by purge and embargo
+2026-10-18 19:46:28 | INFO     | src.pipelines.research:run_research:502 | Split 15 of 15: 1,284 train, 642 test, IC 0.0162
+2026-10-18 19:46:28 | INFO     | src.pipelines.research:log_step:122 | DONE   Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon) (1.61s)
+2026-10-18 19:46:29 | INFO     | src.pipelines.research:log_step:113 | START  Importance across folds
+2026-10-18 19:46:35 | INFO     | src.pipelines.research:log_step:122 | DONE   Importance across folds (6.16s)
+2026-10-18 19:46:36 | INFO     | src.pipelines.research:feature_redundancy:368 | Feature redundancy: 19 features in 8 clusters at |rho| > 0.70, largest has 6
+2026-10-18 19:46:36 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: research_random_forest_regression_fixed_horizon
+2026-10-18 19:46:36 | INFO     | src.pipelines.research:run_research:562 | Research research_random_forest_regression_fixed_horizon: IC 0.0072 +/- 0.0165 over 5 paths, edge over AlwaysUp +0.0121
+2026-10-18 19:46:36 | INFO     | src.pipelines.research:log_step:113 | START  Preparing research data
+2026-10-18 19:46:36 | INFO     | src.features.build:choose_fracdiff_order:88 | Fracdiff order d=0.60 (max of per-ticker d* before 2007-12-31)
+2026-10-18 19:46:36 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 2163 rows identical up to 2007-10-08
+2026-10-18 19:46:36 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 139 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:46:36 | INFO     | src.features.build:log_frame:140 | Feature matrix: 2,283 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:46:36 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 49.7% up
+2026-10-18 19:46:36 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 2,700 rows x 3 columns, 9 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:46:36 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (fixed_horizon, decay 1.00): mean 1.000, 2,697 effective of 2,697 labels
+2026-10-18 19:46:36 | INFO     | src.pipelines.research:prepare_research_data:200 | Development set: 1,926 of 2,283 rows before 2008-01-01 (0 dropped at the holdout boundary)
+2026-10-18 19:46:36 | INFO     | src.pipelines.research:log_frame:140 | Research features: 1,926 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2007-12-31 00:00:00'), 'SPY')
+2026-10-18 19:46:36 | INFO     | src.pipelines.research:log_step:122 | DONE   Preparing research data (0.40s)
+2026-10-18 19:46:36 | WARNING  | src.pipelines.research:run_research:474 | Embargo of 6 days is shorter than the longest feature window (63 days): training rows just after a test block still see test-period prices
+2026-10-18 19:46:36 | INFO     | src.pipelines.research:log_step:113 | START  Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon)
+2026-10-18 19:46:36 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:36 | INFO     | src.pipelines.research:run_research:502 | Split 1 of 15: 1,266 train, 642 test, IC 0.0037
+2026-10-18 19:46:36 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:46:36 | INFO     | src.pipelines.research:run_research:502 | Split 2 of 15: 1,248 train, 642 test, IC -0.0184
+2026-10-18 19:46:36 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:46:37 | INFO     | src.pipelines.research:run_research:502 | Split 3 of 15: 1,248 train, 642 test, IC 0.0112
+2026-10-18 19:46:37 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:46:37 | INFO     | src.pipelines.research:run_research:502 | Split 4 of 15: 1,248 train, 642 test, IC 0.0362
+2026-10-18 19:46:37 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:37 | INFO     | src.pipelines.research:run_research:502 | Split 5 of 15: 1,266 train, 642 test, IC 0.0592
+2026-10-18 19:46:37 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:37 | INFO     | src.pipelines.research:run_research:502 | Split 6 of 15: 1,266 train, 642 test, IC 0.0571
+2026-10-18 19:46:37 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:46:37 | INFO     | src.pipelines.research:run_research:502 | Split 7 of 15: 1,248 train, 642 test, IC 0.0336
+2026-10-18 19:46:37 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:46:37 | INFO     | src.pipelines.research:run_research:502 | Split 8 of 15: 1,248 train, 642 test, IC 0.0548
+2026-10-18 19:46:37 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:37 | INFO     | src.pipelines.research:run_research:502 | Split 9 of 15: 1,266 train, 642 test, IC 0.0663
+2026-10-18 19:46:37 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:37 | INFO     | src.pipelines.research:run_research:502 | Split 10 of 15: 1,266 train, 642 test, IC 0.0250
+2026-10-18 19:46:37 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:46:37 | INFO     | src.pipelines.research:run_research:502 | Split 11 of 15: 1,248 train, 642 test, IC 0.0078
+2026-10-18 19:46:37 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:37 | INFO     | src.pipelines.research:run_research:502 | Split 12 of 15: 1,266 train, 642 test, IC -0.0068
+2026-10-18 19:46:37 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:37 | INFO     | src.pipelines.research:run_research:502 | Split 13 of 15: 1,266 train, 642 test, IC -0.0663
+2026-10-18 19:46:37 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:37 | INFO     | src.pipelines.research:run_research:502 | Split 14 of 15: 1,266 train, 642 test, IC 0.0057
+2026-10-18 19:46:37 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 1284 train rows, 0 removed by purge and embargo
+2026-10-18 19:46:37 | INFO     | src.pipelines.research:run_research:502 | Split 15 of 15: 1,284 train, 642 test, IC 0.0162
+2026-10-18 19:46:37 | INFO     | src.pipelines.research:log_step:122 | DONE   Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon) (1.01s)
+2026-10-18 19:46:38 | INFO     | src.pipelines.research:log_step:113 | START  Importance across folds
+2026-10-18 19:46:38 | INFO     | src.pipelines.research:log_step:122 | DONE   Importance across folds (0.06s)
+2026-10-18 19:46:38 | INFO     | src.pipelines.research:feature_redundancy:368 | Feature redundancy: 19 features in 8 clusters at |rho| > 0.70, largest has 6
+2026-10-18 19:46:38 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: research_random_forest_regression_fixed_horizon
+2026-10-18 19:46:38 | INFO     | src.pipelines.research:run_research:562 | Research research_random_forest_regression_fixed_horizon: IC 0.0072 +/- 0.0165 over 5 paths, edge over AlwaysUp +0.0121
+2026-10-18 19:46:38 | INFO     | src.pipelines.research:log_step:113 | START  Preparing research data
+2026-10-18 19:46:38 | INFO     | src.features.build:choose_fracdiff_order:88 | Fracdiff order d=0.60 (max of per-ticker d* before 2007-12-31)
+2026-10-18 19:46:38 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 2163 rows identical up to 2007-10-08
+2026-10-18 19:46:38 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 139 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:46:38 | INFO     | src.features.build:log_frame:140 | Feature matrix: 2,283 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:46:39 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 46.4%, lower 27.8%, upper 25.7%, 49.6% up
+2026-10-18 19:46:39 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 2,700 rows x 4 columns, 312 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:46:39 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (triple_barrier, decay 1.00): mean 0.256, 672 effective of 2,622 labels
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:prepare_research_data:200 | Development set: 1,919 of 2,283 rows before 2008-01-01 (7 dropped at the holdout boundary)
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:log_frame:140 | Research features: 1,919 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2007-12-28 00:00:00'), 'SPY')
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:log_step:122 | DONE   Preparing research data (0.85s)
+2026-10-18 19:46:39 | WARNING  | src.pipelines.research:run_research:474 | Embargo of 6 days is shorter than the longest feature window (63 days): training rows just after a test block still see test-period prices
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:log_step:113 | START  Fitting 15 CPCV splits (research_random_forest_regression_triple_barrier)
+2026-10-18 19:46:39 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 1259 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:run_research:502 | Split 1 of 15: 1,259 train, 642 test, IC -0.0041
+2026-10-18 19:46:39 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 1230 train rows, 47 removed by purge and embargo
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:run_research:502 | Split 2 of 15: 1,230 train, 642 test, IC -0.0289
+2026-10-18 19:46:39 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 1234 train rows, 43 removed by purge and embargo
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:run_research:502 | Split 3 of 15: 1,234 train, 642 test, IC -0.0225
+2026-10-18 19:46:39 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 1235 train rows, 42 removed by purge and embargo
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:run_research:502 | Split 4 of 15: 1,235 train, 642 test, IC -0.0042
+2026-10-18 19:46:39 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 1256 train rows, 28 removed by purge and embargo
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:run_research:502 | Split 5 of 15: 1,256 train, 635 test, IC 0.0368
+2026-10-18 19:46:39 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 1250 train rows, 27 removed by purge and embargo
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:run_research:502 | Split 6 of 15: 1,250 train, 642 test, IC -0.0766
+2026-10-18 19:46:39 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 1225 train rows, 52 removed by purge and embargo
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:run_research:502 | Split 7 of 15: 1,225 train, 642 test, IC -0.0054
+2026-10-18 19:46:39 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 1226 train rows, 51 removed by purge and embargo
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:run_research:502 | Split 8 of 15: 1,226 train, 642 test, IC -0.0611
+2026-10-18 19:46:39 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 1247 train rows, 37 removed by purge and embargo
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:run_research:502 | Split 9 of 15: 1,247 train, 635 test, IC 0.0122
+2026-10-18 19:46:39 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 1248 train rows, 29 removed by purge and embargo
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:run_research:502 | Split 10 of 15: 1,248 train, 642 test, IC 0.0437
+2026-10-18 19:46:39 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 1224 train rows, 53 removed by purge and embargo
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:run_research:502 | Split 11 of 15: 1,224 train, 642 test, IC 0.0234
+2026-10-18 19:46:39 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 1245 train rows, 39 removed by purge and embargo
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:run_research:502 | Split 12 of 15: 1,245 train, 635 test, IC -0.0128
+2026-10-18 19:46:39 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 1252 train rows, 25 removed by purge and embargo
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:run_research:502 | Split 13 of 15: 1,252 train, 642 test, IC -0.0126
+2026-10-18 19:46:39 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 1249 train rows, 35 removed by purge and embargo
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:run_research:502 | Split 14 of 15: 1,249 train, 635 test, IC 0.0385
+2026-10-18 19:46:39 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 1278 train rows, 6 removed by purge and embargo
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:run_research:502 | Split 15 of 15: 1,278 train, 635 test, IC -0.0463
+2026-10-18 19:46:39 | INFO     | src.pipelines.research:log_step:122 | DONE   Fitting 15 CPCV splits (research_random_forest_regression_triple_barrier) (0.89s)
+2026-10-18 19:46:40 | INFO     | src.pipelines.research:log_step:113 | START  Importance across folds
+2026-10-18 19:46:40 | INFO     | src.pipelines.research:log_step:122 | DONE   Importance across folds (0.06s)
+2026-10-18 19:46:40 | INFO     | src.pipelines.research:feature_redundancy:368 | Feature redundancy: 19 features in 8 clusters at |rho| > 0.70, largest has 6
+2026-10-18 19:46:40 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: research_random_forest_regression_triple_barrier
+2026-10-18 19:46:40 | INFO     | src.pipelines.research:run_research:562 | Research research_random_forest_regression_triple_barrier: IC -0.0356 +/- 0.0153 over 5 paths, edge over AlwaysUp +0.0007
+2026-10-18 19:46:40 | INFO     | src.pipelines.research:log_step:113 | START  Preparing research data
+2026-10-18 19:46:40 | INFO     | src.features.build:choose_fracdiff_order:88 | Fracdiff order d=0.60 (max of per-ticker d* before 2007-12-31)
+2026-10-18 19:46:40 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 2163 rows identical up to 2007-10-08
+2026-10-18 19:46:40 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 139 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:46:40 | INFO     | src.features.build:log_frame:140 | Feature matrix: 2,283 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:46:40 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 49.7% up
+2026-10-18 19:46:40 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 2,700 rows x 3 columns, 9 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:46:40 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (fixed_horizon, decay 1.00): mean 1.000, 2,697 effective of 2,697 labels
+2026-10-18 19:46:40 | INFO     | src.pipelines.research:prepare_research_data:200 | Development set: 1,926 of 2,283 rows before 2008-01-01 (0 dropped at the holdout boundary)
+2026-10-18 19:46:40 | INFO     | src.pipelines.research:log_frame:140 | Research features: 1,926 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2007-12-31 00:00:00'), 'SPY')
+2026-10-18 19:46:40 | INFO     | src.pipelines.research:log_step:122 | DONE   Preparing research data (0.26s)
+2026-10-18 19:46:40 | WARNING  | src.pipelines.research:run_research:474 | Embargo of 6 days is shorter than the longest feature window (63 days): training rows just after a test block still see test-period prices
+2026-10-18 19:46:40 | INFO     | src.pipelines.research:log_step:113 | START  Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon)
+2026-10-18 19:46:40 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:40 | ERROR    | src.pipelines.research:log_step:119 | FAILED Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon) after 0.00s
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\logger.py", line 117, in log_step
+    yield
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 492, in run_research
+    model = build_estimator(config)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\tests\test_research.py", line 113, in broken
+    raise RuntimeError("estimator exploded")
+RuntimeError: estimator exploded
+2026-10-18 19:46:41 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: research_random_forest_regression_fixed_horizon
+2026-10-18 19:46:41 | INFO     | src.features.build:choose_fracdiff_order:88 | Fracdiff order d=0.60 (max of per-ticker d* before 2007-12-31)
+2026-10-18 19:46:41 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 2163 rows identical up to 2007-10-08
+2026-10-18 19:46:41 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 139 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:46:41 | INFO     | src.features.build:log_frame:140 | Feature matrix: 2,283 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:46:41 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 49.7% up
+2026-10-18 19:46:41 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 2,700 rows x 3 columns, 9 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:46:41 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (fixed_horizon, decay 1.00): mean 1.000, 2,697 effective of 2,697 labels
+2026-10-18 19:46:41 | INFO     | src.pipelines.research:prepare_research_data:200 | Development set: 1,926 of 2,283 rows before 2008-01-01 (0 dropped at the holdout boundary)
+2026-10-18 19:46:41 | INFO     | src.pipelines.research:log_frame:140 | Research features: 1,926 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2007-12-31 00:00:00'), 'SPY')
+2026-10-18 19:46:41 | INFO     | src.features.build:choose_fracdiff_order:88 | Fracdiff order d=0.60 (max of per-ticker d* before 2007-12-31)
+2026-10-18 19:46:41 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 2163 rows identical up to 2007-10-08
+2026-10-18 19:46:41 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 139 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:46:41 | INFO     | src.features.build:log_frame:140 | Feature matrix: 2,283 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:46:41 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 46.4%, lower 27.8%, upper 25.7%, 49.6% up
+2026-10-18 19:46:41 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 2,700 rows x 4 columns, 312 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:46:41 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (triple_barrier, decay 1.00): mean 0.256, 672 effective of 2,622 labels
+2026-10-18 19:46:41 | INFO     | src.pipelines.research:prepare_research_data:200 | Development set: 1,919 of 2,283 rows before 2008-01-01 (7 dropped at the holdout boundary)
+2026-10-18 19:46:41 | INFO     | src.pipelines.research:log_frame:140 | Research features: 1,919 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2007-12-28 00:00:00'), 'SPY')
+2026-10-18 19:46:41 | INFO     | src.pipelines.research:log_step:113 | START  Preparing research data
+2026-10-18 19:46:41 | INFO     | src.features.build:choose_fracdiff_order:88 | Fracdiff order d=0.60 (max of per-ticker d* before 2007-12-31)
+2026-10-18 19:46:42 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 2163 rows identical up to 2007-10-08
+2026-10-18 19:46:42 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 139 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:46:42 | INFO     | src.features.build:log_frame:140 | Feature matrix: 2,283 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:46:42 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 49.7% up
+2026-10-18 19:46:42 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 2,700 rows x 3 columns, 9 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:46:42 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (fixed_horizon, decay 1.00): mean 1.000, 2,697 effective of 2,697 labels
+2026-10-18 19:46:42 | INFO     | src.pipelines.research:prepare_research_data:200 | Development set: 1,926 of 2,283 rows before 2008-01-01 (0 dropped at the holdout boundary)
+2026-10-18 19:46:42 | INFO     | src.pipelines.research:log_frame:140 | Research features: 1,926 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2007-12-31 00:00:00'), 'SPY')
+2026-10-18 19:46:42 | INFO     | src.pipelines.research:log_step:122 | DONE   Preparing research data (0.29s)
+2026-10-18 19:46:42 | WARNING  | src.pipelines.research:run_research:474 | Embargo of 6 days is shorter than the longest feature window (63 days): training rows just after a test block still see test-period prices
+2026-10-18 19:46:42 | INFO     | src.pipelines.research:log_step:113 | START  Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon)
+2026-10-18 19:46:42 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:42 | INFO     | src.pipelines.research:run_research:502 | Split 1 of 15: 1,266 train, 642 test, IC 0.0037
+2026-10-18 19:46:42 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:46:42 | INFO     | src.pipelines.research:run_research:502 | Split 2 of 15: 1,248 train, 642 test, IC -0.0184
+2026-10-18 19:46:42 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:46:42 | INFO     | src.pipelines.research:run_research:502 | Split 3 of 15: 1,248 train, 642 test, IC 0.0112
+2026-10-18 19:46:42 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:46:42 | INFO     | src.pipelines.research:run_research:502 | Split 4 of 15: 1,248 train, 642 test, IC 0.0362
+2026-10-18 19:46:42 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:42 | INFO     | src.pipelines.research:run_research:502 | Split 5 of 15: 1,266 train, 642 test, IC 0.0592
+2026-10-18 19:46:42 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:42 | INFO     | src.pipelines.research:run_research:502 | Split 6 of 15: 1,266 train, 642 test, IC 0.0571
+2026-10-18 19:46:42 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:46:42 | INFO     | src.pipelines.research:run_research:502 | Split 7 of 15: 1,248 train, 642 test, IC 0.0336
+2026-10-18 19:46:42 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:46:42 | INFO     | src.pipelines.research:run_research:502 | Split 8 of 15: 1,248 train, 642 test, IC 0.0548
+2026-10-18 19:46:42 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:42 | INFO     | src.pipelines.research:run_research:502 | Split 9 of 15: 1,266 train, 642 test, IC 0.0663
+2026-10-18 19:46:42 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:42 | INFO     | src.pipelines.research:run_research:502 | Split 10 of 15: 1,266 train, 642 test, IC 0.0250
+2026-10-18 19:46:42 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:46:42 | INFO     | src.pipelines.research:run_research:502 | Split 11 of 15: 1,248 train, 642 test, IC 0.0078
+2026-10-18 19:46:42 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:43 | INFO     | src.pipelines.research:run_research:502 | Split 12 of 15: 1,266 train, 642 test, IC -0.0068
+2026-10-18 19:46:43 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:43 | INFO     | src.pipelines.research:run_research:502 | Split 13 of 15: 1,266 train, 642 test, IC -0.0663
+2026-10-18 19:46:43 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:46:43 | INFO     | src.pipelines.research:run_research:502 | Split 14 of 15: 1,266 train, 642 test, IC 0.0057
+2026-10-18 19:46:43 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 1284 train rows, 0 removed by purge and embargo
+2026-10-18 19:46:43 | INFO     | src.pipelines.research:run_research:502 | Split 15 of 15: 1,284 train, 642 test, IC 0.0162
+2026-10-18 19:46:43 | INFO     | src.pipelines.research:log_step:122 | DONE   Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon) (1.17s)
+2026-10-18 19:46:43 | INFO     | src.pipelines.research:log_step:113 | START  Importance across folds
+2026-10-18 19:46:43 | INFO     | src.pipelines.research:log_step:122 | DONE   Importance across folds (0.11s)
+2026-10-18 19:46:43 | INFO     | src.pipelines.research:feature_redundancy:368 | Feature redundancy: 19 features in 8 clusters at |rho| > 0.70, largest has 6
+2026-10-18 19:46:44 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: research_random_forest_regression_fixed_horizon
+2026-10-18 19:46:44 | INFO     | src.pipelines.research:run_research:562 | Research research_random_forest_regression_fixed_horizon: IC 0.0072 +/- 0.0165 over 5 paths, edge over AlwaysUp +0.0121
+2026-10-18 19:46:44 | INFO     | src.pipelines.research:save:129 | Saved 7 research tables to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-28\test_save_writes_every_table0\out\research_random_forest_regression_fixed_horizon
+2026-10-18 19:46:45 | INFO     | src.pipelines.research:feature_redundancy:368 | Feature redundancy: 4 features in 2 clusters at |rho| > 0.70, largest has 3
+2026-10-18 19:46:48 | ERROR    | entrypoint.research:main:75 | config file not found: C:\Users\BRAIN\Desktop\ML\stock-return-predictor\does\not\exist.yaml
+2026-10-18 19:47:55 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-18 19:47:55 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:47:55 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 19:47:56 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-18 19:47:56 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:47:56 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 19:47:56 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-18 19:47:56 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:47:56 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 19:47:56 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 1343 rows identical up to 2006-11-06
+2026-10-18 19:47:56 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:47:56 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,103 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 19:47:56 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-18 19:47:56 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:47:56 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 19:47:56 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-18 19:47:56 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:47:56 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 19:47:56 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 1443 rows identical up to 2006-11-07
+2026-10-18 19:47:56 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:47:56 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-10 00:00:00'), 'AAA') to (Timestamp('2007-04-23 00:00:00'), 'SPY')
+2026-10-18 19:47:57 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-18 19:47:57 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-18 19:47:57 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:47:57 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 19:47:57 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 49.4% up
+2026-10-18 19:47:57 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 1,800 rows x 3 columns, 9 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 19:47:57 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 1443 rows identical up to 2006-11-06
+2026-10-18 19:47:57 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 199 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:47:57 | INFO     | src.features.build:log_frame:140 | Feature matrix: 1,203 rows x 19 columns, 0 missing, (Timestamp('2005-10-07 00:00:00'), 'AAA') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 19:47:58 | INFO     | src.features.build:choose_fracdiff_order:88 | Fracdiff order d=0.50 (max of per-ticker d* before 2019-12-31)
+2026-10-18 19:47:58 | INFO     | src.features.build:choose_fracdiff_order:88 | Fracdiff order d=0.50 (max of per-ticker d* before 2019-12-31)
+2026-10-18 19:47:59 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 599 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 1 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-18 19:47:59 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 3 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-18 19:47:59 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 591 rows in, 2 zero-volume dropped, 1 off-calendar dropped, 5 forward filled, 7 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-18 19:47:59 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 57 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-18 19:47:59 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 1 gaps flagged, 1 returns winsorised
+2026-10-18 19:47:59 | WARNING  | src.data.cleaning:_log_report:298 | Gap flagged: AAA on 2005-06-20, return -50.43%
+2026-10-18 19:47:59 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-18 19:47:59 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-18 19:47:59 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-18 19:47:59 | INFO     | src.data.cleaning:_log_report:286 | Cleaning: 600 rows in, 0 zero-volume dropped, 0 off-calendar dropped, 0 forward filled, 0 left missing, 0 gaps flagged, 0 returns winsorised
+2026-10-18 19:47:59 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel: 600 rows x 9 columns, 2 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-02-24 00:00:00'), 'SPY')
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 744 train rows, 56 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 744 train rows, 56 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 744 train rows, 56 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 736 train rows, 64 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 736 train rows, 64 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 760 train rows, 40 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 736 train rows, 64 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 760 train rows, 40 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 760 train rows, 40 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 792 train rows, 8 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 792 train rows, 8 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 784 train rows, 16 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 784 train rows, 16 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 784 train rows, 16 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 784 train rows, 16 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 792 train rows, 8 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:47:59 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:48:00 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:48:00 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:48:00 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:48:00 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:48:00 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:48:00 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:48:00 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:48:00 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:48:00 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:48:00 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:48:00 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:48:00 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:48:00 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:48:00 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:48:00 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:48:02 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-18 19:48:02 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-18 19:48:03 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-18 19:48:03 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-18 19:48:04 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-18 19:48:04 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-18 19:48:05 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-18 19:48:05 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-18 19:48:06 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-18 19:48:07 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-18 19:48:07 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-18 19:48:07 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-18 19:48:08 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-18 19:48:08 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-18 19:48:09 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-18 19:48:09 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-18 19:48:09 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-18 19:48:10 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-18 19:48:10 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_cumulative_returns.png
+2026-10-18 19:48:11 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_return_distribution_SPY.png
+2026-10-18 19:48:11 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_rolling_volatility_SPY.png
+2026-10-18 19:48:12 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_autocorrelation_SPY.png
+2026-10-18 19:48:12 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_correlation.png
+2026-10-18 19:48:12 | INFO     | src.reporting.figures:_save:75 | Saved figure eda_volatility_regimes.png
+2026-10-18 19:48:14 | WARNING  | src.features.fracdiff:min_ffd_order:294 | noise passes ADF undifferenced (d*=0). Expected for returns; for a price series check that returns were not passed in by mistake.
+2026-10-18 19:48:14 | WARNING  | src.features.fracdiff:min_ffd_order:288 | RW: no order in [0.0] passes the ADF test
+2026-10-18 19:48:14 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-18 19:48:14 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-18 19:48:14 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-18 19:48:14 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-18 19:48:14 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 58.7% up
+2026-10-18 19:48:14 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 6,000 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2016-07-01 00:00:00'), 'SPY')
+2026-10-18 19:48:14 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 45.8%, upper 27.4%, lower 26.8%, 51.6% up
+2026-10-18 19:48:14 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 600 rows x 4 columns, 104 missing, (Timestamp('2005-01-03 00:00:00'), 'SPY') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 19:48:14 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 45.8%, upper 27.4%, lower 26.8%, 51.6% up
+2026-10-18 19:48:14 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 600 rows x 4 columns, 104 missing, (Timestamp('2005-01-03 00:00:00'), 'SPY') to (Timestamp('2007-04-20 00:00:00'), 'SPY')
+2026-10-18 19:48:14 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 47.5%, lower 29.4%, upper 23.1%, 47.5% up
+2026-10-18 19:48:14 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 800 rows x 4 columns, 208 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-18 19:48:14 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-18 19:48:14 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-18 19:48:14 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 47.5%, lower 29.4%, upper 23.1%, 47.5% up
+2026-10-18 19:48:14 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 800 rows x 4 columns, 208 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-18 19:48:14 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 48.6% up
+2026-10-18 19:48:14 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 800 rows x 3 columns, 6 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-18 19:48:14 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (fixed_horizon, decay 1.00): mean 1.000, 798 effective of 798 labels
+2026-10-18 19:48:14 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 47.5%, lower 29.4%, upper 23.1%, 47.5% up
+2026-10-18 19:48:14 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 800 rows x 4 columns, 208 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2006-07-14 00:00:00'), 'SPY')
+2026-10-18 19:48:14 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (triple_barrier, decay 1.00): mean 0.253, 189 effective of 748 labels
+2026-10-18 19:48:27 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-18 19:48:29 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-18 19:48:29 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-18 19:48:29 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-18 19:48:29 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: yfinance returned no rows for NOTAREALTICKER
+2026-10-18 19:48:29 | DEBUG    | src.data.loaders:fetch_ticker:179 | NOTAREALTICKER: stooq failed for NOTAREALTICKER: data_source='stooq' is not implemented
+2026-10-18 19:48:31 | INFO     | src.models.estimator:fit_with_weights:210 | Fitting random_forest_regression: dropped 10 rows with no label or weight
+2026-10-18 19:48:52 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 3 epochs, best validation loss 0.925529
+2026-10-18 19:48:52 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 3 epochs, best validation loss 0.925529
+2026-10-18 19:48:53 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 5 epochs, best validation loss 0.685459
+2026-10-18 19:48:53 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 5 epochs, best validation loss 0.685459
+2026-10-18 19:48:53 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 3 epochs, best validation loss 0.925529
+2026-10-18 19:48:53 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 5 epochs, best validation loss 0.685459
+2026-10-18 19:48:54 | INFO     | src.models.persistence:save_model:165 | Saved random_forest_regression to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-29\test_round_trip_gives_identica0\bundle
+2026-10-18 19:48:54 | INFO     | src.models.persistence:load_model:202 | Loaded random_forest_regression from C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-29\test_round_trip_gives_identica0\bundle (commit adf7fb34f10fd022804a735c76b30f184b38995c)
+2026-10-18 19:48:54 | INFO     | src.models.persistence:save_model:165 | Saved lightgbm_classification to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-29\test_round_trip_gives_identica1\bundle
+2026-10-18 19:48:54 | INFO     | src.models.persistence:load_model:202 | Loaded lightgbm_classification from C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-29\test_round_trip_gives_identica1\bundle (commit adf7fb34f10fd022804a735c76b30f184b38995c)
+2026-10-18 19:48:54 | INFO     | src.models.sequence:fit_lstm:210 | LSTM stopped after 5 epochs, best validation loss 0.902376
+2026-10-18 19:48:54 | INFO     | src.models.persistence:save_model:165 | Saved lstm_regression to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-29\test_round_trip_gives_identica2\bundle
+2026-10-18 19:48:54 | INFO     | src.models.persistence:load_model:202 | Loaded lstm_regression from C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-29\test_round_trip_gives_identica2\bundle (commit adf7fb34f10fd022804a735c76b30f184b38995c)
+2026-10-18 19:48:55 | INFO     | src.models.persistence:save_model:165 | Saved random_forest_regression to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-29\test_load_refuses_a_changed_fe0\bundle
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 0: test 2010-01-04 to 2010-10-08, 2370 train rows (0 purged, 30 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 1: test 2010-10-11 to 2011-07-15, 2370 train rows (0 purged, 30 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 2: test 2011-07-18 to 2012-04-20, 2370 train rows (0 purged, 30 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 3: test 2012-04-23 to 2013-01-25, 2370 train rows (0 purged, 30 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 4: test 2013-01-28 to 2013-11-01, 2400 train rows (0 purged, 0 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 0: test 2010-01-04 to 2010-10-08, 2340 train rows (0 purged, 60 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 1: test 2010-10-11 to 2011-07-15, 2340 train rows (0 purged, 60 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 2: test 2011-07-18 to 2012-04-20, 2340 train rows (0 purged, 60 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 3: test 2012-04-23 to 2013-01-25, 2340 train rows (0 purged, 60 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 4: test 2013-01-28 to 2013-11-01, 2400 train rows (0 purged, 0 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 0: test 2010-01-04 to 2010-10-08, 2250 train rows (0 purged, 150 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 1: test 2010-10-11 to 2011-07-15, 2250 train rows (0 purged, 150 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 2: test 2011-07-18 to 2012-04-20, 2250 train rows (0 purged, 150 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 3: test 2012-04-23 to 2013-01-25, 2250 train rows (0 purged, 150 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 4: test 2013-01-28 to 2013-11-01, 2400 train rows (0 purged, 0 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 0: test 2010-01-04 to 2010-08-24, 2439 train rows (0 purged, 60 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 1: test 2010-08-25 to 2011-04-14, 2439 train rows (0 purged, 60 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 2: test 2011-04-15 to 2011-12-05, 2439 train rows (0 purged, 60 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 3: test 2011-12-06 to 2012-07-25, 2439 train rows (0 purged, 60 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 4: test 2012-07-26 to 2013-03-14, 2442 train rows (0 purged, 60 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 5: test 2013-03-15 to 2013-11-01, 2502 train rows (0 purged, 0 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 0: test 2010-01-04 to 2010-08-24, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 1: test 2010-08-25 to 2011-04-14, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 2: test 2011-04-15 to 2011-12-05, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 3: test 2011-12-06 to 2012-07-25, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 4: test 2012-07-26 to 2013-03-14, 2472 train rows (0 purged, 30 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 5: test 2013-03-15 to 2013-11-01, 2502 train rows (0 purged, 0 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 0: test 2010-01-04 to 2010-08-24, 2469 train rows (12 purged, 18 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 1: test 2010-08-25 to 2011-04-14, 2457 train rows (24 purged, 18 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 2: test 2011-04-15 to 2011-12-05, 2457 train rows (24 purged, 18 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 3: test 2011-12-06 to 2012-07-25, 2457 train rows (24 purged, 18 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 4: test 2012-07-26 to 2013-03-14, 2460 train rows (24 purged, 18 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 5: test 2013-03-15 to 2013-11-01, 2490 train rows (12 purged, 0 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 0: test 2010-01-04 to 2010-08-24, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 1: test 2010-08-25 to 2011-04-14, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 2: test 2011-04-15 to 2011-12-05, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 3: test 2011-12-06 to 2012-07-25, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 4: test 2012-07-26 to 2013-03-14, 2472 train rows (0 purged, 30 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 5: test 2013-03-15 to 2013-11-01, 2502 train rows (0 purged, 0 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 0: test 2010-01-04 to 2010-12-17, 2220 train rows (0 purged, 30 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 1: test 2010-12-20 to 2011-12-02, 2220 train rows (0 purged, 30 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 2: test 2011-12-05 to 2012-11-16, 2220 train rows (0 purged, 30 embargoed)
+2026-10-18 19:48:55 | DEBUG    | src.validation.purged_cv:split:321 | Fold 3: test 2012-11-19 to 2013-11-01, 2250 train rows (0 purged, 0 embargoed)
+2026-10-18 19:48:56 | INFO     | src.validation.purged_cv:train_test_split_chronological:188 | Chronological split: 1,560 train rows to 2011-12-30, 1,440 test rows from 2012-01-02
+2026-10-18 19:48:56 | INFO     | src.validation.purged_cv:train_test_split_chronological:186 | Chronological split: purged 12 training rows
+2026-10-18 19:48:56 | INFO     | src.validation.purged_cv:train_test_split_chronological:188 | Chronological split: 1,548 train rows to 2011-12-26, 1,440 test rows from 2012-01-02
+2026-10-18 19:48:56 | INFO     | src.validation.purged_cv:train_test_split_chronological:188 | Chronological split: 1,560 train rows to 2011-12-30, 1,440 test rows from 2012-01-02
+2026-10-18 19:48:56 | INFO     | src.pipelines.research:log_step:113 | START  Preparing research data
+2026-10-18 19:48:56 | INFO     | src.features.build:choose_fracdiff_order:88 | Fracdiff order d=0.60 (max of per-ticker d* before 2007-12-31)
+2026-10-18 19:48:56 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 2163 rows identical up to 2007-10-08
+2026-10-18 19:48:56 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 139 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:48:56 | INFO     | src.features.build:log_frame:140 | Feature matrix: 2,283 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:48:56 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 49.7% up
+2026-10-18 19:48:56 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 2,700 rows x 3 columns, 9 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:48:56 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (fixed_horizon, decay 1.00): mean 1.000, 2,697 effective of 2,697 labels
+2026-10-18 19:48:56 | INFO     | src.pipelines.research:prepare_research_data:213 | Development set: 1,926 of 2,283 rows before 2008-01-01 (0 dropped at the holdout boundary)
+2026-10-18 19:48:56 | INFO     | src.pipelines.research:log_frame:140 | Research features: 1,926 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2007-12-31 00:00:00'), 'SPY')
+2026-10-18 19:48:56 | INFO     | src.pipelines.research:log_step:122 | DONE   Preparing research data (0.22s)
+2026-10-18 19:48:56 | WARNING  | src.pipelines.research:run_research:489 | Embargo of 6 days is shorter than the longest feature window (63 days): training rows just after a test block still see test-period prices
+2026-10-18 19:48:56 | INFO     | src.pipelines.research:log_step:113 | START  Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon)
+2026-10-18 19:48:56 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:48:56 | INFO     | src.pipelines.research:run_research:517 | Split 1 of 15: 1,266 train, 642 test, IC 0.0037
+2026-10-18 19:48:56 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:48:56 | INFO     | src.pipelines.research:run_research:517 | Split 2 of 15: 1,248 train, 642 test, IC -0.0184
+2026-10-18 19:48:56 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:48:56 | INFO     | src.pipelines.research:run_research:517 | Split 3 of 15: 1,248 train, 642 test, IC 0.0112
+2026-10-18 19:48:56 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:48:56 | INFO     | src.pipelines.research:run_research:517 | Split 4 of 15: 1,248 train, 642 test, IC 0.0362
+2026-10-18 19:48:56 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:48:56 | INFO     | src.pipelines.research:run_research:517 | Split 5 of 15: 1,266 train, 642 test, IC 0.0592
+2026-10-18 19:48:56 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:48:56 | INFO     | src.pipelines.research:run_research:517 | Split 6 of 15: 1,266 train, 642 test, IC 0.0571
+2026-10-18 19:48:56 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:48:56 | INFO     | src.pipelines.research:run_research:517 | Split 7 of 15: 1,248 train, 642 test, IC 0.0336
+2026-10-18 19:48:56 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:48:56 | INFO     | src.pipelines.research:run_research:517 | Split 8 of 15: 1,248 train, 642 test, IC 0.0548
+2026-10-18 19:48:56 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:48:56 | INFO     | src.pipelines.research:run_research:517 | Split 9 of 15: 1,266 train, 642 test, IC 0.0663
+2026-10-18 19:48:56 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:48:56 | INFO     | src.pipelines.research:run_research:517 | Split 10 of 15: 1,266 train, 642 test, IC 0.0250
+2026-10-18 19:48:56 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:48:56 | INFO     | src.pipelines.research:run_research:517 | Split 11 of 15: 1,248 train, 642 test, IC 0.0078
+2026-10-18 19:48:56 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:48:56 | INFO     | src.pipelines.research:run_research:517 | Split 12 of 15: 1,266 train, 642 test, IC -0.0068
+2026-10-18 19:48:56 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:48:57 | INFO     | src.pipelines.research:run_research:517 | Split 13 of 15: 1,266 train, 642 test, IC -0.0663
+2026-10-18 19:48:57 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:48:57 | INFO     | src.pipelines.research:run_research:517 | Split 14 of 15: 1,266 train, 642 test, IC 0.0057
+2026-10-18 19:48:57 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 1284 train rows, 0 removed by purge and embargo
+2026-10-18 19:48:57 | INFO     | src.pipelines.research:run_research:517 | Split 15 of 15: 1,284 train, 642 test, IC 0.0162
+2026-10-18 19:48:57 | INFO     | src.pipelines.research:log_step:122 | DONE   Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon) (0.69s)
+2026-10-18 19:48:57 | INFO     | src.pipelines.research:log_step:113 | START  Importance across folds
+2026-10-18 19:49:00 | INFO     | src.pipelines.research:log_step:122 | DONE   Importance across folds (3.51s)
+2026-10-18 19:49:00 | INFO     | src.pipelines.research:feature_redundancy:383 | Feature redundancy: 19 features in 8 clusters at |rho| > 0.70, largest has 6
+2026-10-18 19:49:00 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: research_random_forest_regression_fixed_horizon
+2026-10-18 19:49:00 | INFO     | src.pipelines.research:run_research:580 | Research research_random_forest_regression_fixed_horizon: IC 0.0072 +/- 0.0165 over 5 paths, edge over AlwaysUp +0.0121
+2026-10-18 19:49:00 | INFO     | src.pipelines.research:log_step:113 | START  Preparing research data
+2026-10-18 19:49:00 | INFO     | src.features.build:choose_fracdiff_order:88 | Fracdiff order d=0.60 (max of per-ticker d* before 2007-12-31)
+2026-10-18 19:49:01 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 2163 rows identical up to 2007-10-08
+2026-10-18 19:49:01 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 139 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:49:01 | INFO     | src.features.build:log_frame:140 | Feature matrix: 2,283 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:49:01 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 49.7% up
+2026-10-18 19:49:01 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 2,700 rows x 3 columns, 9 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:49:01 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (fixed_horizon, decay 1.00): mean 1.000, 2,697 effective of 2,697 labels
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:prepare_research_data:213 | Development set: 1,926 of 2,283 rows before 2008-01-01 (0 dropped at the holdout boundary)
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:log_frame:140 | Research features: 1,926 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2007-12-31 00:00:00'), 'SPY')
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:log_step:122 | DONE   Preparing research data (0.25s)
+2026-10-18 19:49:01 | WARNING  | src.pipelines.research:run_research:489 | Embargo of 6 days is shorter than the longest feature window (63 days): training rows just after a test block still see test-period prices
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:log_step:113 | START  Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon)
+2026-10-18 19:49:01 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:run_research:517 | Split 1 of 15: 1,266 train, 642 test, IC 0.0037
+2026-10-18 19:49:01 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:run_research:517 | Split 2 of 15: 1,248 train, 642 test, IC -0.0184
+2026-10-18 19:49:01 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:run_research:517 | Split 3 of 15: 1,248 train, 642 test, IC 0.0112
+2026-10-18 19:49:01 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:run_research:517 | Split 4 of 15: 1,248 train, 642 test, IC 0.0362
+2026-10-18 19:49:01 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:run_research:517 | Split 5 of 15: 1,266 train, 642 test, IC 0.0592
+2026-10-18 19:49:01 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:run_research:517 | Split 6 of 15: 1,266 train, 642 test, IC 0.0571
+2026-10-18 19:49:01 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:run_research:517 | Split 7 of 15: 1,248 train, 642 test, IC 0.0336
+2026-10-18 19:49:01 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:run_research:517 | Split 8 of 15: 1,248 train, 642 test, IC 0.0548
+2026-10-18 19:49:01 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:run_research:517 | Split 9 of 15: 1,266 train, 642 test, IC 0.0663
+2026-10-18 19:49:01 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:run_research:517 | Split 10 of 15: 1,266 train, 642 test, IC 0.0250
+2026-10-18 19:49:01 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:run_research:517 | Split 11 of 15: 1,248 train, 642 test, IC 0.0078
+2026-10-18 19:49:01 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:run_research:517 | Split 12 of 15: 1,266 train, 642 test, IC -0.0068
+2026-10-18 19:49:01 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:run_research:517 | Split 13 of 15: 1,266 train, 642 test, IC -0.0663
+2026-10-18 19:49:01 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:run_research:517 | Split 14 of 15: 1,266 train, 642 test, IC 0.0057
+2026-10-18 19:49:01 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 1284 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:run_research:517 | Split 15 of 15: 1,284 train, 642 test, IC 0.0162
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:log_step:122 | DONE   Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon) (0.68s)
+2026-10-18 19:49:01 | INFO     | src.pipelines.research:log_step:113 | START  Importance across folds
+2026-10-18 19:49:02 | INFO     | src.pipelines.research:log_step:122 | DONE   Importance across folds (0.05s)
+2026-10-18 19:49:02 | INFO     | src.pipelines.research:feature_redundancy:383 | Feature redundancy: 19 features in 8 clusters at |rho| > 0.70, largest has 6
+2026-10-18 19:49:02 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: research_random_forest_regression_fixed_horizon
+2026-10-18 19:49:02 | INFO     | src.pipelines.research:run_research:580 | Research research_random_forest_regression_fixed_horizon: IC 0.0072 +/- 0.0165 over 5 paths, edge over AlwaysUp +0.0121
+2026-10-18 19:49:02 | INFO     | src.pipelines.research:log_step:113 | START  Preparing research data
+2026-10-18 19:49:02 | INFO     | src.features.build:choose_fracdiff_order:88 | Fracdiff order d=0.60 (max of per-ticker d* before 2007-12-31)
+2026-10-18 19:49:02 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 2163 rows identical up to 2007-10-08
+2026-10-18 19:49:02 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 139 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:49:02 | INFO     | src.features.build:log_frame:140 | Feature matrix: 2,283 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:49:02 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 46.4%, lower 27.8%, upper 25.7%, 49.6% up
+2026-10-18 19:49:02 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 2,700 rows x 4 columns, 312 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:49:02 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (triple_barrier, decay 1.00): mean 0.256, 672 effective of 2,622 labels
+2026-10-18 19:49:02 | INFO     | src.pipelines.research:prepare_research_data:213 | Development set: 1,919 of 2,283 rows before 2008-01-01 (7 dropped at the holdout boundary)
+2026-10-18 19:49:02 | INFO     | src.pipelines.research:log_frame:140 | Research features: 1,919 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2007-12-28 00:00:00'), 'SPY')
+2026-10-18 19:49:02 | INFO     | src.pipelines.research:log_step:122 | DONE   Preparing research data (0.45s)
+2026-10-18 19:49:02 | WARNING  | src.pipelines.research:run_research:489 | Embargo of 6 days is shorter than the longest feature window (63 days): training rows just after a test block still see test-period prices
+2026-10-18 19:49:02 | INFO     | src.pipelines.research:log_step:113 | START  Fitting 15 CPCV splits (research_random_forest_regression_triple_barrier)
+2026-10-18 19:49:02 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 1259 train rows, 18 removed by purge and embargo
+2026-10-18 19:49:02 | INFO     | src.pipelines.research:run_research:517 | Split 1 of 15: 1,259 train, 642 test, IC -0.0041
+2026-10-18 19:49:02 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 1230 train rows, 47 removed by purge and embargo
+2026-10-18 19:49:02 | INFO     | src.pipelines.research:run_research:517 | Split 2 of 15: 1,230 train, 642 test, IC -0.0289
+2026-10-18 19:49:02 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 1234 train rows, 43 removed by purge and embargo
+2026-10-18 19:49:02 | INFO     | src.pipelines.research:run_research:517 | Split 3 of 15: 1,234 train, 642 test, IC -0.0225
+2026-10-18 19:49:02 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 1235 train rows, 42 removed by purge and embargo
+2026-10-18 19:49:02 | INFO     | src.pipelines.research:run_research:517 | Split 4 of 15: 1,235 train, 642 test, IC -0.0042
+2026-10-18 19:49:02 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 1256 train rows, 28 removed by purge and embargo
+2026-10-18 19:49:02 | INFO     | src.pipelines.research:run_research:517 | Split 5 of 15: 1,256 train, 635 test, IC 0.0368
+2026-10-18 19:49:02 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 1250 train rows, 27 removed by purge and embargo
+2026-10-18 19:49:02 | INFO     | src.pipelines.research:run_research:517 | Split 6 of 15: 1,250 train, 642 test, IC -0.0766
+2026-10-18 19:49:02 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 1225 train rows, 52 removed by purge and embargo
+2026-10-18 19:49:02 | INFO     | src.pipelines.research:run_research:517 | Split 7 of 15: 1,225 train, 642 test, IC -0.0054
+2026-10-18 19:49:02 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 1226 train rows, 51 removed by purge and embargo
+2026-10-18 19:49:02 | INFO     | src.pipelines.research:run_research:517 | Split 8 of 15: 1,226 train, 642 test, IC -0.0611
+2026-10-18 19:49:02 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 1247 train rows, 37 removed by purge and embargo
+2026-10-18 19:49:03 | INFO     | src.pipelines.research:run_research:517 | Split 9 of 15: 1,247 train, 635 test, IC 0.0122
+2026-10-18 19:49:03 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 1248 train rows, 29 removed by purge and embargo
+2026-10-18 19:49:03 | INFO     | src.pipelines.research:run_research:517 | Split 10 of 15: 1,248 train, 642 test, IC 0.0437
+2026-10-18 19:49:03 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 1224 train rows, 53 removed by purge and embargo
+2026-10-18 19:49:03 | INFO     | src.pipelines.research:run_research:517 | Split 11 of 15: 1,224 train, 642 test, IC 0.0234
+2026-10-18 19:49:03 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 1245 train rows, 39 removed by purge and embargo
+2026-10-18 19:49:03 | INFO     | src.pipelines.research:run_research:517 | Split 12 of 15: 1,245 train, 635 test, IC -0.0128
+2026-10-18 19:49:03 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 1252 train rows, 25 removed by purge and embargo
+2026-10-18 19:49:03 | INFO     | src.pipelines.research:run_research:517 | Split 13 of 15: 1,252 train, 642 test, IC -0.0126
+2026-10-18 19:49:03 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 1249 train rows, 35 removed by purge and embargo
+2026-10-18 19:49:03 | INFO     | src.pipelines.research:run_research:517 | Split 14 of 15: 1,249 train, 635 test, IC 0.0385
+2026-10-18 19:49:03 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 1278 train rows, 6 removed by purge and embargo
+2026-10-18 19:49:03 | INFO     | src.pipelines.research:run_research:517 | Split 15 of 15: 1,278 train, 635 test, IC -0.0463
+2026-10-18 19:49:03 | INFO     | src.pipelines.research:log_step:122 | DONE   Fitting 15 CPCV splits (research_random_forest_regression_triple_barrier) (0.93s)
+2026-10-18 19:49:03 | INFO     | src.pipelines.research:log_step:113 | START  Importance across folds
+2026-10-18 19:49:03 | INFO     | src.pipelines.research:log_step:122 | DONE   Importance across folds (0.04s)
+2026-10-18 19:49:03 | INFO     | src.pipelines.research:feature_redundancy:383 | Feature redundancy: 19 features in 8 clusters at |rho| > 0.70, largest has 6
+2026-10-18 19:49:03 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: research_random_forest_regression_triple_barrier
+2026-10-18 19:49:03 | INFO     | src.pipelines.research:run_research:580 | Research research_random_forest_regression_triple_barrier: IC -0.0356 +/- 0.0153 over 5 paths, edge over AlwaysUp +0.0007
+2026-10-18 19:49:03 | INFO     | src.pipelines.research:log_step:113 | START  Preparing research data
+2026-10-18 19:49:03 | INFO     | src.features.build:choose_fracdiff_order:88 | Fracdiff order d=0.60 (max of per-ticker d* before 2007-12-31)
+2026-10-18 19:49:04 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 2163 rows identical up to 2007-10-08
+2026-10-18 19:49:04 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 139 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:49:04 | INFO     | src.features.build:log_frame:140 | Feature matrix: 2,283 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:49:04 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 49.7% up
+2026-10-18 19:49:04 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 2,700 rows x 3 columns, 9 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:49:04 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (fixed_horizon, decay 1.00): mean 1.000, 2,697 effective of 2,697 labels
+2026-10-18 19:49:04 | INFO     | src.pipelines.research:prepare_research_data:213 | Development set: 1,926 of 2,283 rows before 2008-01-01 (0 dropped at the holdout boundary)
+2026-10-18 19:49:04 | INFO     | src.pipelines.research:log_frame:140 | Research features: 1,926 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2007-12-31 00:00:00'), 'SPY')
+2026-10-18 19:49:04 | INFO     | src.pipelines.research:log_step:122 | DONE   Preparing research data (0.29s)
+2026-10-18 19:49:04 | WARNING  | src.pipelines.research:run_research:489 | Embargo of 6 days is shorter than the longest feature window (63 days): training rows just after a test block still see test-period prices
+2026-10-18 19:49:04 | INFO     | src.pipelines.research:log_step:113 | START  Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon)
+2026-10-18 19:49:04 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:49:04 | ERROR    | src.pipelines.research:log_step:119 | FAILED Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon) after 0.00s
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\logger.py", line 117, in log_step
+    yield
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 507, in run_research
+    model = build_estimator(config)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\tests\test_research.py", line 113, in broken
+    raise RuntimeError("estimator exploded")
+RuntimeError: estimator exploded
+2026-10-18 19:49:04 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: research_random_forest_regression_fixed_horizon
+2026-10-18 19:49:04 | INFO     | src.features.build:choose_fracdiff_order:88 | Fracdiff order d=0.60 (max of per-ticker d* before 2007-12-31)
+2026-10-18 19:49:04 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 2163 rows identical up to 2007-10-08
+2026-10-18 19:49:04 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 139 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:49:04 | INFO     | src.features.build:log_frame:140 | Feature matrix: 2,283 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:49:04 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 49.7% up
+2026-10-18 19:49:04 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 2,700 rows x 3 columns, 9 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:49:04 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (fixed_horizon, decay 1.00): mean 1.000, 2,697 effective of 2,697 labels
+2026-10-18 19:49:04 | INFO     | src.pipelines.research:prepare_research_data:213 | Development set: 1,926 of 2,283 rows before 2008-01-01 (0 dropped at the holdout boundary)
+2026-10-18 19:49:04 | INFO     | src.pipelines.research:log_frame:140 | Research features: 1,926 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2007-12-31 00:00:00'), 'SPY')
+2026-10-18 19:49:04 | INFO     | src.features.build:choose_fracdiff_order:88 | Fracdiff order d=0.60 (max of per-ticker d* before 2007-12-31)
+2026-10-18 19:49:04 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 2163 rows identical up to 2007-10-08
+2026-10-18 19:49:04 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 139 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:49:04 | INFO     | src.features.build:log_frame:140 | Feature matrix: 2,283 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:49:04 | INFO     | src.labelling.triple_barrier:label_triple_barrier:155 | Triple barrier labels: vertical 46.4%, lower 27.8%, upper 25.7%, 49.6% up
+2026-10-18 19:49:04 | INFO     | src.labelling.triple_barrier:log_frame:140 | Labels: 2,700 rows x 4 columns, 312 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:49:04 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (triple_barrier, decay 1.00): mean 0.256, 672 effective of 2,622 labels
+2026-10-18 19:49:04 | INFO     | src.pipelines.research:prepare_research_data:213 | Development set: 1,919 of 2,283 rows before 2008-01-01 (7 dropped at the holdout boundary)
+2026-10-18 19:49:04 | INFO     | src.pipelines.research:log_frame:140 | Research features: 1,919 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2007-12-28 00:00:00'), 'SPY')
+2026-10-18 19:49:04 | INFO     | src.pipelines.research:log_step:113 | START  Preparing research data
+2026-10-18 19:49:04 | INFO     | src.features.build:choose_fracdiff_order:88 | Fracdiff order d=0.60 (max of per-ticker d* before 2007-12-31)
+2026-10-18 19:49:04 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 2163 rows identical up to 2007-10-08
+2026-10-18 19:49:04 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 139 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:49:04 | INFO     | src.features.build:log_frame:140 | Feature matrix: 2,283 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:49:04 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 49.7% up
+2026-10-18 19:49:04 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 2,700 rows x 3 columns, 9 missing, (Timestamp('2005-01-03 00:00:00'), 'AAA') to (Timestamp('2008-06-13 00:00:00'), 'SPY')
+2026-10-18 19:49:04 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (fixed_horizon, decay 1.00): mean 1.000, 2,697 effective of 2,697 labels
+2026-10-18 19:49:04 | INFO     | src.pipelines.research:prepare_research_data:213 | Development set: 1,926 of 2,283 rows before 2008-01-01 (0 dropped at the holdout boundary)
+2026-10-18 19:49:04 | INFO     | src.pipelines.research:log_frame:140 | Research features: 1,926 rows x 19 columns, 0 missing, (Timestamp('2005-07-15 00:00:00'), 'AAA') to (Timestamp('2007-12-31 00:00:00'), 'SPY')
+2026-10-18 19:49:04 | INFO     | src.pipelines.research:log_step:122 | DONE   Preparing research data (0.24s)
+2026-10-18 19:49:04 | WARNING  | src.pipelines.research:run_research:489 | Embargo of 6 days is shorter than the longest feature window (63 days): training rows just after a test block still see test-period prices
+2026-10-18 19:49:04 | INFO     | src.pipelines.research:log_step:113 | START  Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon)
+2026-10-18 19:49:04 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:49:04 | INFO     | src.pipelines.research:run_research:517 | Split 1 of 15: 1,266 train, 642 test, IC 0.0037
+2026-10-18 19:49:04 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:run_research:517 | Split 2 of 15: 1,248 train, 642 test, IC -0.0184
+2026-10-18 19:49:05 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:run_research:517 | Split 3 of 15: 1,248 train, 642 test, IC 0.0112
+2026-10-18 19:49:05 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:run_research:517 | Split 4 of 15: 1,248 train, 642 test, IC 0.0362
+2026-10-18 19:49:05 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:run_research:517 | Split 5 of 15: 1,266 train, 642 test, IC 0.0592
+2026-10-18 19:49:05 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:run_research:517 | Split 6 of 15: 1,266 train, 642 test, IC 0.0571
+2026-10-18 19:49:05 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:run_research:517 | Split 7 of 15: 1,248 train, 642 test, IC 0.0336
+2026-10-18 19:49:05 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:run_research:517 | Split 8 of 15: 1,248 train, 642 test, IC 0.0548
+2026-10-18 19:49:05 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:run_research:517 | Split 9 of 15: 1,266 train, 642 test, IC 0.0663
+2026-10-18 19:49:05 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:run_research:517 | Split 10 of 15: 1,266 train, 642 test, IC 0.0250
+2026-10-18 19:49:05 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 1248 train rows, 36 removed by purge and embargo
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:run_research:517 | Split 11 of 15: 1,248 train, 642 test, IC 0.0078
+2026-10-18 19:49:05 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:run_research:517 | Split 12 of 15: 1,266 train, 642 test, IC -0.0068
+2026-10-18 19:49:05 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:run_research:517 | Split 13 of 15: 1,266 train, 642 test, IC -0.0663
+2026-10-18 19:49:05 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 1266 train rows, 18 removed by purge and embargo
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:run_research:517 | Split 14 of 15: 1,266 train, 642 test, IC 0.0057
+2026-10-18 19:49:05 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 1284 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:run_research:517 | Split 15 of 15: 1,284 train, 642 test, IC 0.0162
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:log_step:122 | DONE   Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon) (0.69s)
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:log_step:113 | START  Importance across folds
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:log_step:122 | DONE   Importance across folds (0.03s)
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:feature_redundancy:383 | Feature redundancy: 19 features in 8 clusters at |rho| > 0.70, largest has 6
+2026-10-18 19:49:05 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: research_random_forest_regression_fixed_horizon
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:run_research:580 | Research research_random_forest_regression_fixed_horizon: IC 0.0072 +/- 0.0165 over 5 paths, edge over AlwaysUp +0.0121
+2026-10-18 19:49:05 | INFO     | src.pipelines.research:save:140 | Saved 7 research tables to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-29\test_save_writes_every_table0\out\research_random_forest_regression_fixed_horizon
+2026-10-18 19:49:06 | INFO     | src.pipelines.research:feature_redundancy:383 | Feature redundancy: 4 features in 2 clusters at |rho| > 0.70, largest has 3
+2026-10-18 19:49:08 | ERROR    | entrypoint.research:main:75 | config file not found: C:\Users\BRAIN\Desktop\ML\stock-return-predictor\does\not\exist.yaml
+2026-10-18 19:49:09 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-18 19:49:09 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-18 19:49:09 | INFO     | src.reporting.stationarity:stationarity_table:114 | Stationarity: 0 of 2 log prices stationary, 2 of 2 returns, median d* 0.50
+2026-10-18 19:49:09 | INFO     | src.reporting.stationarity:write_stationarity_table:140 | Saved stationarity table to C:\Users\BRAIN\AppData\Local\Temp\pytest-of-BRAIN\pytest-29\test_table_is_written0\stationarity.csv
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: first
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: second
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: third
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 5 logged: t4
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: rf
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: before_restart
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: after_restart
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: rf
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: old
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: new
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: c
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: low
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: high
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: t0
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: t1
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 3 logged: t2
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 4 logged: t3
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: only
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: a
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 2 logged: b
+2026-10-18 19:49:10 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: with_config
+2026-10-18 19:49:11 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 0 flagged
+2026-10-18 19:49:11 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-18 19:49:11 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 300 bars short of SPY
+2026-10-18 19:49:11 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-18 19:49:11 | WARNING  | src.data.universe:validate_universe:241 | BBB flagged: 10 bars short of SPY
+2026-10-18 19:49:11 | INFO     | src.data.universe:validate_universe:234 | Universe: 3 tickers, 600 expected bars each, 1 flagged
+2026-10-18 19:49:11 | WARNING  | src.data.universe:validate_universe:241 | AAA flagged: fewer than 500 bars; 200 bars short of SPY
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 0: test 2010-01-04 to 2010-10-08, 2370 train rows (0 purged, 30 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 1: test 2010-10-11 to 2011-07-15, 2370 train rows (0 purged, 30 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 2: test 2011-07-18 to 2012-04-20, 2370 train rows (0 purged, 30 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 3: test 2012-04-23 to 2013-01-25, 2370 train rows (0 purged, 30 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 4: test 2013-01-28 to 2013-11-01, 2400 train rows (0 purged, 0 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 0: test 2010-01-04 to 2010-10-08, 2340 train rows (0 purged, 60 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 1: test 2010-10-11 to 2011-07-15, 2340 train rows (0 purged, 60 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 2: test 2011-07-18 to 2012-04-20, 2340 train rows (0 purged, 60 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 3: test 2012-04-23 to 2013-01-25, 2340 train rows (0 purged, 60 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 4: test 2013-01-28 to 2013-11-01, 2400 train rows (0 purged, 0 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 0: test 2010-01-04 to 2010-10-08, 2250 train rows (0 purged, 150 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 1: test 2010-10-11 to 2011-07-15, 2250 train rows (0 purged, 150 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 2: test 2011-07-18 to 2012-04-20, 2250 train rows (0 purged, 150 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 3: test 2012-04-23 to 2013-01-25, 2250 train rows (0 purged, 150 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 4: test 2013-01-28 to 2013-11-01, 2400 train rows (0 purged, 0 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 0: test 2010-01-04 to 2010-08-24, 2439 train rows (0 purged, 60 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 1: test 2010-08-25 to 2011-04-14, 2439 train rows (0 purged, 60 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 2: test 2011-04-15 to 2011-12-05, 2439 train rows (0 purged, 60 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 3: test 2011-12-06 to 2012-07-25, 2439 train rows (0 purged, 60 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 4: test 2012-07-26 to 2013-03-14, 2442 train rows (0 purged, 60 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 5: test 2013-03-15 to 2013-11-01, 2502 train rows (0 purged, 0 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 0: test 2010-01-04 to 2010-08-24, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 1: test 2010-08-25 to 2011-04-14, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 2: test 2011-04-15 to 2011-12-05, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 3: test 2011-12-06 to 2012-07-25, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 4: test 2012-07-26 to 2013-03-14, 2472 train rows (0 purged, 30 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 5: test 2013-03-15 to 2013-11-01, 2502 train rows (0 purged, 0 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 0: test 2010-01-04 to 2010-08-24, 2469 train rows (12 purged, 18 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 1: test 2010-08-25 to 2011-04-14, 2457 train rows (24 purged, 18 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 2: test 2011-04-15 to 2011-12-05, 2457 train rows (24 purged, 18 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 3: test 2011-12-06 to 2012-07-25, 2457 train rows (24 purged, 18 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 4: test 2012-07-26 to 2013-03-14, 2460 train rows (24 purged, 18 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 5: test 2013-03-15 to 2013-11-01, 2490 train rows (12 purged, 0 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 0: test 2010-01-04 to 2010-08-24, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 1: test 2010-08-25 to 2011-04-14, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 2: test 2011-04-15 to 2011-12-05, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 3: test 2011-12-06 to 2012-07-25, 2469 train rows (0 purged, 30 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 4: test 2012-07-26 to 2013-03-14, 2472 train rows (0 purged, 30 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 5: test 2013-03-15 to 2013-11-01, 2502 train rows (0 purged, 0 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 0: test 2010-01-04 to 2010-12-17, 2220 train rows (0 purged, 30 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 1: test 2010-12-20 to 2011-12-02, 2220 train rows (0 purged, 30 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 2: test 2011-12-05 to 2012-11-16, 2220 train rows (0 purged, 30 embargoed)
+2026-10-18 19:49:25 | DEBUG    | src.validation.purged_cv:split:321 | Fold 3: test 2012-11-19 to 2013-11-01, 2250 train rows (0 purged, 0 embargoed)
+2026-10-18 19:49:25 | INFO     | src.validation.purged_cv:train_test_split_chronological:188 | Chronological split: 1,560 train rows to 2011-12-30, 1,440 test rows from 2012-01-02
+2026-10-18 19:49:25 | INFO     | src.validation.purged_cv:train_test_split_chronological:186 | Chronological split: purged 12 training rows
+2026-10-18 19:49:25 | INFO     | src.validation.purged_cv:train_test_split_chronological:188 | Chronological split: 1,548 train rows to 2011-12-26, 1,440 test rows from 2012-01-02
+2026-10-18 19:49:25 | INFO     | src.validation.purged_cv:train_test_split_chronological:188 | Chronological split: 1,560 train rows to 2011-12-30, 1,440 test rows from 2012-01-02
+2026-10-18 19:49:25 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:25 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:25 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:25 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:25 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:25 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:25 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:25 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:25 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:25 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:25 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:25 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:25 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:25 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:25 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:25 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:25 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 744 train rows, 56 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 744 train rows, 56 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 744 train rows, 56 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 736 train rows, 64 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 736 train rows, 64 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 760 train rows, 40 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 736 train rows, 64 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 760 train rows, 40 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 760 train rows, 40 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 792 train rows, 8 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 792 train rows, 8 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 784 train rows, 16 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 784 train rows, 16 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 784 train rows, 16 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 768 train rows, 32 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 784 train rows, 16 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 792 train rows, 8 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 776 train rows, 24 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 788 train rows, 12 removed by purge and embargo
+2026-10-18 19:49:26 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 800 train rows, 0 removed by purge and embargo
+2026-10-18 19:49:39 | INFO     | __main__:log_config:157 | Config       : C:\Users\BRAIN\Desktop\ML\stock-return-predictor\config\config.yaml
+2026-10-18 19:49:39 | INFO     | __main__:log_config:158 | Universe     : 11 tickers, 2005-01-01 to 2024-12-31
+2026-10-18 19:49:39 | INFO     | __main__:log_config:164 | Labelling    : fixed_horizon (labels overlap: False)
+2026-10-18 19:49:39 | INFO     | __main__:log_config:169 | Estimator    : random_forest
+2026-10-18 19:49:39 | INFO     | __main__:log_config:170 | Embargo      : 1.0% of the sample
+2026-10-18 19:49:39 | INFO     | __main__:log_config:171 | Round trip   : 0.100% per trade
+2026-10-18 19:49:39 | INFO     | src.data.cleaning:log_frame:140 | Cleaned panel (from disk): 55,352 rows x 9 columns, 11 missing, (Timestamp('2005-01-03 00:00:00'), 'AAPL') to (Timestamp('2024-12-30 00:00:00'), 'XOM')
+2026-10-18 19:49:39 | INFO     | src.pipelines.research:log_step:113 | START  Preparing research data
+2026-10-18 19:49:40 | INFO     | src.features.build:choose_fracdiff_order:88 | Fracdiff order d=0.60 (max of per-ticker d* before 2019-12-31)
+2026-10-18 19:49:41 | INFO     | src.features.build:assert_no_lookahead:194 | Look-ahead check passed: 44286 rows identical up to 2020-12-29
+2026-10-18 19:49:41 | INFO     | src.features.build:build_features:249 | Features: 19 columns, 139 rows dropped as warm-up per ticker, 0 rows with a gap
+2026-10-18 19:49:41 | INFO     | src.features.build:log_frame:140 | Feature matrix: 53,823 rows x 19 columns, 0 missing, (Timestamp('2005-07-22 00:00:00'), 'AAPL') to (Timestamp('2024-12-30 00:00:00'), 'XOM')
+2026-10-18 19:49:41 | INFO     | src.labelling.fixed_horizon:label_fixed_horizon:93 | Fixed horizon labels: 1 day horizon, 51.9% up
+2026-10-18 19:49:41 | INFO     | src.labelling.fixed_horizon:log_frame:140 | Labels: 55,352 rows x 3 columns, 33 missing, (Timestamp('2005-01-03 00:00:00'), 'AAPL') to (Timestamp('2024-12-30 00:00:00'), 'XOM')
+2026-10-18 19:49:41 | INFO     | src.labelling.sample_weights:sample_weights:148 | Sample weights (fixed_horizon, decay 1.00): mean 1.000, 55,341 effective of 55,341 labels
+2026-10-18 19:49:41 | INFO     | src.pipelines.research:prepare_research_data:213 | Development set: 39,996 of 53,823 rows before 2020-01-01 (0 dropped at the holdout boundary)
+2026-10-18 19:49:41 | INFO     | src.pipelines.research:log_frame:140 | Research features: 39,996 rows x 19 columns, 0 missing, (Timestamp('2005-07-22 00:00:00'), 'AAPL') to (Timestamp('2019-12-31 00:00:00'), 'XOM')
+2026-10-18 19:49:41 | INFO     | src.pipelines.research:log_step:122 | DONE   Preparing research data (1.51s)
+2026-10-18 19:49:41 | WARNING  | src.pipelines.research:run_research:489 | Embargo of 36 days is shorter than the longest feature window (63 days): training rows just after a test block still see test-period prices
+2026-10-18 19:49:41 | INFO     | src.pipelines.research:log_step:113 | START  Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon)
+2026-10-18 19:49:41 | DEBUG    | src.validation.cpcv:split:168 | Split 0, test groups (0, 1): 26268 train rows, 396 removed by purge and embargo
+2026-10-18 19:49:49 | INFO     | src.pipelines.research:run_research:517 | Split 1 of 15: 26,268 train, 13,332 test, IC 0.0207
+2026-10-18 19:49:49 | DEBUG    | src.validation.cpcv:split:168 | Split 1, test groups (0, 2): 25872 train rows, 792 removed by purge and embargo
+2026-10-18 19:49:56 | INFO     | src.pipelines.research:run_research:517 | Split 2 of 15: 25,872 train, 13,332 test, IC 0.0147
+2026-10-18 19:49:56 | DEBUG    | src.validation.cpcv:split:168 | Split 2, test groups (0, 3): 25872 train rows, 792 removed by purge and embargo
+2026-10-18 19:50:05 | INFO     | src.pipelines.research:run_research:517 | Split 3 of 15: 25,872 train, 13,332 test, IC 0.0214
+2026-10-18 19:50:05 | DEBUG    | src.validation.cpcv:split:168 | Split 3, test groups (0, 4): 25872 train rows, 792 removed by purge and embargo
+2026-10-18 19:50:12 | INFO     | src.pipelines.research:run_research:517 | Split 4 of 15: 25,872 train, 13,332 test, IC 0.0248
+2026-10-18 19:50:12 | DEBUG    | src.validation.cpcv:split:168 | Split 4, test groups (0, 5): 26268 train rows, 396 removed by purge and embargo
+2026-10-18 19:50:20 | INFO     | src.pipelines.research:run_research:517 | Split 5 of 15: 26,268 train, 13,332 test, IC 0.0066
+2026-10-18 19:50:20 | DEBUG    | src.validation.cpcv:split:168 | Split 5, test groups (1, 2): 26268 train rows, 396 removed by purge and embargo
+2026-10-18 19:50:27 | INFO     | src.pipelines.research:run_research:517 | Split 6 of 15: 26,268 train, 13,332 test, IC 0.0044
+2026-10-18 19:50:27 | DEBUG    | src.validation.cpcv:split:168 | Split 6, test groups (1, 3): 25872 train rows, 792 removed by purge and embargo
+2026-10-18 19:50:35 | INFO     | src.pipelines.research:run_research:517 | Split 7 of 15: 25,872 train, 13,332 test, IC 0.0142
+2026-10-18 19:50:35 | DEBUG    | src.validation.cpcv:split:168 | Split 7, test groups (1, 4): 25872 train rows, 792 removed by purge and embargo
+2026-10-18 19:50:41 | INFO     | src.pipelines.research:run_research:517 | Split 8 of 15: 25,872 train, 13,332 test, IC 0.0059
+2026-10-18 19:50:41 | DEBUG    | src.validation.cpcv:split:168 | Split 8, test groups (1, 5): 26268 train rows, 396 removed by purge and embargo
+2026-10-18 19:50:49 | INFO     | src.pipelines.research:run_research:517 | Split 9 of 15: 26,268 train, 13,332 test, IC 0.0191
+2026-10-18 19:50:49 | DEBUG    | src.validation.cpcv:split:168 | Split 9, test groups (2, 3): 26268 train rows, 396 removed by purge and embargo
+2026-10-18 19:50:57 | INFO     | src.pipelines.research:run_research:517 | Split 10 of 15: 26,268 train, 13,332 test, IC -0.0021
+2026-10-18 19:50:57 | DEBUG    | src.validation.cpcv:split:168 | Split 10, test groups (2, 4): 25872 train rows, 792 removed by purge and embargo
+2026-10-18 19:51:04 | INFO     | src.pipelines.research:run_research:517 | Split 11 of 15: 25,872 train, 13,332 test, IC 0.0278
+2026-10-18 19:51:05 | DEBUG    | src.validation.cpcv:split:168 | Split 11, test groups (2, 5): 26268 train rows, 396 removed by purge and embargo
+2026-10-18 19:51:12 | INFO     | src.pipelines.research:run_research:517 | Split 12 of 15: 26,268 train, 13,332 test, IC 0.0020
+2026-10-18 19:51:12 | DEBUG    | src.validation.cpcv:split:168 | Split 12, test groups (3, 4): 26268 train rows, 396 removed by purge and embargo
+2026-10-18 19:51:19 | INFO     | src.pipelines.research:run_research:517 | Split 13 of 15: 26,268 train, 13,332 test, IC 0.0203
+2026-10-18 19:51:19 | DEBUG    | src.validation.cpcv:split:168 | Split 13, test groups (3, 5): 26268 train rows, 396 removed by purge and embargo
+2026-10-18 19:51:27 | INFO     | src.pipelines.research:run_research:517 | Split 14 of 15: 26,268 train, 13,332 test, IC -0.0046
+2026-10-18 19:51:27 | DEBUG    | src.validation.cpcv:split:168 | Split 14, test groups (4, 5): 26664 train rows, 0 removed by purge and embargo
+2026-10-18 19:51:35 | INFO     | src.pipelines.research:run_research:517 | Split 15 of 15: 26,664 train, 13,332 test, IC 0.0095
+2026-10-18 19:51:35 | INFO     | src.pipelines.research:log_step:122 | DONE   Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon) (113.70s)
+2026-10-18 19:51:36 | INFO     | src.pipelines.research:log_step:113 | START  Importance across folds
+2026-10-18 19:53:26 | INFO     | src.pipelines.research:log_step:122 | DONE   Importance across folds (110.63s)
+2026-10-18 19:53:27 | INFO     | src.pipelines.research:feature_redundancy:383 | Feature redundancy: 19 features in 8 clusters at |rho| > 0.70, largest has 5
+2026-10-18 19:53:27 | INFO     | src.evaluation.trial_log:log_trial:210 | Trial 1 logged: research_random_forest_regression_fixed_horizon
+2026-10-18 19:53:27 | INFO     | src.pipelines.research:run_research:580 | Research research_random_forest_regression_fixed_horizon: IC 0.0043 +/- 0.0047 over 5 paths, edge over AlwaysUp +0.0003
+2026-10-18 19:53:27 | INFO     | src.pipelines.research:save:140 | Saved 7 research tables to C:\Users\BRAIN\Desktop\ML\stock-return-predictor\reports\results\research\research_random_forest_regression_fixed_horizon

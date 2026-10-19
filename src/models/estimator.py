@@ -224,6 +224,7 @@ def feature_importance(
     X: pd.DataFrame | None = None,
     y: pd.Series | None = None,
     n_repeats: int = 5,
+    scoring: Any = None,
 ) -> pd.DataFrame:
     """Split-based and, when data is given, permutation importance.
 
@@ -238,6 +239,10 @@ def feature_importance(
         X: Held-out features for permutation importance.
         y: Held-out target for permutation importance.
         n_repeats: Shuffles per feature.
+        scoring: Scorer for permutation importance. None uses the
+            estimator's own score (R squared or accuracy); the research
+            pipeline passes an IC scorer, since R squared on daily returns is
+            dominated by noise.
 
     Returns:
         One row per feature, sorted by split importance, with columns split
@@ -263,6 +268,7 @@ def feature_importance(
             model._target(y),
             n_repeats=n_repeats,
             random_state=model.seed,
+            scoring=scoring,
         )
         table["permutation"] = result.importances_mean
         table["permutation_std"] = result.importances_std

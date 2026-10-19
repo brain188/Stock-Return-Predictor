@@ -75,7 +75,8 @@ def choose_fracdiff_order(panel: pd.DataFrame, config: Config) -> float:
         1.0 (plain log returns) if any ticker has no passing order.
     """
     prices = panel[config.data.price_column].unstack("ticker")
-    history = np.log(prices.loc[: pd.Timestamp(config.validation.test_start)])
+    # Strictly before test_start: .loc slicing would include the first test day.
+    history = np.log(prices[prices.index < pd.Timestamp(config.validation.test_start)])
 
     orders = {ticker: min_ffd_order(history[ticker].dropna(), config=config) for ticker in history}
 
