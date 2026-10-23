@@ -63,6 +63,47 @@ def feature_names(config: Config) -> list[str]:
     return names
 
 
+def feature_windows(config: Config, d: float | None = None) -> dict[str, int]:
+    """Trading dates of history behind each feature, in feature_names order.
+
+    A training row this many dates or fewer after a test block still has
+    test-period data inside that feature. The validation diagnostics compare
+    these against the embargo. RSI uses Wilder smoothing, which is recursive,
+    so its window is where the weights start rather than where they end:
+    a price 36 dates back still carries about 7% of the weight of today's.
+
+    Args:
+        config: Supplies the feature windows.
+        d: Fracdiff order; its window is the number of weights above the
+            threshold, less one. Without d, fracdiff gets the longest
+            configured window as a floor.
+
+    Returns:
+        Feature name to window length.
+    """
+    f = config.features
+    short, long = f.vol_ratio_windows
+
+    windows = {f"ret_{lag}d": lag for lag in f.lagged_returns}
+    windows |= {f"px_over_ma_{w}": w for w in f.moving_averages}
+    windows |= {f"vol_{w}d": w for w in f.volatility_windows}
+    windows[f"rsi_{f.rsi_window}"] = f.rsi_window
+    windows |= {f"mom_{w}d": w for w in f.momentum_windows}
+    windows[f"dist_high_{f.high_window}"] = f.high_window
+    windows[f"vol_ratio_{short}_{long}"] = long
+    windows[f"volume_ratio_{f.volume_window}"] = f.volume_window
+
+    if f.fracdiff.enabled:
+        width = (
+            len(fracdiff_weights(d, f.fracdiff.weight_threshold)) - 1
+            if d is not None
+            else f.max_lookback
+        )
+        windows["fracdiff"] = width
+
+    return {name: windows[name] for name in feature_names(config)}
+
+
 def choose_fracdiff_order(panel: pd.DataFrame, config: Config) -> float:
     """The differencing order used for every ticker.
 

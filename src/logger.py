@@ -167,5 +167,7 @@ def log_config(logger: logging.Logger, config: Any) -> None:
         config.labelling.labels_overlap,
     )
     logger.info("Estimator    : %s", config.model.estimator)
-    logger.info("Embargo      : %.1f%% of the sample", config.validation.embargo_pct * 100)
+    logger.info(
+        "Embargo      : %s trading dates after each test block", config.validation.embargo_days
+    )
     logger.info("Round trip   : %.3f%% per trade", config.backtest.round_trip_cost * 100)

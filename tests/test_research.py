@@ -25,10 +25,19 @@ from src.pipelines.research import (
     feature_redundancy,
     ic_across_regimes,
     importance_across_folds,
+    label_span_days,
+    leakage_diagnostics,
     prepare_research_data,
+    research_fingerprint,
+    run_name,
     run_research,
+    split_fields,
+    split_report,
     with_overrides,
+    write_split_report,
 )
+from src.validation import cpcv as cpcv_module
+from src.validation.purged_cv import LeakageError
 from tests.conftest import make_bars
 
 TICKERS = ["SPY", "AAA", "BBB"]
@@ -146,9 +155,99 @@ def test_save_writes_every_table(panel, small_config, log, tmp_path):
         "comparison.csv",
         "ic_by_year.csv",
         "ic_by_regime.csv",
+        "cs_ic_daily.csv",
+        "predictions.parquet",
         "redundancy.csv",
+        "splits.csv",
         "importance.csv",
     }
+
+
+# --- Leakage controls -------------------------------------------------------
+
+
+def test_every_split_is_recorded_with_its_row_counts(panel, small_config, log):
+    result = run_research(small_config, panel, trial_log=log, permutation=False)
+    splits = result.splits
+    n_rows = result.metrics["n_rows"]
+
+    assert len(splits) == 15
+    assert (splits["candidates"] + splits["test_rows"] == n_rows).all()
+    assert (
+        splits["candidates"] == splits["purged"] + splits["embargoed"] + splits["train_rows"]
+    ).all()
+    # One-day labels never overlap, so nothing is purged.
+    assert (splits["purged"] == 0).all()
+    assert result.metrics["embargo_days"] == small_config.validation.embargo_days == 36
+    assert result.metrics["label_max_span_days"] == 1
+    assert result.metrics["train_rows_mean"] == pytest.approx(splits["train_rows"].mean())
+
+
+@pytest.mark.parametrize(("method", "longest"), [("fixed_horizon", 1), ("triple_barrier", 5)])
+def test_label_span_is_measured_in_trading_dates(panel, small_config, method, longest):
+    data = prepare_research_data(panel, with_overrides(small_config, label_method=method))
+    span = label_span_days(data.labels)
+
+    assert span.max() == longest
+    assert span.min() >= 1
+
+
+def test_purged_overlapping_labels_raise_no_warning(panel, small_config):
+    config = with_overrides(small_config, label_method="triple_barrier")
+    data = prepare_research_data(panel, config)
+
+    check = leakage_diagnostics(data.labels, config, purging=True, d=data.fracdiff_d)
+
+    assert check.labels_overlap
+    assert check.max_label_span == 5
+    assert check.warnings == []
+
+
+def test_overlapping_labels_without_purging_are_a_warning(panel, small_config):
+    config = with_overrides(small_config, label_method="triple_barrier")
+    data = prepare_research_data(panel, config)
+
+    check = leakage_diagnostics(data.labels, config, purging=False, d=data.fracdiff_d)
+
+    assert len(check.warnings) == 1
+    assert "purging is off" in check.warnings[0]
+
+
+def test_one_day_labels_are_safe_even_without_purging(panel, small_config):
+    data = prepare_research_data(panel, small_config)
+
+    check = leakage_diagnostics(data.labels, small_config, purging=False, d=data.fracdiff_d)
+
+    assert not check.labels_overlap
+    assert check.warnings == []
+
+
+def test_feature_windows_longer_than_the_embargo_are_a_diagnostic_not_a_warning(
+    panel, small_config
+):
+    data = prepare_research_data(panel, small_config)
+    check = leakage_diagnostics(data.labels, small_config, purging=True, d=data.fracdiff_d)
+
+    assert set(check.uncovered) == {
+        "px_over_ma_63",
+        "vol_63d",
+        "mom_63d",
+        "dist_high_63",
+        "vol_ratio_10_63",
+        "fracdiff",
+    }
+    assert check.warnings == []
+
+
+def test_a_split_that_leaks_stops_the_run(panel, small_config, log, monkeypatch):
+    # Break purging inside the splitter only; the leak check keeps its own copy.
+    monkeypatch.setattr(cpcv_module, "purge_train_indices", lambda train, test, touch: train)
+    config = with_overrides(small_config, label_method="triple_barrier")
+
+    with pytest.raises(LeakageError, match="overlap test labels"):
+        run_research(config, panel, trial_log=log, permutation=False)
+
+    assert log.trial_table()["notes"].iloc[0].startswith("failed: LeakageError")
 
 
 def test_overrides_are_validated(small_config):
@@ -231,7 +330,15 @@ def test_help_works():
     )
 
     assert completed.returncode == 0
-    for option in ("--config", "--refresh", "--log-level", "--label-method", "--model", "--output"):
+    for option in (
+        "--config",
+        "--refresh",
+        "--log-level",
+        "--label-method",
+        "--model",
+        "--output",
+        "--splits-only",
+    ):
         assert option in completed.stdout
 
 
@@ -249,3 +356,120 @@ def test_invalid_model_is_rejected_by_argparse():
         cli.parse_args(["--model", "xgboost"])
 
     assert exit_info.value.code == 2
+
+
+def test_cross_sectional_ic_is_reported_alongside_pooled(panel, small_config, log):
+    result = run_research(small_config, panel, trial_log=log, permutation=False)
+    n_dates = result.predictions.index.get_level_values("date").nunique()
+
+    # Three synthetic tickers is below the five-ticker minimum, so every date is
+    # skipped and counted, not scored from too few points.
+    assert result.metrics["cs_skipped_dates"] == n_dates
+    assert np.isnan(result.metrics["cs_spearman_mean"])
+    assert not np.isnan(result.metrics["ic_mean"])
+    assert (result.cs_ic_daily["n_tickers"] == 3).all()
+    assert {"cs_spearman_mean", "cs_pearson_mean"} <= set(result.comparison.columns)
+    assert "metric_cs_skipped_dates" in log.trial_table().columns
+
+
+# --- Trial identity ---------------------------------------------------------
+
+
+def edited(config, **sections):
+    """The config with fields replaced, section by section."""
+    changes = {
+        name: dataclasses.replace(getattr(config, name), **fields)
+        for name, fields in sections.items()
+    }
+
+    return dataclasses.replace(config, **changes)
+
+
+def test_fingerprint_ignores_settings_that_cannot_change_a_result(config, tmp_path):
+    base = research_fingerprint(config)
+    commented = tmp_path / "config.yaml"
+    commented.write_text(config.source_file.read_text(encoding="utf-8") + "\n# note\n")
+    forest = {**config.model.random_forest, "n_jobs": 1}
+    lightgbm = {**config.model.lightgbm, "num_leaves": 63}
+
+    assert research_fingerprint(dataclasses.replace(config, source_file=commented)) == base
+    assert research_fingerprint(edited(config, backtest={"commission_bps": 9.0})) == base
+    assert research_fingerprint(edited(config, evaluation={"monte_carlo_runs": 5000})) == base
+    assert research_fingerprint(edited(config, model={"random_forest": forest})) == base
+    assert research_fingerprint(edited(config, model={"lightgbm": lightgbm})) == base
+    assert research_fingerprint(edited(config, validation={"n_splits": 4})) == base
+    reordered = list(reversed(config.universe.tickers))
+    assert research_fingerprint(edited(config, universe={"tickers": reordered})) == base
+
+
+def test_fingerprint_changes_with_anything_that_can_change_a_result(config):
+    base = research_fingerprint(config)
+    deeper = {**config.model.random_forest, "max_depth": 8}
+    barrier = dataclasses.replace(config.labelling.triple_barrier, max_holding_days=10)
+
+    changed = [
+        edited(config, validation={"embargo_days": 63}),
+        edited(config, validation={"test_start": pd.Timestamp("2019-01-01").date()}),
+        edited(config, model={"estimator": "lightgbm"}),
+        edited(config, model={"task": "classification"}),
+        edited(config, model={"random_forest": deeper}),
+        edited(config, labelling={"method": "triple_barrier"}),
+        edited(config, project={"random_seed": 7}),
+        edited(config, features={"rsi_window": 21}),
+    ]
+
+    assert all(research_fingerprint(c) != base for c in changed)
+    # The inactive labelling method's settings are not part of the trial.
+    assert research_fingerprint(edited(config, labelling={"triple_barrier": barrier})) == base
+
+
+def test_a_research_run_records_its_identity(panel, small_config, log):
+    run_research(small_config, panel, trial_log=log, permutation=False)
+    run_research(small_config, panel, trial_log=log, permutation=False)
+
+    table = log.trial_table()
+
+    assert list(table["kind"]) == ["research", "research"]
+    assert (table["fingerprint"] == research_fingerprint(small_config)).all()
+    assert log.trial_count() == 2
+    assert log.unique_trial_count({"kind": "research"}) == 1
+    assert log.unique_trials().iloc[0]["consistent"]
+
+
+# --- Split report without a trial -------------------------------------------
+
+
+def test_split_report_matches_the_run_and_logs_nothing(panel, small_config, log):
+    result = run_research(small_config, panel, trial_log=log, permutation=False)
+    count = log.trial_count()
+
+    splits, leakage, data = split_report(small_config, panel)
+
+    pd.testing.assert_frame_equal(splits, result.splits)
+    assert data.X.index.equals(result.predictions.index)
+    assert split_fields(splits, leakage) == {
+        key: result.metrics[key] for key in split_fields(splits, leakage)
+    }
+    assert log.trial_count() == count
+
+
+def test_write_split_report_checks_the_saved_predictions(panel, small_config, log, tmp_path):
+    result = run_research(small_config, panel, trial_log=log, permutation=False)
+    result.save(tmp_path)
+
+    files = write_split_report(small_config, tmp_path, panel)
+    record = pd.read_csv(files[1], index_col=0)["value"]
+
+    assert [f.name for f in files] == ["splits.csv", "validation.csv"]
+    assert record["matches_saved_predictions"] == "True"
+    assert record["fingerprint"] == research_fingerprint(small_config)
+    assert log.trial_count() == 1
+
+
+def test_write_split_report_refuses_predictions_from_other_rows(panel, small_config, tmp_path):
+    folder = tmp_path / run_name(small_config)
+    folder.mkdir()
+    pd.DataFrame({"path_0": [0.1]}).to_parquet(folder / "predictions.parquet")
+
+    with pytest.raises(ValueError, match="different rows"):
+        write_split_report(small_config, tmp_path, panel)

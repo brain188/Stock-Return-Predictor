@@ -1,0 +1,11 @@
+,value
+embargo_days,36.0
+label_max_span_days,1.0
+train_rows_mean,26136.0
+train_rows_min,25872.0
+purged_rows_mean,0.0
+embargoed_rows_mean,528.0
+fingerprint,3a81ce133e435622
+n_rows,39996
+matches_saved_predictions,True
+generated_by,"split_report: splits regenerated from settings, no model fitted"

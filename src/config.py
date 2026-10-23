@@ -274,7 +274,7 @@ class CPCVConfig:
 class ValidationConfig:
     """How the data is split for honest evaluation."""
 
-    embargo_pct: float
+    embargo_days: int
     n_splits: int
     cpcv: CPCVConfig
     test_start: date
@@ -283,7 +283,7 @@ class ValidationConfig:
     def from_dict(cls, raw: dict[str, Any]) -> ValidationConfig:
         """Build the config, parsing the test start date."""
         return cls(
-            embargo_pct=raw["embargo_pct"],
+            embargo_days=raw["embargo_days"],
             n_splits=raw["n_splits"],
             cpcv=CPCVConfig(**raw["cpcv"]),
             test_start=_to_date(raw["test_start"], "validation.test_start"),
@@ -291,8 +291,16 @@ class ValidationConfig:
 
     def validate(self) -> None:
         """Check the embargo and split counts are usable."""
-        if not 0 <= self.embargo_pct < 0.5:
-            raise ConfigError("validation.embargo_pct must be between 0 and 0.5")
+        # bool is a subclass of int, and `embargo_days: yes` should not pass as 1.
+        if (
+            not isinstance(self.embargo_days, int)
+            or isinstance(self.embargo_days, bool)
+            or self.embargo_days < 0
+        ):
+            raise ConfigError(
+                "validation.embargo_days must be a whole number of trading dates, 0 or more, "
+                f"got {self.embargo_days!r}"
+            )
 
         if self.n_splits < 2:
             raise ConfigError("validation.n_splits must be at least 2")

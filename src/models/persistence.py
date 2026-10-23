@@ -14,7 +14,6 @@ from __future__ import annotations
 
 import json
 import platform
-import subprocess
 from dataclasses import dataclass
 from datetime import UTC, datetime
 from importlib.metadata import PackageNotFoundError, version
@@ -24,8 +23,8 @@ from typing import Any
 import joblib
 import pandas as pd
 
-from src.config import PROJECT_ROOT, Config
-from src.evaluation.trial_log import config_hash
+from src.config import Config
+from src.evaluation.trial_log import config_hash, git_state
 from src.features.build import feature_names
 from src.logger import get_logger
 from src.models.baseline import Forecaster
@@ -53,29 +52,6 @@ class ModelBundle:
     def feature_names(self) -> list[str]:
         """Feature columns the model was trained on, in order."""
         return list(self.metadata["features"])
-
-
-def _git_commit() -> dict[str, Any]:
-    """The current commit and whether the working tree had uncommitted changes."""
-    try:
-        commit = subprocess.run(
-            ["git", "rev-parse", "HEAD"],
-            cwd=PROJECT_ROOT,
-            capture_output=True,
-            text=True,
-            check=True,
-        ).stdout.strip()
-        status = subprocess.run(
-            ["git", "status", "--porcelain", "--untracked-files=no"],
-            cwd=PROJECT_ROOT,
-            capture_output=True,
-            text=True,
-            check=True,
-        ).stdout
-    except (OSError, subprocess.CalledProcessError):
-        return {"commit": "unknown", "dirty": None}
-
-    return {"commit": commit, "dirty": bool(status.strip())}
 
 
 def _library_versions() -> dict[str, str]:
@@ -121,7 +97,7 @@ def model_metadata(model: Forecaster, config: Config, data_window: pd.Index) -> 
         "labelling": config.labelling.method,
         "config_hash": config_hash(config),
         "libraries": _library_versions(),
-        "git": _git_commit(),
+        "git": git_state(),
         "created": datetime.now(UTC).isoformat(timespec="seconds"),
     }
 

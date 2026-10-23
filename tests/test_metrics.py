@@ -7,6 +7,9 @@ import pandas as pd
 import pytest
 
 from src.validation.metrics import (
+    cross_sectional_ic,
+    cross_sectional_score,
+    cross_sectional_summary,
     directional_accuracy,
     edge_over_always_up,
     hit_rate,
@@ -174,3 +177,136 @@ def test_metric_table_compares_model_and_baselines(returns):
     assert np.isnan(table.loc["always_up", "rmse"])
     assert not np.isnan(table.loc["model", "rmse"])
     assert table.loc["model", "ic"] > 0.5
+
+
+# --- Cross-sectional IC -----------------------------------------------------
+
+
+def panel_returns(n_dates: int = 250, n_tickers: int = 11, seed: int = 5) -> pd.Series:
+    """Random returns on a (date, ticker) index."""
+    dates = pd.date_range("2015-01-01", periods=n_dates, freq="B")
+    tickers = [f"T{i:02d}" for i in range(n_tickers)]
+    index = pd.MultiIndex.from_product([dates, tickers], names=["date", "ticker"])
+
+    return pd.Series(np.random.default_rng(seed).normal(0, 0.01, len(index)), index=index)
+
+
+@pytest.mark.parametrize("method", ["spearman", "pearson"])
+def test_cross_sectional_ic_is_one_for_perfect_and_minus_one_for_inverted(method):
+    actual = panel_returns()
+
+    assert (cross_sectional_ic(actual, actual, method)["ic"].round(10) == 1).all()
+    assert (cross_sectional_ic(-actual, actual, method)["ic"].round(10) == -1).all()
+
+
+def test_cross_sectional_ic_ignores_a_different_level_each_day():
+    # The case the pooled IC gets wrong: perfect ranking within each day, plus
+    # a daily offset unrelated to the returns.
+    actual = panel_returns()
+    dates = actual.index.get_level_values("date")
+    offset = pd.Series(np.random.default_rng(6).normal(0, 1, dates.nunique()), index=dates.unique())
+    predicted = actual + offset.reindex(dates).to_numpy()
+
+    daily = cross_sectional_ic(predicted, actual)
+
+    assert (daily["ic"].round(10) == 1).all()
+    assert abs(information_coefficient(predicted, actual)) < 0.2
+
+
+def test_cross_sectional_spearman_matches_scipy_on_one_date():
+    actual = panel_returns()
+    predicted = actual + np.random.default_rng(7).normal(0, 0.01, len(actual))
+    date = actual.index.get_level_values("date")[0]
+
+    expected = information_coefficient(predicted.xs(date), actual.xs(date))
+
+    assert cross_sectional_ic(predicted, actual).loc[date, "ic"] == pytest.approx(expected)
+
+
+def test_cross_sectional_pearson_and_spearman_differ_with_an_outlier():
+    actual = panel_returns(n_dates=1)
+    predicted = actual.copy()
+    predicted.iloc[0] = 10.0  # Same rank as before if it was already the largest
+    predicted.iloc[0] = -10.0  # Now an extreme value at the bottom
+
+    spearman = cross_sectional_ic(predicted, actual, "spearman")["ic"].iloc[0]
+    pearson = cross_sectional_ic(predicted, actual, "pearson")["ic"].iloc[0]
+
+    assert spearman != pytest.approx(pearson)
+
+
+def test_dates_with_too_few_tickers_are_skipped_and_counted():
+    actual = panel_returns(n_dates=3)
+    predicted = actual + np.random.default_rng(8).normal(0, 0.01, len(actual))
+    dates = actual.index.get_level_values("date").unique()
+    # Date 0: 4 valid tickers. Date 1: 5 valid. Date 2: all 11.
+    predicted.loc[dates[0]] = np.r_[predicted.loc[dates[0]].to_numpy()[:4], [np.nan] * 7]
+    actual.loc[dates[1]] = np.r_[actual.loc[dates[1]].to_numpy()[:5], [np.nan] * 6]
+
+    daily = cross_sectional_ic(predicted, actual, min_tickers=5)
+
+    assert daily["n_tickers"].tolist() == [4, 5, 11]
+    assert np.isnan(daily["ic"].iloc[0])
+    assert daily["ic"].iloc[1:].notna().all()
+
+
+def test_a_constant_forecast_on_a_date_is_skipped():
+    actual = panel_returns(n_dates=2)
+    predicted = actual.copy()
+    first = actual.index.get_level_values("date")[0]
+    predicted.loc[first] = 1.0
+
+    daily = cross_sectional_ic(predicted, actual)
+
+    assert np.isnan(daily["ic"].iloc[0])
+    assert daily["ic"].iloc[1] == pytest.approx(1.0)
+
+
+def test_cross_sectional_ic_needs_a_ticker_level():
+    series = pd.Series([1.0, 2.0], index=pd.date_range("2020-01-01", periods=2))
+
+    with pytest.raises(ValueError, match="ticker"):
+        cross_sectional_ic(series, series)
+    with pytest.raises(ValueError, match="method"):
+        cross_sectional_ic(panel_returns(2), panel_returns(2), method="kendall")
+
+
+def test_cross_sectional_summary_matches_hand_values():
+    daily = pd.DataFrame(
+        {"ic": [0.1, -0.05, 0.2, np.nan], "n_tickers": [11, 10, 9, 3]},
+        index=pd.date_range("2020-01-01", periods=4),
+    )
+    ic = pd.Series([0.1, -0.05, 0.2])
+
+    summary = cross_sectional_summary(daily)
+
+    assert summary["mean"] == pytest.approx(ic.mean())
+    assert summary["std"] == pytest.approx(ic.std())
+    assert summary["t_stat"] == pytest.approx(ic.mean() / (ic.std() / np.sqrt(3)))
+    assert summary["positive_share"] == pytest.approx(2 / 3)
+    assert summary["dates"] == 3
+    assert summary["skipped"] == 1
+    assert summary["mean_tickers"] == pytest.approx(10.0)
+
+
+def test_random_forecast_has_cross_sectional_ic_near_zero():
+    actual = panel_returns(n_dates=2000)
+    noise = pd.Series(np.random.default_rng(9).normal(size=len(actual)), index=actual.index)
+
+    summary = cross_sectional_summary(cross_sectional_ic(noise, actual))
+
+    # Each daily IC has a standard error near 1 / sqrt(10); the mean over 2000 days
+    # has about 1 / sqrt(20000).
+    assert abs(summary["mean"]) < 4 / np.sqrt(20_000)
+    assert abs(summary["t_stat"]) < 4
+
+
+def test_cross_sectional_score_has_both_methods():
+    actual = panel_returns()
+    result = cross_sectional_score(actual, actual)
+
+    assert result["cs_spearman_mean"] == pytest.approx(1.0)
+    assert result["cs_pearson_mean"] == pytest.approx(1.0)
+    assert result["cs_dates"] == 250
+    assert result["cs_skipped"] == 0
+    assert result["cs_mean_tickers"] == 11

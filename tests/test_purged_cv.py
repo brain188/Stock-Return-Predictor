@@ -18,7 +18,6 @@ from src.validation.purged_cv import (
     PurgedKFold,
     apply_embargo,
     assert_no_overlap,
-    embargo_bars,
     purge_train_indices,
     row_dates,
     train_test_split_chronological,
@@ -54,28 +53,56 @@ def date_codes(X: pd.DataFrame, positions: np.ndarray) -> np.ndarray:
 # --- Embargo ----------------------------------------------------------------
 
 
-@pytest.mark.parametrize("pct", [0.01, 0.02, 0.05])
-def test_embargo_gap_is_exactly_pct_of_the_dates(pct):
+@pytest.mark.parametrize("days", [0, 5, 36, 63])
+def test_embargo_gap_is_exactly_embargo_days_wide(days):
     X = panel()
-    folds = list(PurgedKFold(n_splits=5, embargo_pct=pct).split(X))
-    width = embargo_bars(N_DATES, pct)
+    folds = list(PurgedKFold(n_splits=5, embargo_days=days).split(X))
 
     # A middle fold has training rows on both sides, so the gap is visible.
     train, test = folds[2]
     first_after = date_codes(X, train)[date_codes(X, train) > date_codes(X, test).max()].min()
 
-    assert width == int(N_DATES * pct)
-    assert first_after - date_codes(X, test).max() - 1 == width
+    assert first_after - date_codes(X, test).max() - 1 == days
+
+
+def test_embargo_is_the_same_width_after_every_fold():
+    X = panel()
+    gaps = []
+
+    for train, test in PurgedKFold(n_splits=6, embargo_days=36).split(X):
+        end = date_codes(X, test).max()
+        after = date_codes(X, train)[date_codes(X, train) > end]
+        if len(after):
+            gaps.append(after.min() - end - 1)
+
+    # Every fold but the last has training data after it.
+    assert gaps == [36] * 5
+
+
+def test_embargo_counts_trading_dates_not_calendar_days():
+    # Business days skip weekends: 36 trading dates span about 50 calendar days.
+    X = panel()
+    dates = row_dates(X.index)
+    unique = dates.unique()
+    test = np.flatnonzero((dates >= unique[400]) & (dates <= unique[499]))
+    train = np.setdiff1d(np.arange(len(X)), test)
+
+    kept = apply_embargo(train, test, 36, dates)
+    removed = pd.DatetimeIndex(np.unique(dates[np.setdiff1d(train, kept)]))
+
+    assert len(removed) == 36
+    assert removed[0] == unique[500]
+    assert removed[-1] == unique[535]
+    assert (removed[-1] - removed[0]).days > 36
 
 
 def test_no_train_index_falls_inside_the_embargo():
     X = panel()
-    width = embargo_bars(N_DATES, 0.02)
 
-    for train, test in PurgedKFold(n_splits=6, embargo_pct=0.02).split(X):
+    for train, test in PurgedKFold(n_splits=6, embargo_days=20).split(X):
         end = date_codes(X, test).max()
         codes = date_codes(X, train)
-        assert not ((codes > end) & (codes <= end + width)).any()
+        assert not ((codes > end) & (codes <= end + 20)).any()
 
 
 def test_embargo_only_trims_after_the_test_block():
@@ -84,10 +111,46 @@ def test_embargo_only_trims_after_the_test_block():
     test = np.flatnonzero((dates >= dates.unique()[400]) & (dates <= dates.unique()[499]))
     train = np.setdiff1d(np.arange(len(X)), test)
 
-    kept = apply_embargo(train, test, 0.01, dates)
+    kept = apply_embargo(train, test, 10, dates)
     removed = date_codes(X, np.setdiff1d(train, kept))
 
     assert set(removed) == set(range(500, 510))
+
+
+def test_embargo_at_the_end_of_the_sample_is_cut_short_not_wrapped():
+    X = panel()
+    dates = row_dates(X.index)
+    test = np.flatnonzero(dates >= dates.unique()[980])
+    train = np.setdiff1d(np.arange(len(X)), test)
+
+    # Nothing follows the last block, so nothing is embargoed, and the start is untouched.
+    assert len(apply_embargo(train, test, 36, dates)) == len(train)
+
+
+@pytest.mark.parametrize("bad", [-1, 1.5, True, "36"])
+def test_invalid_embargo_is_refused(bad):
+    X = panel(50)
+    dates = row_dates(X.index)
+
+    with pytest.raises(ValueError, match="embargo_days"):
+        apply_embargo(np.arange(30), np.arange(30, 60), bad, dates)
+    with pytest.raises(ValueError, match="embargo_days"):
+        PurgedKFold(n_splits=3, embargo_days=bad)
+
+
+def test_embargo_must_be_given_explicitly():
+    # Keyword only and required: forgetting it is an error, never a silent default.
+    with pytest.raises(TypeError):
+        PurgedKFold(6)
+    with pytest.raises(TypeError):
+        PurgedKFold(6, 36)
+
+
+def test_from_config_uses_the_configured_embargo(config):
+    splitter = PurgedKFold.from_config(config)
+
+    assert splitter.embargo_days == config.validation.embargo_days == 36
+    assert splitter.n_splits == config.validation.n_splits
 
 
 # --- Purging ----------------------------------------------------------------
@@ -96,7 +159,7 @@ def test_embargo_only_trims_after_the_test_block():
 def test_no_train_index_falls_inside_a_test_window():
     X = panel()
 
-    for train, test in PurgedKFold(n_splits=6, embargo_pct=0.01).split(X):
+    for train, test in PurgedKFold(n_splits=6, embargo_days=10).split(X):
         assert not np.isin(row_dates(X.index)[train], row_dates(X.index)[test]).any()
 
 
@@ -128,15 +191,13 @@ def test_every_fold_passes_the_leak_check():
     X = panel()
     touch = touch_times(X, 5)
     dates = row_dates(X.index)
-    width = embargo_bars(N_DATES, 0.01)
-
-    for train, test in PurgedKFold(n_splits=6, embargo_pct=0.01, touch_times=touch).split(X):
-        assert_no_overlap(train, test, width, dates=dates, touch_times=touch)
+    for train, test in PurgedKFold(n_splits=6, embargo_days=10, touch_times=touch).split(X):
+        assert_no_overlap(train, test, 10, dates=dates, touch_times=touch)
 
 
 def test_folds_cover_every_date_once_in_order():
     X = panel()
-    tests = [test for _, test in PurgedKFold(n_splits=6).split(X)]
+    tests = [test for _, test in PurgedKFold(n_splits=6, embargo_days=0).split(X)]
 
     assert np.array_equal(np.sort(np.concatenate(tests)), np.arange(len(X)))
     assert all(
@@ -148,17 +209,17 @@ def test_folds_cover_every_date_once_in_order():
 def test_tickers_on_the_same_date_stay_together():
     X = panel()
 
-    for train, test in PurgedKFold(n_splits=4).split(X):
+    for train, test in PurgedKFold(n_splits=4, embargo_days=10).split(X):
         assert len(test) % len(TICKERS) == 0
         assert len(train) % len(TICKERS) == 0
 
 
 def test_sklearn_interface():
-    splitter = PurgedKFold(n_splits=4)
+    splitter = PurgedKFold(n_splits=4, embargo_days=0)
 
     assert splitter.get_n_splits() == 4
     with pytest.raises(ValueError):
-        PurgedKFold(n_splits=1)
+        PurgedKFold(n_splits=1, embargo_days=0)
 
 
 # --- Leak check -------------------------------------------------------------

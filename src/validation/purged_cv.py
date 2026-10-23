@@ -9,15 +9,19 @@ enough, because neighbouring rows share information in two separate ways:
   fitted on part of the test outcome. Purging removes those training rows.
 - Features overlap. A 21 day volatility on the first training day after a
   test block is computed from 20 test-period returns, so that row carries test
-  information into training. The embargo removes a gap of training rows after
-  each test block.
+  prices into training as inputs. The embargo removes a gap of training rows
+  after each test block.
 
-For the 1 day fixed horizon label no two labels overlap, so purging removes
-almost nothing and the embargo does the real work. For the 5 day triple
-barrier, purging removes up to four days of training labels on each side of
-a test block. The embargo cannot fully cover the fracdiff feature, whose
-weights reach back further than any reasonable gap; it bounds the leak rather
-than removing it.
+Purging works from each label's exact end date, so it removes label overlap
+completely whatever the embargo: nothing for the 1 day fixed horizon label,
+and up to four dates either side of a test block for the 5 day triple barrier.
+The embargo is only for the feature overlap, which is input sharing rather
+than label leakage: a test return can appear inside a training row's
+features, but never as a training target once purging has run. It is given
+in trading dates, the dates present in the frame being split, and the same
+width is applied after every test block of every split. It cannot fully cover
+the 63 day features or fracdiff, whose windows reach further than a
+reasonable gap; it bounds that overlap rather than removing it.
 
 The panel is pooled, so splits are made on dates, never on rows: every ticker
 on a given date lands on the same side. Indices are positions into X, as in
@@ -31,6 +35,7 @@ from collections.abc import Iterator
 import numpy as np
 import pandas as pd
 
+from src.config import Config
 from src.logger import get_logger
 
 logger = get_logger(__name__)
@@ -68,9 +73,16 @@ def _blocks(codes: np.ndarray) -> list[tuple[int, int]]:
     return list(zip(firsts.tolist(), lasts.tolist(), strict=True))
 
 
-def embargo_bars(n_dates: int, embargo_pct: float) -> int:
-    """Width of the embargo in trading days: embargo_pct of the dates, rounded down."""
-    return int(n_dates * embargo_pct)
+def check_embargo_days(embargo_days: int) -> int:
+    """The embargo width, refused unless it is a whole number of dates, 0 or more."""
+    if (
+        not isinstance(embargo_days, int | np.integer)
+        or isinstance(embargo_days, bool)
+        or embargo_days < 0
+    ):
+        raise ValueError(f"embargo_days must be a whole number, 0 or more, got {embargo_days!r}")
+
+    return int(embargo_days)
 
 
 def _label_ends(touch_times: pd.Series) -> np.ndarray:
@@ -122,28 +134,31 @@ def purge_train_indices(
 def apply_embargo(
     train: np.ndarray,
     test: np.ndarray,
-    embargo_pct: float,
+    embargo_days: int,
     dates: pd.DatetimeIndex,
 ) -> np.ndarray:
     """Drop the training rows in the embargo gap after each test block.
 
-    The gap is embargo_bars(n_dates, embargo_pct) trading days wide, where
-    n_dates counts the unique dates in the sample. Only rows after a test
-    block are embargoed: rows before it are in the past of every test row, so
-    test features computed from them are information the model may have.
+    The gap is the embargo_days trading dates that follow the last date of
+    each contiguous test block, counted over the unique dates in `dates`, so
+    a weekend or holiday never uses up part of it. Every block gets the same
+    width; a block near the end of the sample simply has fewer dates after
+    it to remove. Only rows after a test block are embargoed: rows before it
+    are in the past of every test row, so test features computed from them
+    are information the model may have.
 
     Args:
         train: Positions of the candidate training rows.
         test: Positions of the test rows.
-        embargo_pct: Gap as a share of the dates.
+        embargo_days: Width of the gap in trading dates, 0 or more.
         dates: Date of every row of X.
 
     Returns:
         The training positions outside every embargo gap.
     """
     train, test = np.asarray(train, dtype=int), np.asarray(test, dtype=int)
-    codes, unique = date_codes(pd.DatetimeIndex(dates))
-    width = embargo_bars(len(unique), embargo_pct)
+    width = check_embargo_days(embargo_days)
+    codes, _ = date_codes(pd.DatetimeIndex(dates))
 
     keep = np.ones(len(train), dtype=bool)
 
@@ -214,8 +229,8 @@ def assert_no_overlap(
     Args:
         train: Positions of the training rows.
         test: Positions of the test rows.
-        lookback: Trading days after each test block that must hold no
-            training row. Pass the embargo width to check the embargo, or the
+        lookback: Trading dates after each test block that must hold no
+            training row. Pass embargo_days to check the embargo, or the
             longest feature window to check full feature independence.
         dates: Date of every row of X.
         touch_times: Optional label end dates, indexed like X.
@@ -256,7 +271,8 @@ class PurgedKFold:
 
     Args:
         n_splits: Number of folds.
-        embargo_pct: Embargo after each test block, as a share of the dates.
+        embargo_days: Trading dates dropped after each test block. Required
+            and keyword only, so no caller gets an embargo by accident.
         touch_times: Label end dates indexed like X. None treats every label
             as ending on its own date, so nothing is purged.
     """
@@ -264,15 +280,25 @@ class PurgedKFold:
     def __init__(
         self,
         n_splits: int = 6,
-        embargo_pct: float = 0.01,
+        *,
+        embargo_days: int,
         touch_times: pd.Series | None = None,
     ) -> None:
         if n_splits < 2:
             raise ValueError(f"n_splits must be at least 2, got {n_splits}")
 
         self.n_splits = n_splits
-        self.embargo_pct = embargo_pct
+        self.embargo_days = check_embargo_days(embargo_days)
         self.touch_times = touch_times
+
+    @classmethod
+    def from_config(cls, config: Config, touch_times: pd.Series | None = None) -> PurgedKFold:
+        """The splitter with n_splits and embargo_days from config.validation."""
+        return cls(
+            config.validation.n_splits,
+            embargo_days=config.validation.embargo_days,
+            touch_times=touch_times,
+        )
 
     def get_n_splits(self, X=None, y=None, groups=None) -> int:
         """Number of folds, as scikit-learn expects."""
@@ -316,7 +342,7 @@ class PurgedKFold:
 
             train = purge_train_indices(candidates, test, touch)
             purged = len(candidates) - len(train)
-            train = apply_embargo(train, test, self.embargo_pct, dates)
+            train = apply_embargo(train, test, self.embargo_days, dates)
 
             logger.debug(
                 "Fold %s: test %s to %s, %s train rows (%s purged, %s embargoed)",

@@ -35,8 +35,8 @@ from sklearn.metrics import make_scorer
 
 from src.config import PROJECT_ROOT, Config
 from src.data.cleaning import load_clean_panel
-from src.evaluation.trial_log import TrialLog
-from src.features.build import build_features
+from src.evaluation.trial_log import TrialLog, trial_fingerprint
+from src.features.build import build_features, feature_windows
 from src.labelling.fixed_horizon import label_fixed_horizon
 from src.labelling.sample_weights import sample_weights
 from src.labelling.triple_barrier import label_triple_barrier
@@ -49,15 +49,17 @@ from src.models.estimator import (
     fit_with_weights,
 )
 from src.reporting.figures import volatility_regimes
-from src.validation.cpcv import CombinatorialPurgedCV, path_predictions
+from src.validation.cpcv import CombinatorialPurgedCV, Split, path_predictions
 from src.validation.metrics import (
+    cross_sectional_ic,
+    cross_sectional_score,
     ic_by_period,
     ic_t_stat,
     information_coefficient,
     metric_table,
     score,
 )
-from src.validation.purged_cv import embargo_bars, row_dates
+from src.validation.purged_cv import assert_no_overlap, row_dates
 
 logger = get_logger(__name__)
 
@@ -70,6 +72,9 @@ REDUNDANCY_THRESHOLD = 0.7
 PERMUTATION_ROWS = 5_000
 
 LABELLERS = {"fixed_horizon": label_fixed_horizon, "triple_barrier": label_triple_barrier}
+
+# Estimator parameters that change speed or chatter, never the fitted model.
+NON_SEMANTIC_PARAMS = {"n_jobs", "verbose"}
 
 
 def _ic_score(y_true: np.ndarray, y_pred: np.ndarray) -> float:
@@ -107,12 +112,14 @@ class ResearchResult:
     predictions: pd.DataFrame
     ic_by_year: pd.DataFrame
     ic_by_regime: pd.DataFrame
+    cs_ic_daily: pd.DataFrame
     redundancy: pd.DataFrame
+    splits: pd.DataFrame
     importance: pd.DataFrame | None = None
     files: list[Path] = field(default_factory=list)
 
     def save(self, out_dir: str | Path = DEFAULT_OUTPUT) -> list[Path]:
-        """Write every table as CSV under out_dir / name.
+        """Write every table as CSV, and the predictions as parquet, under out_dir / name.
 
         Returns:
             The files written.
@@ -126,7 +133,9 @@ class ResearchResult:
             "comparison": self.comparison,
             "ic_by_year": self.ic_by_year,
             "ic_by_regime": self.ic_by_regime,
+            "cs_ic_daily": self.cs_ic_daily,
             "redundancy": self.redundancy,
+            "splits": self.splits,
             "importance": self.importance,
         }
 
@@ -137,7 +146,12 @@ class ResearchResult:
                 table.to_csv(path)
                 self.files.append(path)
 
-        logger.info("Saved %s research tables to %s", len(self.files), folder)
+        # Out-of-sample predictions, so a new metric can be scored without refitting.
+        path = folder / "predictions.parquet"
+        self.predictions.to_parquet(path)
+        self.files.append(path)
+
+        logger.info("Saved %s research files to %s", len(self.files), folder)
 
         return self.files
 
@@ -165,6 +179,66 @@ def with_overrides(
     config.validate()
 
     return config
+
+
+def research_settings(config: Config) -> dict[str, Any]:
+    """The settings that decide a research result, and nothing else.
+
+    This is what a research trial is. Two runs with the same settings are two
+    executions of one trial, whatever else differs between their config
+    files: comments, paths, backtest costs, the parameters of an estimator
+    that was not used, or n_jobs. Anything that can change a forecast or a
+    reported score is in: the seed, universe, price column, cleaning,
+    features, the active labelling method and its parameters, the
+    validation design (embargo in trading dates, CPCV groups, holdout
+    start) and the active estimator with its parameters.
+
+    Not in, and stated as a limit: the data snapshot and the code. A cache
+    refresh or a change to how a feature is computed, without a change of
+    settings, keeps the fingerprint; the trial log records code_version per
+    execution, and unique_trials() flags executions of one fingerprint
+    whose metrics disagree.
+    """
+    labelling = config.labelling
+    universe = config.universe
+    validation = config.validation
+    params = {
+        key: value for key, value in config.model.params.items() if key not in NON_SEMANTIC_PARAMS
+    }
+
+    return {
+        "pipeline": "research",
+        "seed": config.project.random_seed,
+        "universe": {
+            "tickers": sorted(universe.tickers),
+            "benchmark": universe.benchmark,
+            "start": universe.start_date,
+            "end": universe.end_date,
+        },
+        "price_column": config.data.price_column,
+        "cleaning": dataclasses.asdict(config.cleaning),
+        "features": dataclasses.asdict(config.features),
+        "labelling": {
+            "method": labelling.method,
+            **dataclasses.asdict(getattr(labelling, labelling.method)),
+        },
+        "validation": {
+            "embargo_days": validation.embargo_days,
+            "n_groups": validation.cpcv.n_groups,
+            "n_test_groups": validation.cpcv.n_test_groups,
+            "test_start": validation.test_start,
+        },
+        "model": {
+            "estimator": config.model.estimator,
+            "task": config.model.task,
+            "params": params,
+        },
+    }
+
+
+def research_fingerprint(config: Config) -> str:
+    """Identity of a research trial: trial_fingerprint of research_settings."""
+    return trial_fingerprint(research_settings(config))
 
 
 def run_name(config: Config) -> str:
@@ -227,6 +301,133 @@ def prepare_research_data(panel: pd.DataFrame, config: Config) -> ResearchData:
     log_frame(logger, data.X, "Research features")
 
     return data
+
+
+def label_span_days(labels: pd.DataFrame) -> pd.Series:
+    """Trading dates from each label's date to its touch time.
+
+    A span of 1 is the next-day label. Above 1, a label shares returns with
+    the labels dated after it, which is the overlap purging exists for. The
+    calendar is every date that appears as a label date or a touch time, so
+    a touch on the first holdout date still counts correctly.
+
+    Returns:
+        Span per label, NaN where there is no touch time.
+    """
+    starts = row_dates(labels.index)
+    touches = pd.DatetimeIndex(labels["touch_time"])
+    calendar = starts.union(touches.dropna()).unique().sort_values()
+
+    span = calendar.get_indexer(touches) - calendar.get_indexer(starts)
+
+    return pd.Series(np.where(touches.isna(), np.nan, span), index=labels.index, name="span")
+
+
+@dataclass(frozen=True)
+class LeakageCheck:
+    """What can still connect training rows to a test block, and how much.
+
+    Attributes:
+        embargo_days: Trading dates dropped after each test block.
+        max_label_span: Longest label, in trading dates.
+        labels_overlap: Whether any label spans more than one date.
+        purging: Whether the splitter purges on touch times.
+        feature_windows: Window of every feature, in trading dates.
+        uncovered: Features whose window is longer than the embargo, so
+            training rows just past it still hold test-period prices.
+        warnings: Real leakage risks found. Empty means none.
+    """
+
+    embargo_days: int
+    max_label_span: int
+    labels_overlap: bool
+    purging: bool
+    feature_windows: dict[str, int]
+    uncovered: dict[str, int]
+    warnings: list[str]
+
+    def log(self) -> None:
+        """Warnings for real risks; the feature comparison as a diagnostic only."""
+        for message in self.warnings:
+            logger.warning("Leakage risk: %s", message)
+
+        logger.info(
+            "Labels span up to %s trading date(s) (overlap: %s); purging on touch times: %s",
+            self.max_label_span,
+            self.labels_overlap,
+            self.purging,
+        )
+        covered = len(self.feature_windows) - len(self.uncovered)
+        logger.info(
+            "Embargo of %s trading dates covers %s of %s feature windows%s",
+            self.embargo_days,
+            covered,
+            len(self.feature_windows),
+            (
+                "; longer: "
+                + ", ".join(f"{name} ({days})" for name, days in self.uncovered.items())
+                + ". This is shared inputs, not label leakage: purging keeps every test "
+                "return out of the training targets"
+            )
+            if self.uncovered
+            else "",
+        )
+
+
+def leakage_diagnostics(
+    labels: pd.DataFrame,
+    config: Config,
+    *,
+    purging: bool,
+    d: float | None = None,
+) -> LeakageCheck:
+    """Separate the leakage risks that matter from the overlap that does not.
+
+    A warning is raised only for a risk that can put test outcomes into
+    training targets: labels that span more than one date while purging is
+    off. With purging on, label overlap is removed exactly, and every split
+    is also checked row by row before fitting, so no warning is needed.
+
+    The embargo against feature windows is reported as a diagnostic, not a
+    warning. A feature longer than the embargo means a training row just past
+    the gap still holds some test-period prices as inputs; its target is a
+    later return that is not part of any test label. That overlap is the
+    same in kind as the one between each test block and the training rows
+    just before it, which no embargo removes, and for the slow features
+    (63 day windows, fracdiff) it outlasts any gap worth having.
+
+    Args:
+        labels: Labels with touch_time, indexed by (date, ticker).
+        config: Supplies embargo_days and the feature windows.
+        purging: Whether the splitter purges on touch times.
+        d: Fracdiff order, for the fracdiff window.
+
+    Returns:
+        The diagnostics, with any warnings.
+    """
+    embargo = config.validation.embargo_days
+    span = label_span_days(labels)
+    max_span = int(span.max()) if span.notna().any() else 0
+    overlap = max_span > 1
+    windows = feature_windows(config, d)
+    uncovered = {name: days for name, days in windows.items() if days > embargo}
+
+    warnings = []
+    if overlap and not purging:
+        warnings.append(
+            f"labels span up to {max_span} trading dates and purging is off, so training "
+            f"labels within {max_span - 1} dates of a test block share its returns"
+        )
+
+    return LeakageCheck(
+        embargo_days=embargo,
+        max_label_span=max_span,
+        labels_overlap=overlap,
+        purging=purging,
+        feature_windows=windows,
+        uncovered=uncovered,
+        warnings=warnings,
+    )
 
 
 def forecast(model: Forecaster, X: pd.DataFrame, task: str) -> np.ndarray:
@@ -416,11 +617,212 @@ def _per_path(table_for: Any, predictions: pd.DataFrame) -> pd.DataFrame:
     return summary
 
 
+@dataclass
+class SplitFits:
+    """Out-of-sample predictions and fitted models, one per CPCV split."""
+
+    predictions: list[pd.Series]
+    models: list[Forecaster]
+    held_out: list[tuple[pd.DataFrame, pd.Series]]
+    report: pd.DataFrame
+
+
+def fit_splits(
+    data: ResearchData,
+    config: Config,
+    splits: Sequence[Split] | Any,
+    *,
+    label: str = "",
+) -> SplitFits:
+    """Fit one model per split and predict its test rows.
+
+    Every split is checked before its model is fitted: a training label that
+    overlaps the test set, or a training row inside the embargo, stops the
+    run. The check uses config.validation.embargo_days, so a caller that
+    narrows the training set further (as the embargo diagnostic does) still
+    passes, and one that widens it into the embargo does not.
+
+    Args:
+        data: Development data.
+        config: Supplies the estimator, task and embargo.
+        splits: Split objects, usually CombinatorialPurgedCV.iter_splits.
+        label: Name for the log lines.
+
+    Returns:
+        The predictions, models, held-out data and a per-split row count table.
+    """
+    task = config.model.task
+    target = target_for(data, task)
+    dates = row_dates(data.X.index)
+    touch = data.labels["touch_time"]
+    predictions, models, held_out, rows = [], [], [], []
+
+    for split in splits:
+        train, test = split.train, split.test
+        # Stops the run if a training label overlaps the test set or a
+        # training row sits inside the embargo.
+        assert_no_overlap(
+            train, test, config.validation.embargo_days, dates=dates, touch_times=touch
+        )
+        rows.append(split.summary())
+
+        model = build_estimator(config)
+        fit_with_weights(model, data.X.iloc[train], target.iloc[train], data.weights.iloc[train])
+        X_test = data.X.iloc[test]
+        predictions.append(pd.Series(forecast(model, X_test, task), index=X_test.index))
+        models.append(model)
+        held_out.append((X_test, target.iloc[test]))
+        logger.info(
+            "%sSplit %s: %s train (%s purged, %s embargoed), %s test, IC %.4f",
+            f"{label}: " if label else "",
+            split.number + 1,
+            f"{len(train):,}",
+            split.purged,
+            split.embargoed,
+            f"{len(test):,}",
+            information_coefficient(predictions[-1], data.actual.iloc[test]),
+        )
+
+    return SplitFits(
+        predictions=predictions,
+        models=models,
+        held_out=held_out,
+        report=pd.DataFrame(rows).set_index("split"),
+    )
+
+
+def split_report(
+    config: Config,
+    panel: pd.DataFrame | None = None,
+) -> tuple[pd.DataFrame, LeakageCheck, ResearchData]:
+    """The CPCV split table and leakage diagnostics, with no model and no trial.
+
+    Splits depend only on the data, the labels and the validation settings,
+    so this reproduces exactly the splits a research run with the same
+    settings used, without fitting anything. It is safe to run at any time:
+    nothing is learned and no result is seen, so it is not a trial.
+
+    Args:
+        config: Configuration to describe.
+        panel: Cleaned panel. Loaded from disk when None.
+
+    Returns:
+        The split table (as saved in splits.csv), the leakage check, and the
+        development data the splits were made from.
+    """
+    if panel is None:
+        panel = load_clean_panel(config)
+
+    data = prepare_research_data(panel, config)
+    cv = CombinatorialPurgedCV.from_config(config, data.labels["touch_time"])
+    leakage = leakage_diagnostics(data.labels, config, purging=True, d=data.fracdiff_d)
+    dates = row_dates(data.X.index)
+
+    rows = []
+    for split in cv.iter_splits(data.X):
+        assert_no_overlap(
+            split.train,
+            split.test,
+            config.validation.embargo_days,
+            dates=dates,
+            touch_times=data.labels["touch_time"],
+        )
+        rows.append(split.summary())
+
+    return pd.DataFrame(rows).set_index("split"), leakage, data
+
+
+def write_split_report(
+    config: Config,
+    out_dir: str | Path = DEFAULT_OUTPUT,
+    panel: pd.DataFrame | None = None,
+) -> list[Path]:
+    """Write splits.csv and validation.csv for a run, without fitting or logging.
+
+    Used to fill in the validation-design record of a run made before these
+    files existed. The splits are regenerated from the settings, and, when
+    the run folder holds predictions.parquet, checked against it: the saved
+    predictions must cover exactly the development rows the splits were made
+    from, or the report would describe a different run.
+
+    Args:
+        config: The configuration of the run being described.
+        out_dir: Parent of the run folder, as given to ResearchResult.save.
+        panel: Cleaned panel. Loaded from disk when None.
+
+    Returns:
+        The two files written.
+
+    Raises:
+        ValueError: If saved predictions exist and cover different rows.
+    """
+    splits, leakage, data = split_report(config, panel)
+    folder = Path(out_dir) / run_name(config)
+    folder.mkdir(parents=True, exist_ok=True)
+
+    saved = folder / "predictions.parquet"
+    matches = None
+    if saved.is_file():
+        matches = bool(pd.read_parquet(saved).index.equals(data.X.index))
+        if not matches:
+            raise ValueError(f"{saved} covers different rows than these splits; not writing")
+
+    record = {
+        **split_fields(splits, leakage),
+        "fingerprint": research_fingerprint(config),
+        "n_rows": len(data.X),
+        "matches_saved_predictions": matches,
+        "generated_by": "split_report: splits regenerated from settings, no model fitted",
+    }
+
+    files = [folder / "splits.csv", folder / "validation.csv"]
+    splits.to_csv(files[0])
+    pd.Series(record, name="value").to_frame().to_csv(files[1])
+    logger.info("Wrote the split report for %s to %s (no trial logged)", run_name(config), folder)
+
+    return files
+
+
+def split_fields(splits: pd.DataFrame, leakage: LeakageCheck) -> dict[str, float]:
+    """The validation-design numbers a research run records alongside its scores."""
+    return {
+        "embargo_days": float(leakage.embargo_days),
+        "label_max_span_days": float(leakage.max_label_span),
+        "train_rows_mean": float(splits["train_rows"].mean()),
+        "train_rows_min": float(splits["train_rows"].min()),
+        "purged_rows_mean": float(splits["purged"].mean()),
+        "embargoed_rows_mean": float(splits["embargoed"].mean()),
+    }
+
+
+def cross_sectional_daily(predictions: pd.DataFrame, actual: pd.Series) -> pd.DataFrame:
+    """Daily cross-sectional IC on every path, with the tickers behind each date.
+
+    Every path fills every row, so n_tickers is the same on all paths and is
+    stored once.
+
+    Returns:
+        One row per date: n_tickers, then spearman_<path> and pearson_<path>
+        for each path.
+    """
+    columns = {}
+
+    for method in ("spearman", "pearson"):
+        for path in predictions:
+            daily = cross_sectional_ic(predictions[path], actual, method)
+            columns.setdefault("n_tickers", daily["n_tickers"])
+            columns[f"{method}_{path}"] = daily["ic"]
+
+    return pd.DataFrame(columns)
+
+
 def summarise(
     path_metrics: pd.DataFrame,
     by_year: pd.DataFrame,
     data: ResearchData,
     cv: CombinatorialPurgedCV,
+    splits: pd.DataFrame,
+    leakage: LeakageCheck,
 ) -> dict[str, float]:
     """The headline numbers recorded in the trial log."""
     ic = path_metrics["ic"]
@@ -437,10 +839,22 @@ def summarise(
         "edge_over_always_up_std": float(path_metrics["edge_over_always_up"].std()),
         "directional_accuracy_mean": float(path_metrics["directional_accuracy"].mean()),
         "r2_mean": float(path_metrics["r2"].mean()),
+        "cs_spearman_mean": float(path_metrics["cs_spearman_mean"].mean()),
+        "cs_spearman_path_std": float(path_metrics["cs_spearman_mean"].std()),
+        "cs_spearman_daily_std": float(path_metrics["cs_spearman_std"].mean()),
+        "cs_spearman_t_stat": float(path_metrics["cs_spearman_t_stat"].mean()),
+        "cs_spearman_positive_share": float(path_metrics["cs_spearman_positive_share"].mean()),
+        "cs_pearson_mean": float(path_metrics["cs_pearson_mean"].mean()),
+        "cs_pearson_daily_std": float(path_metrics["cs_pearson_std"].mean()),
+        "cs_pearson_t_stat": float(path_metrics["cs_pearson_t_stat"].mean()),
+        "cs_dates": float(path_metrics["cs_dates"].iloc[0]),
+        "cs_skipped_dates": float(path_metrics["cs_skipped"].iloc[0]),
+        "cs_mean_tickers": float(path_metrics["cs_mean_tickers"].iloc[0]),
         "n_paths": float(cv.n_paths),
         "n_splits": float(cv.get_n_splits()),
         "n_rows": float(len(data.X)),
         "fracdiff_d": data.fracdiff_d,
+        **split_fields(splits, leakage),
     }
 
 
@@ -467,11 +881,13 @@ def run_research(
     """
     trial_log = trial_log or TrialLog.from_config(config)
     name = run_name(config)
+    identity = research_fingerprint(config)
     task = config.model.task
     validation = config.validation
     notes = (
         f"CPCV N={validation.cpcv.n_groups} k={validation.cpcv.n_test_groups}, "
-        f"embargo {validation.embargo_pct:.2%}, development period before {validation.test_start}"
+        f"embargo {validation.embargo_days} trading dates, "
+        f"development period before {validation.test_start}"
     )
     features: list[str] = []
     params: dict[str, Any] = {}
@@ -484,58 +900,37 @@ def run_research(
             data = prepare_research_data(panel, config)
         features = list(data.X.columns)
 
-        width = embargo_bars(row_dates(data.X.index).nunique(), validation.embargo_pct)
-        if width < config.features.max_lookback:
-            logger.warning(
-                "Embargo of %s days is shorter than the longest feature window (%s days): "
-                "training rows just after a test block still see test-period prices",
-                width,
-                config.features.max_lookback,
-            )
-
-        cv = CombinatorialPurgedCV(
-            validation.cpcv.n_groups,
-            validation.cpcv.n_test_groups,
-            validation.embargo_pct,
-            data.labels["touch_time"],
+        cv = CombinatorialPurgedCV.from_config(config, data.labels["touch_time"])
+        leakage = leakage_diagnostics(
+            data.labels, config, purging=cv.touch_times is not None, d=data.fracdiff_d
         )
-        target = target_for(data, task)
+        leakage.log()
 
-        split_predictions, models, held_out = [], [], []
         with log_step(logger, f"Fitting {cv.get_n_splits()} CPCV splits ({name})"):
-            for number, (train, test) in enumerate(cv.split(data.X)):
-                model = build_estimator(config)
-                fit_with_weights(
-                    model, data.X.iloc[train], target.iloc[train], data.weights.iloc[train]
-                )
-                X_test = data.X.iloc[test]
-                split_predictions.append(
-                    pd.Series(forecast(model, X_test, task), index=X_test.index)
-                )
-                models.append(model)
-                held_out.append((X_test, target.iloc[test]))
-                logger.info(
-                    "Split %s of %s: %s train, %s test, IC %.4f",
-                    number + 1,
-                    cv.get_n_splits(),
-                    f"{len(train):,}",
-                    f"{len(test):,}",
-                    information_coefficient(split_predictions[-1], data.actual.iloc[test]),
-                )
+            fits = fit_splits(data, config, cv.iter_splits(data.X))
+        split_predictions, models, held_out = fits.predictions, fits.models, fits.held_out
         params = models[0].params
+        splits = fits.report
 
         predictions = path_predictions(split_predictions, cv, data.X)
         path_metrics = pd.DataFrame(
-            {path: score(predictions[path], data.actual) for path in predictions}
+            {
+                path: {
+                    **score(predictions[path], data.actual),
+                    **cross_sectional_score(predictions[path], data.actual),
+                }
+                for path in predictions
+            }
         ).T
         path_metrics.index.name = "path"
+        cs_daily = cross_sectional_daily(predictions, data.actual)
 
-        comparison = metric_table(
-            predictions.iloc[:, 0],
-            data.actual,
-            baseline_forecasts(data.X, config.project.random_seed),
-            name,
-        )
+        baselines = baseline_forecasts(data.X, config.project.random_seed)
+        comparison = metric_table(predictions.iloc[:, 0], data.actual, baselines, name)
+        for label, values in baselines.items():
+            cs = cross_sectional_score(pd.Series(values, index=data.X.index), data.actual)
+            for key, value in cs.items():
+                comparison.loc[label, key] = value
         # The model row is the mean over paths, not path 0 alone.
         comparison.loc[name, path_metrics.columns] = path_metrics.mean()
 
@@ -555,11 +950,14 @@ def run_research(
                 )
 
         redundancy = feature_redundancy(data.X)
-        metrics = summarise(path_metrics, by_year, data, cv)
+        metrics = summarise(path_metrics, by_year, data, cv, splits, leakage)
 
     except Exception as exc:
         trial_log.log_trial(
             name,
+            kind="research",
+            fingerprint=identity,
+            status="failed",
             config=config,
             features=features,
             model_params=params,
@@ -570,6 +968,9 @@ def run_research(
 
     trial_id = trial_log.log_trial(
         name,
+        kind="research",
+        fingerprint=identity,
+        status="ok",
         config=config,
         features=features,
         model_params=params,
@@ -595,6 +996,8 @@ def run_research(
         predictions=predictions,
         ic_by_year=by_year,
         ic_by_regime=by_regime,
+        cs_ic_daily=cs_daily,
         redundancy=redundancy,
+        splits=splits,
         importance=importance,
     )

@@ -60,6 +60,11 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         action="store_true",
         help="skip permutation importance, the slowest step",
     )
+    parser.add_argument(
+        "--splits-only",
+        action="store_true",
+        help="write splits.csv and validation.csv without fitting or logging a trial",
+    )
 
     return parser.parse_args(argv)
 
@@ -76,11 +81,24 @@ def main(argv: Sequence[str] | None = None) -> int:
         return EXIT_FAILED
 
     # Imported after the config loads, so a bad path fails fast and cleanly.
-    from src.pipelines.research import DEFAULT_OUTPUT, run_research, with_overrides
+    from src.pipelines.research import (
+        DEFAULT_OUTPUT,
+        run_research,
+        with_overrides,
+        write_split_report,
+    )
 
     try:
         config = with_overrides(config, label_method=args.label_method, estimator=args.model)
         log_config(logger, config)
+
+        if args.splits_only:
+            files = write_split_report(config, args.output or DEFAULT_OUTPUT)
+            print(f"\nSplit report written, no model fitted, no trial logged\n{RULE}")
+            for path in files:
+                print(path)
+            return EXIT_OK
+
         result = run_research(config, refresh=args.refresh, permutation=not args.no_permutation)
         files = result.save(args.output or DEFAULT_OUTPUT)
     except ConfigError as exc:

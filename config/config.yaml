@@ -109,9 +109,17 @@ labelling:
 
 # --- Validation -------------------------------------------------------------
 validation:
-  # Rolling features overlap between neighbouring rows, so an embargo is
-  # needed even when the labels themselves do not overlap.
-  embargo_pct: 0.01
+  # Trading dates of training data dropped after every test block. Label
+  # overlap is removed exactly by purging, so this gap is for the rolling
+  # features, whose windows still hold test-period prices just after a block.
+  # 36 dates covers every short-memory feature (lags up to 21 days, the 5 to
+  # 21 day averages and volatilities, RSI, volume); the target's autocorrelation
+  # is at noise level within about 5 dates. The 63 day features and fracdiff
+  # stay correlated for longer than any gap could cover, and the rows before
+  # each block are just as similar and never embargoed, so matching 63 would
+  # cost data without removing that similarity. Counted in dates, not as a
+  # share, so the gap does not change with the length of the sample.
+  embargo_days: 36
 
   n_splits: 6
 

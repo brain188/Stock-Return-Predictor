@@ -20,8 +20,10 @@ from src.features.build import (
     build_features,
     drop_warmup,
     feature_names,
+    feature_windows,
     warmup_rows,
 )
+from src.features.fracdiff import fracdiff_weights
 from src.labelling.fixed_horizon import label_fixed_horizon
 from tests.conftest import make_bars
 
@@ -189,3 +191,19 @@ def test_fracdiff_order_uses_pre_test_data_only(small_config):
     assert build.choose_fracdiff_order(panel, small_config) == build.choose_fracdiff_order(
         damaged, small_config
     )
+
+
+def test_feature_windows_follow_feature_names(small_config):
+    """One window per feature, in matrix order, read from the config."""
+    windows = feature_windows(small_config, d=D)
+    width = len(fracdiff_weights(D, small_config.features.fracdiff.weight_threshold)) - 1
+
+    assert list(windows) == feature_names(small_config)
+    assert windows["ret_21d"] == 21
+    assert windows["px_over_ma_63"] == 63
+    assert windows["vol_ratio_10_63"] == 63
+    assert windows["rsi_14"] == 14
+    assert windows["volume_ratio_21"] == 21
+    assert windows["fracdiff"] == width
+    # Without d, fracdiff falls back to the longest configured window.
+    assert feature_windows(small_config)["fracdiff"] == small_config.features.max_lookback
