@@ -4,7 +4,7 @@
 # no virtualenv to be activated first.
 
 .DEFAULT_GOAL := help
-.PHONY: help setup fetch eda lint format test ci lock clean
+.PHONY: help setup fetch eda portfolio lint format test ci lock clean
 
 help:  ## Show the available targets
 	@grep -E '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) \
@@ -19,6 +19,9 @@ fetch:  ## Pull and cache the price data
 eda:  ## Rebuild the exploratory figures and the stationarity table
 	uv run python -m src.reporting.figures
 	uv run python -m src.reporting.stationarity
+
+portfolio:  ## Allocation, frontier and risk analysis on the development period
+	uv run python -m src.pipelines.portfolio
 
 lint:  ## Check style and formatting
 	uv run ruff check .

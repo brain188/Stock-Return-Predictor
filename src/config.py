@@ -21,6 +21,8 @@ LABELLING_METHODS = {"fixed_horizon", "triple_barrier"}
 ESTIMATORS = {"random_forest", "lightgbm", "lstm"}
 TASKS = {"regression", "classification"}
 REBALANCE_FREQUENCIES = {"daily", "weekly", "monthly"}
+COVARIANCE_METHODS = {"sample", "ledoit_wolf", "ewma"}
+EXPECTED_RETURN_METHODS = {"historical", "shrunk"}
 
 
 class ConfigError(Exception):
@@ -444,11 +446,49 @@ class StrategiesConfig:
 
 
 @dataclass(frozen=True)
+class PortfolioConfig:
+    """Allocation, optimisation and forward-risk settings."""
+
+    volatility_window: int
+    covariance_window: int
+    rebalance: str
+    covariance_method: str
+    expected_return_method: str
+    risk_free_rate: float
+    long_only: bool
+    horizon_days: int
+    var_levels: list[float]
+    ruin_floor: float
+
+    def validate(self) -> None:
+        """Check the windows, methods and levels are usable."""
+        if self.volatility_window < 20 or self.covariance_window < 20:
+            raise ConfigError("portfolio windows need at least 20 days")
+        if self.rebalance not in REBALANCE_FREQUENCIES:
+            raise ConfigError(f"portfolio.rebalance must be one of {sorted(REBALANCE_FREQUENCIES)}")
+        if self.covariance_method not in COVARIANCE_METHODS:
+            raise ConfigError(
+                f"portfolio.covariance_method must be one of {sorted(COVARIANCE_METHODS)}"
+            )
+        if self.expected_return_method not in EXPECTED_RETURN_METHODS:
+            raise ConfigError(
+                f"portfolio.expected_return_method must be one of {sorted(EXPECTED_RETURN_METHODS)}"
+            )
+        if not all(0.5 < level < 1 for level in self.var_levels):
+            raise ConfigError("portfolio.var_levels must be between 0.5 and 1")
+        if not 0 < self.ruin_floor < 1:
+            raise ConfigError("portfolio.ruin_floor must be between 0 and 1")
+        if self.horizon_days < 1:
+            raise ConfigError("portfolio.horizon_days must be at least 1")
+
+
+@dataclass(frozen=True)
 class EvaluationConfig:
     """Settings for scoring and for correcting selection bias."""
 
     trial_log: Path
     monte_carlo_runs: int
+    bootstrap_block_days: int
     trading_days_per_year: int
     random_hit_rate: float
 
@@ -458,6 +498,7 @@ class EvaluationConfig:
         return cls(
             trial_log=(root / raw["trial_log"]).resolve(),
             monte_carlo_runs=raw["monte_carlo_runs"],
+            bootstrap_block_days=raw["bootstrap_block_days"],
             trading_days_per_year=raw["trading_days_per_year"],
             random_hit_rate=raw["random_hit_rate"],
         )
@@ -466,6 +507,9 @@ class EvaluationConfig:
         """Check the resampling count is high enough to be meaningful."""
         if self.monte_carlo_runs < 100:
             raise ConfigError("evaluation.monte_carlo_runs should be at least 100")
+
+        if self.bootstrap_block_days < 1:
+            raise ConfigError("evaluation.bootstrap_block_days must be at least 1")
 
 
 @dataclass(frozen=True)
@@ -482,6 +526,7 @@ class Config:
     model: ModelConfig
     backtest: BacktestConfig
     strategies: StrategiesConfig
+    portfolio: PortfolioConfig
     evaluation: EvaluationConfig
     source_file: Path = field(repr=False)
 
@@ -495,6 +540,7 @@ class Config:
         self.model.validate()
         self.backtest.validate()
         self.strategies.validate()
+        self.portfolio.validate()
         self.evaluation.validate()
 
         if not self.universe.start_date < self.validation.test_start < self.universe.end_date:
@@ -539,6 +585,7 @@ def load_config(path: str | Path | None = None, *, create_dirs: bool = True) -> 
         "model",
         "backtest",
         "strategies",
+        "portfolio",
         "evaluation",
     }
     if absent := required - raw.keys():
@@ -555,6 +602,9 @@ def load_config(path: str | Path | None = None, *, create_dirs: bool = True) -> 
         model=ModelConfig(**raw["model"]),
         backtest=BacktestConfig(**raw["backtest"]),
         strategies=StrategiesConfig.from_dict(raw["strategies"]),
+        portfolio=PortfolioConfig(
+            **{**raw["portfolio"], "var_levels": list(raw["portfolio"]["var_levels"])}
+        ),
         evaluation=EvaluationConfig.from_dict(raw["evaluation"], PROJECT_ROOT),
         source_file=config_path,
     )

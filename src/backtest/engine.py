@@ -144,12 +144,16 @@ def check_limits(positions: pd.DataFrame, config: Config) -> None:
 def hold_weights(
     targets: pd.DataFrame,
     returns: pd.DataFrame,
+    rebalance: pd.Series | None = None,
 ) -> tuple[pd.DataFrame, pd.Series]:
     """Weights actually held, trading a ticker only when its target changes.
 
     Args:
         targets: Target weights per date, NaN treated as 0.
         returns: Asset returns on the same grid.
+        rebalance: Dates (True) on which every ticker is traded back to its
+            target even if the target did not change, as a scheduled
+            rebalance of a fixed-weight book does. None trades on changes only.
 
     Returns:
         The weights held after each close, and the turnover traded to reach
@@ -163,6 +167,11 @@ def hold_weights(
     r = returns.reindex_like(targets).fillna(0.0).to_numpy(dtype=float)
     held = np.zeros_like(target)
     traded = np.zeros(len(target))
+    forced = (
+        np.zeros(len(target), dtype=bool)
+        if rebalance is None
+        else rebalance.reindex(targets.index, fill_value=False).to_numpy(dtype=bool)
+    )
     previous_weight = np.zeros(target.shape[1])
     previous_target = np.zeros(target.shape[1])
 
@@ -172,7 +181,7 @@ def hold_weights(
             raise BacktestError(f"the book lost everything on {targets.index[t].date()}")
 
         drifted = previous_weight * (1.0 + r[t]) / growth
-        changed = np.abs(target[t] - previous_target) > TARGET_TOLERANCE
+        changed = forced[t] | (np.abs(target[t] - previous_target) > TARGET_TOLERANCE)
         held[t] = np.where(changed, target[t], drifted)
         traded[t] = np.abs(held[t] - drifted).sum()
         previous_weight, previous_target = held[t], target[t]
@@ -189,6 +198,7 @@ def run_backtest(
     *,
     name: str = "strategy",
     metadata: dict[str, Any] | None = None,
+    rebalance: pd.Series | None = None,
 ) -> BacktestResult:
     """Backtest target weights against asset returns, gross and net.
 
@@ -199,6 +209,8 @@ def run_backtest(
         config: Supplies the costs, the limits and the initial capital.
         name: Label for the result.
         metadata: Anything to keep with the result, for example parameters.
+        rebalance: Dates on which every ticker is traded back to its target,
+            delay already applied. None trades only when a target changes.
 
     Returns:
         The backtest, on the positions' date index.
@@ -210,7 +222,7 @@ def run_backtest(
     check_limits(positions, config)
     asset_returns = returns.reindex(index=positions.index, columns=positions.columns).fillna(0.0)
 
-    weights, traded = hold_weights(positions, asset_returns)
+    weights, traded = hold_weights(positions, asset_returns, rebalance)
     gross = gross_returns(weights, asset_returns)
     net, costs = net_returns(gross, weights, config, traded)
 

@@ -20,7 +20,7 @@ import pytest
 from entrypoint import evaluate as cli
 from src.backtest.performance import sharpe_ratio
 from src.backtest.strategy import MLLongShort
-from src.config import PROJECT_ROOT
+from src.config import PROJECT_ROOT, load_config
 from src.evaluation.trial_log import TrialLog
 from src.pipelines.evaluate import (
     DEFAULT_STRATEGIES,
@@ -28,6 +28,8 @@ from src.pipelines.evaluate import (
     PathError,
     backtest_paths,
     build_context,
+    load_path_returns,
+    monte_carlo_table,
     path_targets,
     regime_breakdown,
     run_evaluation,
@@ -189,6 +191,7 @@ def test_save_writes_the_tables_and_returns(result_and_log, tmp_path):
         "regimes.csv",
         "pairs_selection.csv",
         "path_check.csv",
+        "monte_carlo.csv",
         "path_returns.parquet",
     }
     returns = pd.read_parquet(tmp_path / "path_returns.parquet")
@@ -326,3 +329,43 @@ def test_regimes_bucket_each_return_by_the_label_known_before_it():
     # Shifted labels: [NaN, low, low, high, high, low]. High days are 3 and 4.
     assert table.loc[("x", "high"), "days"] == 2
     assert table.loc[("x", "low"), "days"] == 3
+
+
+# --- Monte Carlo ------------------------------------------------------------------
+
+
+def test_monte_carlo_covers_every_strategy(result_and_log):
+    result, _, _ = result_and_log
+    table = result.monte_carlo
+
+    assert set(table.index) == set(result.evaluations)
+    probabilities = table.filter(like="p_")
+    assert ((probabilities >= 0) & (probabilities <= 1)).all().all()
+    # A benchmark resampled with itself never beats itself.
+    assert table.loc["equal_weight_hold", "p_beat_equal_weight_hold"] == 0
+    assert (table["sharpe_low"] <= table["sharpe_median"]).all()
+    assert (table["sharpe_median"] <= table["sharpe_high"]).all()
+
+
+def test_monte_carlo_from_saved_paths_matches_the_run(result_and_log, tmp_path):
+    result, _, folder = result_and_log
+    result.save(tmp_path)
+    small = shrink(load_config(create_dirs=False), folder / "trials.csv")
+
+    again = monte_carlo_table(load_path_returns(tmp_path), small, small.evaluation.monte_carlo_runs)
+
+    pd.testing.assert_frame_equal(again, result.monte_carlo)
+
+
+def test_cli_from_saved_refits_nothing_and_logs_nothing(
+    result_and_log, small_config, tmp_path, monkeypatch
+):
+    result, _, _ = result_and_log
+    result.save(tmp_path)
+    monkeypatch.setattr(cli, "load_config", lambda path=None: small_config)
+
+    code = cli.main(["--from-saved", "--monte-carlo-runs", "100", "--output", str(tmp_path)])
+
+    assert code == cli.EXIT_OK
+    assert (tmp_path / "monte_carlo.csv").is_file()
+    assert not small_config.evaluation.trial_log.exists()

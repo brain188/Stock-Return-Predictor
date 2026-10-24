@@ -220,3 +220,22 @@ def test_reproduces_notebook_4s_backtest_on_the_same_inputs(config):
     assert np.allclose(
         engine.costs["total"].iloc[1:-1].to_numpy(), notebook["cost"].iloc[2:].to_numpy()
     )
+
+
+def test_a_scheduled_rebalance_trades_back_to_an_unchanged_target(prices, returns, config):
+    positions = pd.DataFrame(1 / 3, index=prices.index, columns=prices.columns)
+    monthly = pd.Series(prices.index.is_month_end, index=prices.index) | (
+        pd.Series(prices.index.month, index=prices.index).diff().shift(-1).fillna(0) != 0
+    )
+
+    drift = run_backtest(positions, returns, config)
+    rebalanced = run_backtest(positions, returns, config, rebalance=monthly)
+
+    # Without the schedule an unchanged target means buy and hold; with it the
+    # book is traded back to 1/3 each month, and only then.
+    assert (drift.turnover.iloc[1:] == 0).all()
+    traded = rebalanced.turnover.iloc[1:] > 0
+    assert traded.any()
+    assert not (traded & ~monthly.iloc[1:]).any()
+    on_schedule = rebalanced.weights[monthly]
+    assert np.allclose(on_schedule, 1 / 3)

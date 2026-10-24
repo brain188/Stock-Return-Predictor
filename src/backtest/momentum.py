@@ -99,6 +99,12 @@ def momentum_positions(
 def rebalance_schedule(index: pd.DatetimeIndex, frequency: str = "monthly") -> pd.Series:
     """True on the last trading date of each period, where the book is reset.
 
+    The answer depends on the calendar only, never on where the data ends:
+    the last date of the index is a period end only if the next business day
+    falls in a new period. Comparing with the next row alone would make the
+    final row of any series a rebalance, so truncating the data would invent
+    a trade.
+
     Args:
         index: Trading dates.
         frequency: "daily", "weekly" or "monthly".
@@ -106,13 +112,17 @@ def rebalance_schedule(index: pd.DatetimeIndex, frequency: str = "monthly") -> p
     Returns:
         A boolean per date.
     """
+    index = pd.DatetimeIndex(index)
     if frequency == "daily":
         return pd.Series(True, index=index)
 
     alias = {"weekly": "W", "monthly": "M"}[frequency]
     period = pd.Series(index.to_period(alias), index=index)
+    following = period.shift(-1)
+    if len(index):
+        following.iloc[-1] = (index[-1] + pd.offsets.BDay(1)).to_period(alias)
 
-    return period != period.shift(-1)
+    return period != following
 
 
 def momentum_targets(prices: pd.DataFrame, config: Config) -> pd.DataFrame:

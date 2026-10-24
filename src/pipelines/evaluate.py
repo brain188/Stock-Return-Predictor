@@ -57,6 +57,13 @@ from src.backtest.strategy import (
 )
 from src.config import PROJECT_ROOT, Config
 from src.data.cleaning import load_clean_panel
+from src.evaluation.monte_carlo import (
+    confidence_interval,
+    simulate_paths,
+)
+from src.evaluation.monte_carlo import (
+    path_statistics as resampled_statistics,
+)
 from src.evaluation.trial_log import TrialLog, trial_fingerprint
 from src.logger import get_logger, log_frame, log_step
 from src.pipelines.research import (
@@ -152,6 +159,7 @@ class EvaluationResult:
     regimes: pd.DataFrame
     pairs_selection: pd.DataFrame
     path_check: pd.DataFrame = field(default_factory=pd.DataFrame)
+    monte_carlo: pd.DataFrame | None = None
     files: list[Path] = field(default_factory=list)
 
     def save(self, out_dir: str | Path = DEFAULT_OUTPUT) -> list[Path]:
@@ -177,6 +185,8 @@ class EvaluationResult:
             "pairs_selection.csv": self.pairs_selection,
             "path_check.csv": self.path_check,
         }
+        if self.monte_carlo is not None:
+            tables["monte_carlo.csv"] = self.monte_carlo
         self.files = []
         for name, table in tables.items():
             table.to_csv(folder / name)
@@ -746,6 +756,108 @@ def _log(
     )
 
 
+def net_paths(evaluations: dict[str, StrategyEvaluation]) -> dict[str, list[pd.Series]]:
+    """Each strategy's daily net returns, one series per path."""
+    return {name: [result.net for result in e.results] for name, e in evaluations.items()}
+
+
+def load_path_returns(folder: str | Path = DEFAULT_OUTPUT) -> dict[str, list[pd.Series]]:
+    """Net path returns from a saved evaluation (path_returns.parquet), no refitting."""
+    frame = pd.read_parquet(Path(folder) / "path_returns.parquet")
+    out: dict[str, list[tuple[int, pd.Series]]] = {}
+
+    for column in frame.columns:
+        name, path, kind = column.split("|")
+        if kind == "net":
+            out.setdefault(name, []).append((int(path.removeprefix("path_")), frame[column]))
+
+    return {name: [s for _, s in sorted(series)] for name, series in out.items()}
+
+
+def monte_carlo_table(
+    returns: dict[str, list[pd.Series]],
+    config: Config,
+    n_runs: int,
+    *,
+    method: str = "block",
+    reference: str = REFERENCE,
+    market: str = "buy_and_hold",
+) -> pd.DataFrame:
+    """Resampled outcomes of every strategy, paired with the benchmarks.
+
+    On each path the strategy, equal weight and SPY are resampled together,
+    with the same blocks of days (the paths' runs split n_runs between them),
+    and every strategy on a path uses the same seed, so all of them are
+    compared on identical resampled histories.
+
+    Two probabilities of beating equal weight are given. The paired one
+    compares Sharpe ratios on the same resampled days and is the honest
+    one. The other compares each resampled path with equal weight's single
+    historical Sharpe, as notebook 4 did; it ignores that the benchmark's
+    own Sharpe is uncertain too.
+
+    Returns:
+        One row per strategy: median and 95% interval of the Sharpe, median
+        annual return, median and 5th percentile max drawdown, and the
+        probabilities of a positive Sharpe and of beating each benchmark.
+    """
+    if reference not in returns or market not in returns:
+        raise ValueError(f"monte carlo needs '{reference}' and '{market}' among the strategies")
+
+    n_paths = len(returns[reference])
+    per_path = max(1, n_runs // n_paths)
+    seed = config.project.random_seed
+    rows = {}
+
+    for name, series_by_path in returns.items():
+        ours, theirs, market_runs, historical = [], [], [], []
+        for p, series in enumerate(series_by_path):
+            frame = pd.concat(
+                [series, returns[reference][p], returns[market][p]], axis=1, join="inner"
+            ).dropna()
+            sims = simulate_paths(frame, method, config, n_runs=per_path, seed=seed + p)
+            ours.append(resampled_statistics(sims[:, :, 0]))
+            theirs.append(resampled_statistics(sims[:, :, 1])["sharpe"].to_numpy())
+            market_runs.append(resampled_statistics(sims[:, :, 2])["sharpe"].to_numpy())
+            historical.append(np.full(per_path, sharpe_ratio(frame.iloc[:, 1])))
+
+        stats = pd.concat(ours, ignore_index=True)
+        sharpe = stats["sharpe"].to_numpy()
+        ref = np.concatenate(theirs)
+        mkt = np.concatenate(market_runs)
+        hist = np.concatenate(historical)
+        low, high = confidence_interval(sharpe, 0.95)
+
+        def share(a, b):
+            valid = ~(np.isnan(a) | np.isnan(b))
+            return float(np.mean(a[valid] > b[valid])) if valid.any() else float("nan")
+
+        rows[name] = {
+            "sharpe_median": float(np.nanmedian(sharpe)),
+            "sharpe_low": low,
+            "sharpe_high": high,
+            "annual_return_median": float(stats["annual_return"].median()),
+            "max_drawdown_median": float(stats["max_drawdown"].median()),
+            "max_drawdown_p05": float(stats["max_drawdown"].quantile(0.05)),
+            "p_sharpe_positive": share(sharpe, np.zeros_like(sharpe)),
+            f"p_beat_{reference}": share(sharpe, ref),
+            f"p_beat_{reference}_historical": share(sharpe, hist),
+            f"p_beat_{market}": share(sharpe, mkt),
+            "runs": float(len(sharpe)),
+        }
+
+    table = pd.DataFrame(rows).T
+    table.index.name = "strategy"
+    logger.info(
+        "Monte Carlo: %s %s-bootstrap runs per strategy, %s days per block",
+        per_path * n_paths,
+        method,
+        config.evaluation.bootstrap_block_days,
+    )
+
+    return table
+
+
 def run_evaluation(
     config: Config,
     panel: pd.DataFrame | None = None,
@@ -754,6 +866,7 @@ def run_evaluation(
     n_paths: int | None = None,
     same_close_check: bool = True,
     trial_log: TrialLog | None = None,
+    monte_carlo_runs: int | None = None,
 ) -> EvaluationResult:
     """Run every requested strategy through CPCV and compare them.
 
@@ -765,9 +878,13 @@ def run_evaluation(
         same_close_check: Also run ML long/short at the signal's own close,
             as a diagnostic, to measure what notebook 4's timing was worth.
         trial_log: Where to record trials. Defaults to the config's.
+        monte_carlo_runs: Block-bootstrap runs per strategy. None uses
+            evaluation.monte_carlo_runs; 0 skips the resampling. It needs both
+            benchmarks among the strategies.
 
     Returns:
-        The comparison, per-path statistics, regime table and pair selections.
+        The comparison, per-path statistics, regime table, pair selections
+        and, when run, the Monte Carlo table.
     """
     unknown = set(strategies) - set(STRATEGIES)
     if unknown:
@@ -808,6 +925,14 @@ def run_evaluation(
     )
     pairs = evaluations["pairs"].extra["selection"] if "pairs" in evaluations else pd.DataFrame()
 
+    runs = config.evaluation.monte_carlo_runs if monte_carlo_runs is None else monte_carlo_runs
+    monte_carlo = None
+    if runs and set(BENCHMARK_NAMES) <= set(evaluations):
+        with log_step(logger, "Monte Carlo resampling"):
+            monte_carlo = monte_carlo_table(net_paths(evaluations), config, runs)
+    elif runs:
+        logger.warning("Monte Carlo skipped: it needs both benchmarks among the strategies")
+
     return EvaluationResult(
         evaluations=evaluations,
         comparison=compare_strategies(evaluations, seed=config.project.random_seed),
@@ -815,4 +940,5 @@ def run_evaluation(
         regimes=regime_breakdown(evaluations, context.regimes, seed=config.project.random_seed),
         pairs_selection=pairs,
         path_check=context.path_check,
+        monte_carlo=monte_carlo,
     )

@@ -230,6 +230,28 @@ strategies:
     # trade daily against costs.
     max_half_life: 126
 
+# --- Portfolio and risk -----------------------------------------------------
+portfolio:
+  # Trailing windows, in trading days, for the volatility and covariance
+  # estimates behind each allocation. Weights are reset on the schedule only.
+  volatility_window: 63
+  covariance_window: 252
+  rebalance: monthly
+
+  # Ledoit-Wolf shrinks the noisy sample covariance toward a structured
+  # target; the shrunk mean pulls each asset's return toward the average,
+  # because historical means are the noisiest input an optimiser takes.
+  covariance_method: ledoit_wolf
+  expected_return_method: shrunk
+  risk_free_rate: 0.0
+  long_only: true
+
+  # Forward risk: horizon of the simulated paths, the confidence levels for
+  # VaR and CVaR, and the fall (as a share of capital) that counts as ruin.
+  horizon_days: 252
+  var_levels: [0.95, 0.99]
+  ruin_floor: 0.5
+
 # --- Evaluation -------------------------------------------------------------
 evaluation:
   # Every configuration tried is logged here. The deflated Sharpe needs the
@@ -237,6 +259,9 @@ evaluation:
   trial_log: reports/trial_log.csv
 
   monte_carlo_runs: 1000
+  # Resampled blocks of about a trading month keep volatility regimes
+  # together; resampling single days shuffles the clustering away.
+  bootstrap_block_days: 21
   trading_days_per_year: 252
 
   # A random forecaster reaches roughly this hit rate on daily data. Anything

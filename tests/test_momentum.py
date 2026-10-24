@@ -109,7 +109,9 @@ def test_rebalance_on_the_last_trading_day_of_each_month():
     assert monthly[pd.Timestamp("2020-01-31")]
     assert monthly[pd.Timestamp("2020-02-28")]
     assert rebalance_schedule(dates, "daily").all()
-    assert rebalance_schedule(dates, "weekly").sum() == 53
+    # 2020-12-31 is a Thursday: by the calendar its week ends on Friday 1 January,
+    # so it is not a rebalance, even though it is the last row of the data.
+    assert rebalance_schedule(dates, "weekly").sum() == 52
 
 
 def test_targets_change_only_on_rebalance_dates(prices, config):
@@ -158,3 +160,12 @@ def test_a_book_larger_than_the_universe_is_refused(config):
 
     with pytest.raises(ValueError, match="top_k"):
         momentum_targets(prices, config)
+
+
+def test_the_schedule_does_not_depend_on_where_the_data_ends():
+    dates = pd.bdate_range("2020-01-01", "2020-06-30")
+    full = rebalance_schedule(dates, "monthly")
+
+    for cut in (40, 41, 60, 80):
+        truncated = rebalance_schedule(dates[:cut], "monthly")
+        pd.testing.assert_series_equal(truncated, full.iloc[:cut], check_freq=False)

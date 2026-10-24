@@ -60,6 +60,17 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         help="evaluate only the first n CPCV paths (default: all)",
     )
     parser.add_argument(
+        "--monte-carlo-runs",
+        type=int,
+        default=None,
+        help="block-bootstrap runs per strategy (default: evaluation.monte_carlo_runs; 0 skips)",
+    )
+    parser.add_argument(
+        "--from-saved",
+        action="store_true",
+        help="only recompute the Monte Carlo table from saved path returns: no refit, no trial",
+    )
+    parser.add_argument(
         "--no-same-close",
         action="store_true",
         help="skip the diagnostic run of ML long/short at the signal's own close",
@@ -91,7 +102,27 @@ def main(argv: Sequence[str] | None = None) -> int:
         return EXIT_FAILED
 
     # Imported after the config loads, so a bad path fails fast and cleanly.
-    from src.pipelines.evaluate import DEFAULT_OUTPUT, DEFAULT_STRATEGIES, run_evaluation
+    from src.pipelines.evaluate import (
+        DEFAULT_OUTPUT,
+        DEFAULT_STRATEGIES,
+        load_path_returns,
+        monte_carlo_table,
+        run_evaluation,
+    )
+
+    output = Path(args.output) if args.output else DEFAULT_OUTPUT
+
+    if args.from_saved:
+        try:
+            runs = args.monte_carlo_runs or config.evaluation.monte_carlo_runs
+            table = monte_carlo_table(load_path_returns(output), config, runs)
+        except (OSError, ValueError) as exc:
+            logger.error("%s", exc)
+            return EXIT_FAILED
+        table.to_csv(output / "monte_carlo.csv")
+        print(f"\nMonte Carlo from saved paths, no refit, no trial\n{RULE}")
+        print(table.round(3).to_string())
+        return EXIT_OK
 
     strategies = (
         [name.strip() for name in args.strategies.split(",") if name.strip()]
@@ -106,8 +137,9 @@ def main(argv: Sequence[str] | None = None) -> int:
             strategies=strategies,
             n_paths=args.n_paths,
             same_close_check=not args.no_same_close,
+            monte_carlo_runs=args.monte_carlo_runs,
         )
-        files = result.save(args.output or DEFAULT_OUTPUT)
+        files = result.save(output)
     except (ConfigError, ValueError) as exc:
         logger.error("%s", exc)
         return EXIT_FAILED
@@ -118,6 +150,9 @@ def main(argv: Sequence[str] | None = None) -> int:
     shown = [c for c in SHOWN if c in result.comparison.columns]
     print(f"\nStrategies over the CPCV paths, development period only\n{RULE}")
     print(result.comparison[shown].round(3).to_string())
+    if result.monte_carlo is not None:
+        print(f"\nMonte Carlo, block bootstrap\n{RULE}")
+        print(result.monte_carlo.round(3).to_string())
     print(f"\nFiles in {files[0].parent}")
 
     return EXIT_OK
