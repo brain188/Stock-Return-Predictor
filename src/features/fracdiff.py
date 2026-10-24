@@ -78,11 +78,25 @@ def schwert_lags(n: int) -> int:
     return math.ceil(12 * (n / 100) ** 0.25)
 
 
+def _adf_rows(y: np.ndarray, lags: int, constant: bool) -> tuple[np.ndarray, np.ndarray]:
+    """The ADF regression rows of one contiguous stretch: design and target."""
+    dy = np.diff(y)
+    target = dy[lags:]
+
+    # Columns: constant (optional), lagged level, then each lagged difference.
+    columns = [np.ones(len(target))] if constant else []
+    columns += [y[lags:-1]]
+    columns += [dy[lags - k : -k] for k in range(1, lags + 1)]
+
+    return np.column_stack(columns), target
+
+
 def adf_statistic(
     series: pd.Series | np.ndarray,
     max_lags: int | None = None,
     *,
     constant: bool = True,
+    segments: pd.Series | np.ndarray | None = None,
 ) -> float:
     """The ADF t statistic on gamma, from a hand rolled regression.
 
@@ -92,10 +106,16 @@ def adf_statistic(
 
     Args:
         series: The series to test. NaN values are dropped first.
-        max_lags: Lagged differences to include. Defaults to Schwert's rule.
+        max_lags: Lagged differences to include. Defaults to Schwert's rule
+            on the total length.
         constant: Include alpha. The Engle-Granger residual test leaves it
             out, because the residuals of a regression with an intercept
             already have mean zero.
+        segments: A label per observation, equal for observations that are
+            consecutive in time. Differences and lags are then taken only
+            within a segment, so a jump across a gap between segments (for
+            example between CPCV training groups) is never treated as one
+            step. None treats the whole series as one stretch.
 
     Returns:
         The t statistic.
@@ -103,22 +123,30 @@ def adf_statistic(
     Raises:
         FracDiffError: If the series is too short for the regression.
     """
-    y = pd.Series(series).dropna().to_numpy(dtype=float)
+    values = pd.Series(np.asarray(series, dtype=float))
+    labels = pd.Series(np.zeros(len(values)) if segments is None else np.asarray(segments))
+    keep = values.notna().to_numpy()
+    y, labels = values.to_numpy()[keep], labels.to_numpy()[keep]
     n = len(y)
     lags = schwert_lags(n) if max_lags is None else max_lags
 
     if n - lags - 1 <= lags + 2:
         raise FracDiffError(f"series of {n} points is too short for {lags} lags")
 
-    dy = np.diff(y)
-    target = dy[lags:]
+    designs, targets = [], []
+    for label in pd.unique(labels):
+        stretch = y[labels == label]
+        # A stretch needs lags + 2 points to give a single regression row.
+        if len(stretch) >= lags + 2:
+            design, target = _adf_rows(stretch, lags, constant)
+            designs.append(design)
+            targets.append(target)
 
-    # Columns: constant (optional), lagged level, then each lagged difference.
-    columns = [np.ones(len(target))] if constant else []
-    level = len(columns)
-    columns += [y[lags:-1]]
-    columns += [dy[lags - k : -k] for k in range(1, lags + 1)]
-    design = np.column_stack(columns)
+    if not designs or sum(len(t) for t in targets) <= designs[0].shape[1] + 1:
+        raise FracDiffError(f"segments are too short for {lags} lags")
+
+    design, target = np.vstack(designs), np.concatenate(targets)
+    level = 1 if constant else 0
 
     beta, *_ = np.linalg.lstsq(design, target, rcond=None)
     residuals = target - design @ beta

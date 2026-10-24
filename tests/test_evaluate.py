@@ -7,22 +7,31 @@ benchmarks) has something to do.
 
 from __future__ import annotations
 
+import copy
 import dataclasses
 import subprocess
 import sys
+from types import SimpleNamespace
 
 import numpy as np
 import pandas as pd
 import pytest
 
 from entrypoint import evaluate as cli
+from src.backtest.performance import sharpe_ratio
+from src.backtest.strategy import MLLongShort
 from src.config import PROJECT_ROOT
 from src.evaluation.trial_log import TrialLog
 from src.pipelines.evaluate import (
     DEFAULT_STRATEGIES,
     SAME_CLOSE,
+    PathError,
+    backtest_paths,
     build_context,
+    path_targets,
+    regime_breakdown,
     run_evaluation,
+    verify_paths,
 )
 
 TICKERS = ["SPY", "AAA", "BBB", "CCC", "DDD", "EEE"]
@@ -153,8 +162,14 @@ def test_comparison_and_regime_tables(result_and_log):
     assert {"sharpe_gross", "sharpe_net", "sharpe_lost_to_costs", "breakeven_return"} <= set(
         comparison.columns
     )
-    assert set(result.regimes.columns) == {"low", "normal", "high"}
-    assert "days_in_regime" in result.regimes.index
+    regimes = result.regimes
+    assert set(regimes.index.get_level_values("regime")) == {"low", "normal", "high"}
+    assert {"sharpe", "sharpe_se", "vs_reference_low", "vs_reference_high"} <= set(regimes.columns)
+    # The reference against itself differs by exactly nothing.
+    own = regimes.loc[("equal_weight_hold", "high")]
+    assert own["vs_reference"] == 0 and own["vs_reference_low"] == 0
+    assert (comparison["vs_reference_low"] <= comparison["vs_reference_high"]).all()
+    assert (comparison["sharpe_se"] > 0).all()
 
 
 def test_same_close_timing_is_the_only_difference(result_and_log):
@@ -173,6 +188,7 @@ def test_save_writes_the_tables_and_returns(result_and_log, tmp_path):
         "paths.csv",
         "regimes.csv",
         "pairs_selection.csv",
+        "path_check.csv",
         "path_returns.parquet",
     }
     returns = pd.read_parquet(tmp_path / "path_returns.parquet")
@@ -239,3 +255,74 @@ def test_cli_rejects_an_unknown_strategy_cleanly(capsys):
     code = cli.main(["--strategies", "moonshot"])
 
     assert code == cli.EXIT_FAILED
+
+
+# --- Verification: paths, timing, regimes ---------------------------------------
+
+
+@pytest.fixture(scope="module")
+def context(panel, config, tmp_path_factory):
+    small = shrink(config, tmp_path_factory.mktemp("context") / "trials.csv")
+
+    return build_context(small, panel, fit_models=False)
+
+
+def test_every_path_covers_each_date_once_from_an_unseen_split(context):
+    report = verify_paths(context)
+
+    assert len(report) == 5
+    assert (report["duplicates"] == 0).all()
+    assert (report["missing"] == 0).all()
+    assert (report["dates"] == len(context.dates)).all()
+
+
+def test_each_split_fills_its_two_test_groups_on_paths(context):
+    slots = pd.Series(np.asarray(context.cv.paths).ravel()).value_counts()
+
+    # 15 splits x 2 test groups = 30 slots = 5 paths x 6 groups: every split
+    # fills exactly two slots, on one path or two, so paths share models.
+    assert len(slots) == 15
+    assert (slots == 2).all()
+
+
+def test_a_broken_path_assignment_is_caught(context):
+    broken = dataclasses.replace(context)
+    broken.cv = copy.deepcopy(context.cv)
+    broken.cv.paths = broken.cv.paths.copy()
+    # Split 9 tests groups 2 and 3, so it cannot supply group 0.
+    assert context.cv.splits[9] == (2, 3)
+    broken.cv.paths[0, 0] = 9
+
+    with pytest.raises(PathError):
+        verify_paths(broken)
+
+
+def test_perfect_foresight_through_the_pipeline_is_worthless_after_the_delay(context):
+    # Forecasts equal to each row's own label: the return from t to t + 1.
+    label = context.data.labels["return"]
+    with_foresight = dataclasses.replace(
+        context, forecasts=pd.DataFrame({f"path_{p}": label for p in range(5)})
+    )
+
+    delayed = backtest_paths(
+        "foresight", path_targets(MLLongShort(), with_foresight), 1, with_foresight
+    )
+    same_close = backtest_paths(
+        "foresight", path_targets(MLLongShort(), with_foresight), 0, with_foresight
+    )
+
+    assert abs(sharpe_ratio(delayed[0].gross)) < 1.0
+    assert sharpe_ratio(same_close[0].gross) > 10
+
+
+def test_regimes_bucket_each_return_by_the_label_known_before_it():
+    dates = pd.bdate_range("2020-01-01", periods=6)
+    regimes = pd.Series(["low", "low", "high", "high", "low", "low"], index=dates)
+    net = pd.Series([0.0, 0.01, 0.02, -0.01, 0.03, 0.01], index=dates)
+    fake = SimpleNamespace(results=[SimpleNamespace(net=net)])
+
+    table = regime_breakdown({"x": fake}, regimes, reference="missing")
+
+    # Shifted labels: [NaN, low, low, high, high, low]. High days are 3 and 4.
+    assert table.loc[("x", "high"), "days"] == 2
+    assert table.loc[("x", "low"), "days"] == 3

@@ -102,6 +102,114 @@ def sortino_ratio(returns: pd.Series, target: float = 0.0, days: int = TRADING_D
     return float(excess.mean() / downside * np.sqrt(days))
 
 
+def sharpe_standard_error(returns: pd.Series, days: int = TRADING_DAYS) -> float:
+    """Standard error of the annualised Sharpe ratio, allowing for skew and fat tails.
+
+    Mertens (2002): Var(SR) = (1 + SR^2 / 2 - skew * SR + (kurtosis - 3) / 4
+    * SR^2) / n for the daily ratio, scaled by sqrt(days). It assumes the
+    days are independent, which volatility clustering breaks, so it is a
+    floor on the uncertainty rather than a full measure; the block bootstrap
+    in sharpe_difference_interval() keeps the clustering.
+
+    For scale: with about 1,000 daily returns the annualised standard error
+    is near 0.5, so two strategies' Sharpe ratios 0.3 apart are not
+    distinguishable on that much data.
+    """
+    series = _clean(returns)
+
+    if len(series) < 3 or series.std() < ZERO_VOLATILITY:
+        return float("nan")
+
+    daily = series.mean() / series.std()
+    skew = float(series.skew())
+    kurtosis = float(series.kurt()) + 3
+    variance = (1 + daily**2 / 2 - skew * daily + (kurtosis - 3) / 4 * daily**2) / len(series)
+
+    return float(np.sqrt(max(variance, 0.0)) * np.sqrt(days))
+
+
+def block_bootstrap_indices(
+    n: int,
+    n_boot: int,
+    block: int,
+    rng: np.random.Generator,
+) -> np.ndarray:
+    """Circular moving-block resamples of 0..n-1, shape (n_boot, n).
+
+    Resampling whole blocks of consecutive days, rather than single days,
+    keeps the volatility clustering and short-range dependence of daily
+    returns inside each resample.
+    """
+    block = max(1, min(block, n))
+    n_blocks = -(-n // block)
+    starts = rng.integers(0, n, size=(n_boot, n_blocks))
+    indices = (starts[:, :, None] + np.arange(block)[None, None, :]) % n
+
+    return indices.reshape(n_boot, -1)[:, :n]
+
+
+def sharpe_difference_interval(
+    returns: pd.Series,
+    benchmark: pd.Series,
+    *,
+    n_boot: int = 1000,
+    block: int = 21,
+    level: float = 0.95,
+    seed: int = 0,
+    days: int = TRADING_DAYS,
+) -> dict[str, float]:
+    """Sharpe of a strategy minus a benchmark's, with a paired block bootstrap interval.
+
+    Both series are resampled with the same blocks of dates, so the
+    interval reflects how much the difference itself varies, not the two
+    Sharpe ratios separately (which share the market's moves and would
+    overstate the uncertainty).
+
+    Args:
+        returns: Strategy daily returns.
+        benchmark: Benchmark daily returns on the same dates.
+        n_boot: Resamples.
+        block: Days per block.
+        level: Interval coverage.
+        seed: Random seed, so the interval is reproducible.
+        days: Periods per year.
+
+    Returns:
+        difference, low, high, and share_positive (share of resamples in
+        which the strategy's Sharpe is higher).
+    """
+    joined = pd.concat([returns, benchmark], axis=1, join="inner").dropna()
+    a, b = joined.iloc[:, 0].to_numpy(), joined.iloc[:, 1].to_numpy()
+
+    if len(a) < 2 * block:
+        nan = float("nan")
+        return {"difference": nan, "low": nan, "high": nan, "share_positive": nan}
+
+    indices = block_bootstrap_indices(len(a), n_boot, block, np.random.default_rng(seed))
+
+    def sharpe_rows(x: np.ndarray) -> np.ndarray:
+        sample = x[indices]
+        std = sample.std(axis=1, ddof=1)
+        # A resample with no variation (an idle strategy) has no Sharpe.
+        safe = np.where(std > ZERO_VOLATILITY, std, np.nan)
+        return sample.mean(axis=1) / safe * np.sqrt(days)
+
+    differences = sharpe_rows(a) - sharpe_rows(b)
+    differences = differences[np.isfinite(differences)]
+    tail = (1 - level) / 2
+
+    if not len(differences):
+        nan = float("nan")
+        return {"difference": nan, "low": nan, "high": nan, "share_positive": nan}
+
+    return {
+        "difference": sharpe_ratio(pd.Series(a), days=days) - sharpe_ratio(pd.Series(b), days=days),
+        "low": float(np.quantile(differences, tail)),
+        "high": float(np.quantile(differences, 1 - tail)),
+        "share_positive": float(np.mean(differences > 0)),
+    }
+
+
 def equity_from_returns(returns: pd.Series, initial: float = 1.0) -> pd.Series:
     """Growth of `initial` under the returns, compounded."""
     return initial * (1 + _clean(returns)).cumprod()

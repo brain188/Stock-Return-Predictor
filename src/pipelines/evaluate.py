@@ -39,7 +39,12 @@ import pandas as pd
 
 from src.backtest.costs import breakeven_return
 from src.backtest.engine import BacktestResult, run_backtest
-from src.backtest.performance import exposure, sharpe_ratio
+from src.backtest.performance import (
+    exposure,
+    sharpe_difference_interval,
+    sharpe_ratio,
+    sharpe_standard_error,
+)
 from src.backtest.strategy import (
     BENCHMARKS,
     ML_STRATEGIES,
@@ -73,6 +78,11 @@ DEFAULT_OUTPUT = PROJECT_ROOT / "reports" / "results" / "evaluation"
 # trades the whole universe.
 BENCHMARK_NAMES = ("buy_and_hold", "equal_weight_hold")
 
+# Differences in Sharpe are reported against this, with a bootstrap interval.
+REFERENCE = "equal_weight_hold"
+BOOTSTRAP_RUNS = 1000
+BOOTSTRAP_BLOCK = 21
+
 DEFAULT_STRATEGIES = (
     "ml_long_short",
     "ml_long_only",
@@ -85,6 +95,10 @@ DEFAULT_STRATEGIES = (
 # ML long/short traded at the signal's own close, as notebook 4 did. Not a
 # candidate: it shows how much of the notebook's result was the timing.
 SAME_CLOSE = "ml_long_short_same_close"
+
+
+class PathError(AssertionError):
+    """Raised when a backtest path duplicates, omits or leaks dates."""
 
 
 @dataclass
@@ -100,6 +114,7 @@ class EvaluationContext:
     date_group: pd.Series
     regimes: pd.Series
     forecasts: pd.DataFrame | None = None
+    path_check: pd.DataFrame | None = None
 
     @property
     def dates(self) -> pd.DatetimeIndex:
@@ -136,6 +151,7 @@ class EvaluationResult:
     paths: pd.DataFrame
     regimes: pd.DataFrame
     pairs_selection: pd.DataFrame
+    path_check: pd.DataFrame = field(default_factory=pd.DataFrame)
     files: list[Path] = field(default_factory=list)
 
     def save(self, out_dir: str | Path = DEFAULT_OUTPUT) -> list[Path]:
@@ -159,6 +175,7 @@ class EvaluationResult:
             "paths.csv": self.paths,
             "regimes.csv": self.regimes,
             "pairs_selection.csv": self.pairs_selection,
+            "path_check.csv": self.path_check,
         }
         self.files = []
         for name, table in tables.items():
@@ -221,7 +238,78 @@ def build_context(
         context.forecasts = paths
         log_frame(logger, paths, "Path forecasts")
 
+    context.path_check = verify_paths(context)
+
     return context
+
+
+def verify_paths(context: EvaluationContext) -> pd.DataFrame:
+    """Check every path covers each development date once, from a model that never saw it.
+
+    For every path and every group: the split supplying the group must have
+    tested all of its dates and trained on none of them. Across the groups,
+    the path must cover every development date exactly once. When ML
+    forecasts are present, each path must have one for every row.
+
+    The report also shows why paths are not independent samples: each split
+    fills k = 2 group slots, on one path or on two (the five splits of
+    neighbouring groups put both on the same path), so models are shared
+    across paths, and every path shares most of its training data with the
+    others.
+
+    Returns:
+        One row per path: dates covered, duplicates, missing dates, and the
+        splits it draws from.
+
+    Raises:
+        PathError: On the first broken rule.
+    """
+    rows = []
+    dates = context.dates
+    group_of = context.date_group.to_numpy()
+
+    for p, sources in enumerate(context.cv.paths):
+        covered = []
+        for group, split_number in enumerate(sources):
+            group_dates = dates[group_of == group]
+            train, test = context.split_dates(context.splits[split_number])
+            if not group_dates.isin(test).all():
+                raise PathError(f"path {p} group {group}: split {split_number} did not test it")
+            if group_dates.isin(train).any():
+                raise PathError(f"path {p} group {group}: split {split_number} trained on it")
+            covered.append(group_dates)
+
+        allowed = pd.DatetimeIndex(np.concatenate([c.to_numpy() for c in covered]))
+        duplicates = int(allowed.duplicated().sum())
+        missing = len(dates.difference(allowed))
+        if duplicates or missing:
+            raise PathError(f"path {p}: {duplicates} duplicated and {missing} missing dates")
+
+        if context.forecasts is not None:
+            forecast = context.forecasts[f"path_{p}"]
+            if not forecast.index.equals(context.data.X.index) or forecast.isna().any():
+                raise PathError(f"path {p}: forecasts do not cover every development row")
+
+        rows.append(
+            {
+                "path": f"path_{p}",
+                "dates": len(allowed.unique()),
+                "duplicates": duplicates,
+                "missing": missing,
+                "splits": " ".join(str(s) for s in sources),
+            }
+        )
+
+    report = pd.DataFrame(rows).set_index("path")
+    uses = pd.Series(np.asarray(context.cv.paths).ravel()).value_counts()
+    logger.info(
+        "Paths verified: %s paths x %s dates, no duplicates or gaps; each split fills %s slot(s)",
+        len(report),
+        len(dates),
+        sorted(set(uses.tolist())),
+    )
+
+    return report
 
 
 def assemble_path(
@@ -287,6 +375,8 @@ def backtest_paths(
     results = []
 
     for p, frame in enumerate(targets):
+        if not frame.index.is_unique or not frame.index.sort_values().equals(context.dates):
+            raise PathError(f"{name} path {p}: positions do not cover each development date once")
         positions = enforce_limits(delay(frame.fillna(0.0), lag), context.config)
         returns = context.returns.reindex(index=positions.index, columns=positions.columns)
         results.append(run_backtest(positions, returns, context.config, name=f"{name}/path_{p}"))
@@ -449,12 +539,18 @@ def evaluate_pairs_individually(
 def compare_strategies(
     evaluations: dict[str, StrategyEvaluation],
     benchmarks: Sequence[str] = BENCHMARK_NAMES,
+    reference: str = REFERENCE,
+    seed: int = 0,
 ) -> pd.DataFrame:
     """The comparison table: means over paths, and paths beating each benchmark.
 
     Paths are compared pairwise: path p of a strategy against path p of a
     benchmark, which cover the same dates. Each benchmark present gets a
-    sharpe_net_vs_<name> and a paths_beating_<name> column.
+    sharpe_net_vs_<name> and a paths_beating_<name> column. Against the
+    reference (equal weight) there is also the Sharpe standard error and a
+    95% paired block bootstrap interval for the difference, averaged over
+    paths; paths_beating counts are not evidence on their own, since the
+    paths are not independent.
     """
     rows = {}
     present = [name for name in benchmarks if name in evaluations]
@@ -464,8 +560,14 @@ def compare_strategies(
         ours = evaluation.path_table["net_sharpe"].to_numpy()
         for benchmark in present:
             theirs = evaluations[benchmark].path_table["net_sharpe"].to_numpy()[: len(ours)]
-            row[f"sharpe_net_vs_{benchmark}"] = float(np.mean(ours - theirs))
+            # A pair idle on a path has no Sharpe there; compare the paths it traded.
+            row[f"sharpe_net_vs_{benchmark}"] = float(np.nanmean(ours - theirs))
             row[f"paths_beating_{benchmark}"] = float(np.sum(ours > theirs))
+        uncertainty = _interval_over_paths(evaluation, evaluations.get(reference), None, seed)
+        row["sharpe_se"] = uncertainty["sharpe_se"]
+        for key in ("vs_reference_low", "vs_reference_high", "resamples_beating_reference"):
+            if key in uncertainty:
+                row[key] = uncertainty[key]
         rows[name] = row
 
     table = pd.DataFrame(rows).T
@@ -477,8 +579,12 @@ def compare_strategies(
         "sharpe_net_std",
         "sharpe_net_min",
         "sharpe_net_max",
+        "sharpe_se",
         "sharpe_lost_to_costs",
         *[f"sharpe_net_vs_{b}" for b in present],
+        "vs_reference_low",
+        "vs_reference_high",
+        "resamples_beating_reference",
         *[f"paths_beating_{b}" for b in present],
         "exposure_net_mean",
         "exposure_gross_mean",
@@ -495,30 +601,82 @@ def compare_strategies(
     return table[columns].rename(columns={"sharpe": "sharpe_net"})
 
 
+def _interval_over_paths(
+    evaluation: StrategyEvaluation,
+    reference: StrategyEvaluation | None,
+    mask: pd.Series | None,
+    seed: int,
+) -> dict[str, float]:
+    """Sharpe, its standard error and the difference from the reference, averaged over paths.
+
+    Each path is measured on its own and the numbers averaged. The paths are
+    not independent samples (they share models and training data and cover
+    the same dates), so the average interval is the honest summary; treating
+    five paths as five draws would overstate the evidence.
+    """
+    rows = []
+
+    for p, result in enumerate(evaluation.results):
+        net = (
+            result.net
+            if mask is None
+            else result.net[mask.reindex(result.net.index, fill_value=False)]
+        )
+        row = {
+            "sharpe": sharpe_ratio(net),
+            "sharpe_se": sharpe_standard_error(net),
+            "days": float(len(net)),
+        }
+        if reference is not None:
+            base = reference.results[p].net.reindex(net.index)
+            interval = sharpe_difference_interval(
+                net, base, n_boot=BOOTSTRAP_RUNS, block=BOOTSTRAP_BLOCK, seed=seed + p
+            )
+            row |= {
+                "vs_reference": interval["difference"],
+                "vs_reference_low": interval["low"],
+                "vs_reference_high": interval["high"],
+                "resamples_beating_reference": interval["share_positive"],
+            }
+        rows.append(row)
+
+    return pd.DataFrame(rows).mean(numeric_only=True).to_dict()
+
+
 def regime_breakdown(
     evaluations: dict[str, StrategyEvaluation],
     regimes: pd.Series,
+    reference: str = REFERENCE,
+    seed: int = 0,
 ) -> pd.DataFrame:
-    """Net Sharpe within each volatility regime, averaged over paths.
+    """Net Sharpe within each volatility regime, with its uncertainty.
 
-    Regimes come from the benchmark's realised volatility against its own
-    past (volatility_regimes), so a date's label uses no later data.
+    The regime label of a date is built from the benchmark's realised
+    volatility up to that close, against the terciles of its own past
+    (volatility_regimes). A return dated t is earned over (t - 1, t], so it
+    is bucketed by the label of t - 1: the regime known when the position was
+    held, not one that already includes the return being classified.
+
+    With roughly 1,000 to 1,300 days per regime, a Sharpe ratio's standard
+    error is about 0.45 to 0.5, so differences between strategies within a
+    regime need the interval next to them before they mean anything.
+
+    Returns:
+        One row per (strategy, regime): sharpe, sharpe_se, days, and the
+        Sharpe difference from the reference with a 95% paired block
+        bootstrap interval, each averaged over paths.
     """
+    known = regimes.shift(1)
+    base = evaluations.get(reference)
     rows = {}
 
     for name, evaluation in evaluations.items():
-        per_regime: dict[str, list[float]] = {}
-        for result in evaluation.results:
-            labels = regimes.reindex(result.net.index)
-            for regime in ("low", "normal", "high"):
-                window = result.net[labels == regime]
-                per_regime.setdefault(regime, []).append(sharpe_ratio(window))
-        rows[name] = {regime: float(np.nanmean(values)) for regime, values in per_regime.items()}
+        for regime in ("low", "normal", "high"):
+            mask = known == regime
+            rows[(name, regime)] = _interval_over_paths(evaluation, base, mask, seed)
 
     table = pd.DataFrame(rows).T
-    table.index.name = "strategy"
-    days = regimes.reindex(next(iter(evaluations.values())).results[0].net.index).value_counts()
-    table.loc["days_in_regime"] = [float(days.get(r, 0)) for r in table.columns]
+    table.index.names = ["strategy", "regime"]
 
     return table
 
@@ -553,7 +711,12 @@ def backtest_settings(config: Config, strategy: Strategy, name: str) -> dict[str
     if strategy.name == "momentum":
         settings["momentum"] = dataclasses.asdict(config.strategies.momentum)
     if strategy.name == "pairs" or name.startswith("pair_"):
-        settings["pairs"] = dataclasses.asdict(config.strategies.pairs)
+        # Selection became segment-aware (no differencing across CPCV gaps): a new
+        # method, so new trials, and the earlier runs stay counted.
+        settings["pairs"] = {
+            **dataclasses.asdict(config.strategies.pairs),
+            "selection_method": "segment_aware",
+        }
 
     return settings
 
@@ -647,8 +810,9 @@ def run_evaluation(
 
     return EvaluationResult(
         evaluations=evaluations,
-        comparison=compare_strategies(evaluations),
+        comparison=compare_strategies(evaluations, seed=config.project.random_seed),
         paths=paths,
-        regimes=regime_breakdown(evaluations, context.regimes),
+        regimes=regime_breakdown(evaluations, context.regimes, seed=config.project.random_seed),
         pairs_selection=pairs,
+        path_check=context.path_check,
     )

@@ -188,3 +188,35 @@ def test_result_carries_capital_and_summary(returns, config):
     assert result.equity_net.iloc[0] < config.backtest.initial_capital
     assert summary["gross_sharpe"] > summary["net_sharpe"]
     assert result.metadata == {"k": 1}
+
+
+def test_reproduces_notebook_4s_backtest_on_the_same_inputs(config):
+    """The notebook's own backtest function, copied verbatim, against the engine."""
+
+    def notebook_backtest(positions, returns, cost_bps=5.0):
+        position = positions.reindex(returns.index).fillna(0.0)
+        gross = position * returns
+        turnover = position.diff().abs().fillna(position.abs())
+        cost = turnover * cost_bps / 10_000
+        return pd.DataFrame({"gross": gross, "cost": cost, "net": gross - cost})
+
+    rng = np.random.default_rng(7)
+    dates = pd.bdate_range("2010-01-01", periods=800)
+    returns = pd.Series(rng.normal(0.0004, 0.01, len(dates)), index=dates)
+    # Long or flat: no shorts, so drift cannot separate the two engines.
+    position = pd.Series((rng.random(len(dates)) > 0.4).astype(float), index=dates)
+
+    notebook = notebook_backtest(position, returns)
+    # The notebook's position at t earns the return dated t; the engine's
+    # weight at t earns the return dated t + 1. Same holding, one row apart.
+    engine = run_backtest(
+        position.shift(-1).fillna(0.0).to_frame("A"), returns.to_frame("A"), config
+    )
+
+    assert np.allclose(engine.gross.iloc[1:], notebook["gross"].iloc[1:])
+    # The engine charges a trade the day it is made, the notebook the day after.
+    # The notebook's entry on its own first day has no shifted counterpart, so
+    # the comparison starts from the second trade.
+    assert np.allclose(
+        engine.costs["total"].iloc[1:-1].to_numpy(), notebook["cost"].iloc[2:].to_numpy()
+    )

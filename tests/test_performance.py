@@ -14,6 +14,7 @@ from src.backtest.costs import TRADING_DAYS
 from src.backtest.performance import (
     annualised_return,
     annualised_volatility,
+    block_bootstrap_indices,
     calmar_ratio,
     drawdown_series,
     equity_from_returns,
@@ -21,7 +22,9 @@ from src.backtest.performance import (
     hit_rate_trades,
     max_drawdown,
     performance_table,
+    sharpe_difference_interval,
     sharpe_ratio,
+    sharpe_standard_error,
     sortino_ratio,
     trade_returns,
     turnover_annual,
@@ -172,3 +175,74 @@ def test_performance_table_shows_gross_and_net_and_the_benchmark_gap(returns):
 
 def test_module_states_its_conventions():
     assert "252" in performance.__doc__
+
+
+# --- Uncertainty ----------------------------------------------------------------
+
+
+def test_sharpe_standard_error_for_normal_returns(returns):
+    daily = returns.mean() / returns.std()
+    expected = np.sqrt((1 + daily**2 / 2) / len(returns)) * np.sqrt(252)
+
+    # Normal returns have no skew and no excess kurtosis, so Mertens reduces to Lo.
+    assert sharpe_standard_error(returns) == pytest.approx(expected, rel=0.05)
+
+
+def test_a_thousand_days_cannot_separate_close_sharpes():
+    noise = pd.Series(np.random.default_rng(3).normal(0.0003, 0.01, 1000))
+
+    assert 0.4 < sharpe_standard_error(noise) < 0.6
+
+
+def test_bootstrap_blocks_are_consecutive_and_reproducible():
+    first = block_bootstrap_indices(100, 5, 10, np.random.default_rng(0))
+    second = block_bootstrap_indices(100, 5, 10, np.random.default_rng(0))
+
+    assert first.shape == (5, 100)
+    assert np.array_equal(first, second)
+    # Within a block, each index follows the last, wrapping at the end.
+    assert np.all((np.diff(first[:, :10], axis=1) % 100) == 1)
+
+
+def test_identical_series_differ_by_exactly_nothing(returns):
+    interval = sharpe_difference_interval(returns, returns, n_boot=200)
+
+    assert interval["difference"] == 0
+    assert interval["low"] == interval["high"] == 0
+
+
+def test_a_clearly_better_series_has_an_interval_above_zero(returns):
+    worse = returns - 0.0008  # 20% a year less, same risk
+
+    interval = sharpe_difference_interval(returns, worse, n_boot=500, seed=1)
+
+    assert interval["low"] > 0
+    assert interval["share_positive"] == 1.0
+
+
+def test_pairing_detects_a_small_but_consistent_gap(returns):
+    # Same days, half a percent a year less: tiny, but true on every day.
+    slightly_worse = returns - 0.00002
+
+    assert sharpe_difference_interval(returns, slightly_worse, n_boot=500, seed=2)["low"] > 0
+
+
+def test_equal_strategies_get_intervals_that_cover_zero():
+    # Twenty pairs of independent series with the same true Sharpe: a 95%
+    # interval should contain the true difference, zero, nearly every time.
+    covered = 0
+    for seed in range(20):
+        rng = np.random.default_rng(100 + seed)
+        a, b = (pd.Series(rng.normal(0.0004, 0.01, 1500)) for _ in range(2))
+        interval = sharpe_difference_interval(a, b, n_boot=300, seed=seed)
+        covered += interval["low"] <= 0 <= interval["high"]
+
+    assert covered >= 17
+
+
+def test_an_idle_strategy_has_no_interval(returns):
+    idle = pd.Series(0.0, index=returns.index)
+
+    interval = sharpe_difference_interval(idle, returns, n_boot=100)
+
+    assert all(math.isnan(v) for v in interval.values())

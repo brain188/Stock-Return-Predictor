@@ -11,6 +11,5 @@ wheels/
 
 .env
 
-
+# Run logs, rewritten on every run (including rotated files like pipeline.log.1)
 logs/
-logs/*.log

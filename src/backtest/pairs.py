@@ -19,6 +19,14 @@ Three warnings that decide whether this works:
    spread that takes a quarter to halve ties up capital for a quarter and
    pays costs on every adjustment of the hedge, so slow pairs are dropped.
 
+Selection runs on a CPCV split's training dates, which can be up to four
+disconnected blocks. Nothing that differences or lags is allowed to reach
+across a gap between blocks: the ADF inside Engle-Granger, the half-life fit
+and the return correlations are all computed within contiguous segments
+(contiguous_segments()). The rolling hedge ratio and z score never see the
+gaps at all: they run on the full, unbroken trading calendar, and at each
+date use only the trailing window of real consecutive prices.
+
 The universe has few natural pairs (one energy name, one bank), so expect
 few or none to pass. That is a result, not a failure.
 
@@ -68,6 +76,30 @@ class EGResult:
         return self.statistic < self.critical_value
 
 
+def contiguous_segments(dates: pd.Index, calendar: pd.Index) -> pd.Series:
+    """Label each date with the contiguous block of the calendar it belongs to.
+
+    Two selected dates are in the same segment when they are neighbours on
+    the trading calendar. A CPCV training set made of groups 0, 1 and 4, for
+    example, gives two segments: groups 0-1 and group 4.
+
+    Args:
+        dates: The selected dates, a subset of the calendar.
+        calendar: Every trading date, in order.
+
+    Returns:
+        A segment number per selected date, indexed by date.
+    """
+    dates = pd.DatetimeIndex(dates).sort_values()
+    position = pd.DatetimeIndex(calendar).get_indexer(dates)
+    if (position < 0).any():
+        raise PairsError("some dates are not on the calendar")
+
+    breaks = np.r_[0, (np.diff(position) > 1).astype(int)]
+
+    return pd.Series(np.cumsum(breaks), index=dates, name="segment")
+
+
 def _critical(significance: float) -> float:
     """The Engle-Granger critical value for a supported significance level."""
     if significance not in EG_CRITICAL:
@@ -81,6 +113,7 @@ def engle_granger_test(
     b: pd.Series,
     significance: float = 0.05,
     max_lags: int | None = None,
+    segments: pd.Series | None = None,
 ) -> EGResult:
     """Regress log A on log B, then test the residuals for a unit root.
 
@@ -93,6 +126,9 @@ def engle_granger_test(
         b: Prices of the second, on the same dates.
         significance: 0.01, 0.05 or 0.10.
         max_lags: Lagged differences in the ADF. Defaults to Schwert's rule.
+        segments: Segment per date (contiguous_segments), so the ADF never
+            differences across a gap. The levels regression needs no
+            adjacency and uses every date.
 
     Returns:
         The fitted relation and the test.
@@ -108,7 +144,8 @@ def engle_granger_test(
     residuals = y - alpha - beta * x
 
     lags = schwert_lags(len(residuals)) if max_lags is None else max_lags
-    statistic = adf_statistic(residuals, lags, constant=False)
+    labels = None if segments is None else segments.reindex(joined.index).to_numpy()
+    statistic = adf_statistic(residuals, lags, constant=False, segments=labels)
 
     return EGResult(
         alpha=float(alpha),
@@ -119,19 +156,33 @@ def engle_granger_test(
     )
 
 
-def half_life(spread: pd.Series) -> float:
+def half_life(spread: pd.Series, segments: pd.Series | None = None) -> float:
     """Trading days for a deviation of the spread to halve.
 
     From the AR(1) fit d(spread)_t = c + lambda * spread_{t-1}: the
     deviation shrinks by a factor (1 + lambda) a day, so it halves after
     -ln 2 / ln(1 + lambda) days. A lambda of zero or more means no pull
     back at all, and the half life is infinite.
+
+    Args:
+        spread: The spread.
+        segments: Segment per date; a day-on-day change is used only when
+            both days are in the same segment.
     """
-    s = pd.Series(spread).dropna().to_numpy(dtype=float)
-    if len(s) < 3:
+    series = pd.Series(spread).dropna()
+    if len(series) < 3:
         return float("nan")
 
-    lagged, change = s[:-1], np.diff(s)
+    s = series.to_numpy(dtype=float)
+    same = np.ones(len(s) - 1, dtype=bool)
+    if segments is not None:
+        labels = segments.reindex(series.index).to_numpy()
+        same = labels[1:] == labels[:-1]
+
+    lagged, change = s[:-1][same], np.diff(s)[same]
+    if len(lagged) < 3:
+        return float("nan")
+
     design = np.column_stack([np.ones(len(lagged)), lagged])
     (_, slope), *_ = np.linalg.lstsq(design, change, rcond=None)
 
@@ -278,12 +329,19 @@ def find_pairs(
     """
     settings = config.strategies.pairs
     wide = _wide(prices, config)
+    calendar = wide.index
     log_returns = np.log(wide).diff()
-    if dates is not None:
-        wide, log_returns = (
-            wide.loc[wide.index.isin(dates)],
-            log_returns.loc[log_returns.index.isin(dates)],
-        )
+
+    if dates is None:
+        segments = pd.Series(0, index=calendar)
+    else:
+        segments = contiguous_segments(calendar[calendar.isin(dates)], calendar)
+        wide = wide.loc[segments.index]
+        log_returns = log_returns.loc[segments.index]
+        # The first return of a later segment starts from a close outside the
+        # selection (a test-block date), so it is dropped.
+        starts = segments.ne(segments.shift()) & (segments.index != segments.index[0])
+        log_returns[starts.to_numpy()] = np.nan
 
     correlation = log_returns.corr()
     rows = []
@@ -291,9 +349,9 @@ def find_pairs(
     for a, b in itertools.combinations(sorted(wide.columns), 2):
         if correlation.loc[a, b] < settings.min_correlation:
             continue
-        test = engle_granger_test(wide[a], wide[b], settings.significance)
+        test = engle_granger_test(wide[a], wide[b], settings.significance, segments=segments)
         spread = np.log(wide[a]) - test.beta * np.log(wide[b])
-        life = half_life(spread)
+        life = half_life(spread, segments)
         rows.append(
             {
                 "a": a,
@@ -323,7 +381,9 @@ def find_pairs(
         ],
     ).astype({"cointegrated": bool, "selected": bool})
     logger.info(
-        "Pairs: %s of %s passed the correlation screen, %s cointegrated, %s selected",
+        "Pairs on %s segment(s): %s of %s passed the correlation screen, %s cointegrated, "
+        "%s selected",
+        segments.nunique(),
         len(table),
         math.comb(wide.shape[1], 2),
         int(table["cointegrated"].sum()),
@@ -337,6 +397,10 @@ def pair_targets(prices: pd.DataFrame, a: str, b: str, config: Config) -> pd.Dat
     """Leg weights for one pair over the whole price history, before any delay."""
     settings = config.strategies.pairs
     wide = _wide(prices, config)
+    # Rolling windows must run on the unbroken calendar, never on a subset of
+    # dates, or they would treat disconnected dates as consecutive.
+    if not (wide.index.is_monotonic_increasing and wide.index.is_unique):
+        raise PairsError("pair targets need prices on a sorted, unique trading calendar")
     hedge = hedge_ratio(wide[a], wide[b], settings.hedge_window)
     z = spread_zscore(
         wide[a], wide[b], hedge, settings.zscore_window, hedge_window=settings.hedge_window

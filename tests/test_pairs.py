@@ -12,6 +12,7 @@ from statsmodels.tsa.stattools import coint
 from src.backtest.pairs import (
     EG_CRITICAL,
     PairsError,
+    contiguous_segments,
     engle_granger_test,
     find_pairs,
     half_life,
@@ -21,6 +22,7 @@ from src.backtest.pairs import (
     pairs_targets,
     spread_zscore,
 )
+from src.features.fracdiff import adf_statistic
 
 N = 1500
 DATES = pd.bdate_range("2010-01-01", periods=N)
@@ -214,3 +216,81 @@ def test_no_pair_passing_the_screen_means_no_trades(independent, config):
     assert table["selected"].dtype == bool
     assert legs == {}
     assert (combined == 0).all().all()
+
+
+# --- Disconnected training dates ----------------------------------------------
+
+
+def test_contiguous_segments_split_at_gaps():
+    calendar = pd.bdate_range("2020-01-01", periods=10)
+    chosen = calendar[[0, 1, 2, 5, 6, 9]]
+
+    segments = contiguous_segments(chosen, calendar)
+
+    assert segments.tolist() == [0, 0, 0, 1, 1, 2]
+
+
+def test_adf_never_differences_across_a_gap():
+    rng = np.random.default_rng(4)
+    first, second = ar1(0.9, 400, rng), ar1(0.9, 400, rng) + 5.0
+    labels = np.r_[np.zeros(400), np.ones(400)]
+
+    forwards = adf_statistic(np.r_[first, second], 3, segments=labels)
+    backwards = adf_statistic(np.r_[second, first], 3, segments=labels[::-1])
+    naive_forwards = adf_statistic(np.r_[first, second], 3)
+    naive_backwards = adf_statistic(np.r_[second, first], 3)
+
+    # Segment-aware: the same regression rows whatever order the blocks come in.
+    assert forwards == pytest.approx(backwards)
+    # Naive: the jump between the blocks is read as one step and changes the answer.
+    assert naive_forwards != pytest.approx(naive_backwards, rel=1e-3)
+
+
+def test_adf_with_one_segment_is_the_plain_adf():
+    series = ar1(0.8, 500, np.random.default_rng(5))
+
+    assert adf_statistic(series, 4, segments=np.zeros(500)) == pytest.approx(
+        adf_statistic(series, 4)
+    )
+
+
+def test_half_life_ignores_the_change_across_a_gap():
+    # One spread process; a block in the middle is unobserved (a test group).
+    rng = np.random.default_rng(6)
+    full = ar1(0.9, 3000, rng)
+    kept = np.r_[0:1000, 2000:3000]
+    dates = pd.bdate_range("2010-01-01", periods=3000)[kept]
+    spread = pd.Series(full[kept], index=dates)
+    segments = pd.Series(np.r_[np.zeros(1000), np.ones(1000)], index=dates)
+
+    # By hand: the AR(1) regression on every day-on-day change except the one
+    # that straddles the gap (from day 999 to day 2000).
+    s = spread.to_numpy()
+    rows = np.r_[0:999, 1000:1999]
+    design = np.column_stack([np.ones(len(rows)), s[rows]])
+    (_, slope), *_ = np.linalg.lstsq(design, s[rows + 1] - s[rows], rcond=None)
+    expected = -math.log(2) / math.log(1 + slope)
+
+    assert half_life(spread, segments) == pytest.approx(expected)
+    assert half_life(spread) != pytest.approx(expected)
+    assert half_life(spread, segments) == pytest.approx(math.log(0.5) / math.log(0.9), rel=0.15)
+
+
+def test_prices_inside_a_gap_cannot_change_the_selection(cointegrated, config):
+    a, b = cointegrated
+    prices = pd.DataFrame({"A": a, "B": b})
+    training = DATES[np.r_[0:500, 900:1500]]
+    shocked = prices.copy()
+    shocked.iloc[500:900] *= 3.0  # a test block, never selected on
+
+    pd.testing.assert_frame_equal(
+        find_pairs(prices, config, training), find_pairs(shocked, config, training)
+    )
+
+
+def test_pair_targets_refuse_an_unsorted_calendar(cointegrated, config):
+    a, b = cointegrated
+    prices = pd.DataFrame({"A": a, "B": b}).iloc[::-1]
+
+    with pytest.raises(PairsError, match="calendar"):
+        pair_targets(prices, "A", "B", config)
