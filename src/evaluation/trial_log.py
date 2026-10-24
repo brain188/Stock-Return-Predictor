@@ -85,8 +85,9 @@ LEGACY_COLUMNS = [
 ]
 
 # What a trial is. Only research and backtest trials are candidates for
-# selection; diagnostics check the validation design and are counted apart.
-KINDS = {"research", "backtest", "diagnostic", "other"}
+# selection. Benchmarks are reference points every strategy is compared with,
+# and diagnostics check the method; both are recorded and counted apart.
+KINDS = {"research", "backtest", "benchmark", "diagnostic", "other"}
 SELECTION_KINDS = ("research", "backtest")
 STATUSES = {"ok", "failed"}
 

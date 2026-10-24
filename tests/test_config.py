@@ -85,6 +85,9 @@ def test_missing_file_is_reported(tmp_path):
         ("labelling", "method", "magic", "labelling.method"),
         ("model", "estimator", "svm", "model.estimator"),
         ("backtest", "commission_bps", -1, "negative"),
+        ("backtest", "borrow_rate_annual", -0.01, "negative"),
+        ("backtest", "execution_lag", 0, "execution_lag"),
+        ("backtest", "max_gross_leverage", 0, "max_gross_leverage"),
         ("cleaning", "max_abs_daily_return", 5.0, "max_abs_daily_return"),
     ],
 )

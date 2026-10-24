@@ -78,7 +78,12 @@ def schwert_lags(n: int) -> int:
     return math.ceil(12 * (n / 100) ** 0.25)
 
 
-def adf_statistic(series: pd.Series | np.ndarray, max_lags: int | None = None) -> float:
+def adf_statistic(
+    series: pd.Series | np.ndarray,
+    max_lags: int | None = None,
+    *,
+    constant: bool = True,
+) -> float:
     """The ADF t statistic on gamma, from a hand rolled regression.
 
     Fits dy_t = alpha + gamma * y_{t-1} + sum_i delta_i * dy_{t-i} + e_t by
@@ -88,6 +93,9 @@ def adf_statistic(series: pd.Series | np.ndarray, max_lags: int | None = None) -
     Args:
         series: The series to test. NaN values are dropped first.
         max_lags: Lagged differences to include. Defaults to Schwert's rule.
+        constant: Include alpha. The Engle-Granger residual test leaves it
+            out, because the residuals of a regression with an intercept
+            already have mean zero.
 
     Returns:
         The t statistic.
@@ -105,17 +113,19 @@ def adf_statistic(series: pd.Series | np.ndarray, max_lags: int | None = None) -
     dy = np.diff(y)
     target = dy[lags:]
 
-    # Columns: constant, lagged level, then each lagged difference.
-    columns = [np.ones(len(target)), y[lags:-1]]
+    # Columns: constant (optional), lagged level, then each lagged difference.
+    columns = [np.ones(len(target))] if constant else []
+    level = len(columns)
+    columns += [y[lags:-1]]
     columns += [dy[lags - k : -k] for k in range(1, lags + 1)]
     design = np.column_stack(columns)
 
     beta, *_ = np.linalg.lstsq(design, target, rcond=None)
     residuals = target - design @ beta
     variance = residuals @ residuals / (len(target) - design.shape[1])
-    standard_error = math.sqrt(variance * np.linalg.inv(design.T @ design)[1, 1])
+    standard_error = math.sqrt(variance * np.linalg.inv(design.T @ design)[level, level])
 
-    return float(beta[1] / standard_error)
+    return float(beta[level] / standard_error)
 
 
 def adf_test(

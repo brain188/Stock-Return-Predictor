@@ -177,10 +177,58 @@ backtest:
   commission_bps: 2.0
   slippage_bps: 3.0
 
+  # Shorts are not free: the lender charges a fee on the value borrowed. Large,
+  # liquid US stocks are "general collateral", typically 0.25% to 0.5% a year;
+  # the upper end is used so shorting is never flattered.
+  borrow_rate_annual: 0.005
+
+  # Bars between a signal and the trade it causes. A signal computed from
+  # today's close cannot be traded at today's close, so the position held from
+  # close t to close t+1 uses signals up to t-1 only. Never below 1.
+  execution_lag: 1
+
   initial_capital: 100000.0
+
+  # Largest weight in any one ticker, and largest total absolute weight
+  # (long plus short) across the book. 1.0 means no leverage.
   max_position_size: 1.0
+  max_gross_leverage: 1.0
   allow_short: true
-  rebalance: daily
+
+# --- Strategies -------------------------------------------------------------
+strategies:
+  ml_thresholded:
+    # Trade only when the forecast move is at least this many round-trip
+    # costs; otherwise keep the current position. 1.0 means the predicted
+    # return must at least pay for getting in and out.
+    cost_multiple: 1.0
+
+  momentum:
+    # The classic 12-1 cross-sectional momentum: rank on the return over the
+    # last 12 months excluding the most recent one, which tends to reverse.
+    lookback_months: 12
+    skip_months: 1
+    top_k: 3
+    bottom_k: 3
+    # Monthly rebalancing is what keeps the costs survivable.
+    rebalance: monthly
+
+  pairs:
+    # Screen on the correlation of daily log returns, then test the survivors
+    # for cointegration with Engle-Granger at this significance.
+    min_correlation: 0.5
+    significance: 0.05
+    # Rolling windows, in trading days, for the hedge ratio and the z score.
+    hedge_window: 252
+    zscore_window: 63
+    # Enter when the spread is entry_z standard deviations out, exit when it
+    # comes back within exit_z, and cut the trade if it reaches stop_z.
+    entry_z: 2.0
+    exit_z: 0.5
+    stop_z: 4.0
+    # Pairs whose spread takes longer than this to halve are too slow to
+    # trade daily against costs.
+    max_half_life: 126
 
 # --- Evaluation -------------------------------------------------------------
 evaluation:

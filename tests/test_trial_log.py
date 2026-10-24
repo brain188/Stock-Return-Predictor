@@ -402,3 +402,11 @@ def test_migration_refuses_bad_input(log):
     log.migrate()
     with pytest.raises(TrialLogError, match="not in the legacy layout"):
         log.migrate()
+
+
+def test_benchmarks_are_recorded_but_not_selection_trials(log):
+    log.log_trial("buy_and_hold", kind="benchmark", fingerprint="b", metrics={"sharpe": 0.8})
+    log.log_trial("ml", kind="backtest", fingerprint="m", metrics={"sharpe": 0.3})
+
+    assert log.unique_trial_count({"kind": "backtest"}) == 1
+    assert log.unique_trial_count({"kind": "benchmark"}) == 1

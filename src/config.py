@@ -20,6 +20,7 @@ DEFAULT_CONFIG_PATH = PROJECT_ROOT / "config" / "config.yaml"
 LABELLING_METHODS = {"fixed_horizon", "triple_barrier"}
 ESTIMATORS = {"random_forest", "lightgbm", "lstm"}
 TASKS = {"regression", "classification"}
+REBALANCE_FREQUENCIES = {"daily", "weekly", "monthly"}
 
 
 class ConfigError(Exception):
@@ -339,14 +340,21 @@ class ModelConfig:
 
 @dataclass(frozen=True)
 class BacktestConfig:
-    """Trading costs and position rules."""
+    """Trading costs, execution timing and position limits."""
 
     commission_bps: float
     slippage_bps: float
+    borrow_rate_annual: float
+    execution_lag: int
     initial_capital: float
     max_position_size: float
+    max_gross_leverage: float
     allow_short: bool
-    rebalance: str
+
+    @property
+    def cost_per_side(self) -> float:
+        """Commission plus slippage per unit of turnover, as a fraction."""
+        return (self.commission_bps + self.slippage_bps) / 10_000
 
     @property
     def round_trip_cost(self) -> float:
@@ -354,12 +362,85 @@ class BacktestConfig:
         return 2 * (self.commission_bps + self.slippage_bps) / 10_000
 
     def validate(self) -> None:
-        """Check costs are present and positions are bounded."""
-        if self.commission_bps < 0 or self.slippage_bps < 0:
+        """Check costs are present, positions are bounded and trades are delayed."""
+        if self.commission_bps < 0 or self.slippage_bps < 0 or self.borrow_rate_annual < 0:
             raise ConfigError("backtest costs cannot be negative")
 
         if not 0 < self.max_position_size <= 1:
             raise ConfigError("backtest.max_position_size must be between 0 and 1")
+
+        if self.max_gross_leverage <= 0:
+            raise ConfigError("backtest.max_gross_leverage must be positive")
+
+        # A lag of 0 trades at the close that produced the signal: look-ahead.
+        if not isinstance(self.execution_lag, int) or self.execution_lag < 1:
+            raise ConfigError("backtest.execution_lag must be a whole number of bars, 1 or more")
+
+
+@dataclass(frozen=True)
+class MomentumConfig:
+    """Cross-sectional momentum settings."""
+
+    lookback_months: int
+    skip_months: int
+    top_k: int
+    bottom_k: int
+    rebalance: str
+
+
+@dataclass(frozen=True)
+class PairsConfig:
+    """Mean reversion pairs settings."""
+
+    min_correlation: float
+    significance: float
+    hedge_window: int
+    zscore_window: int
+    entry_z: float
+    exit_z: float
+    stop_z: float
+    max_half_life: float
+
+
+@dataclass(frozen=True)
+class StrategiesConfig:
+    """Parameters of the strategies the backtest compares."""
+
+    ml_thresholded: dict[str, Any]
+    momentum: MomentumConfig
+    pairs: PairsConfig
+
+    @classmethod
+    def from_dict(cls, raw: dict[str, Any]) -> StrategiesConfig:
+        """Build the config with its nested blocks."""
+        return cls(
+            ml_thresholded=dict(raw["ml_thresholded"]),
+            momentum=MomentumConfig(**raw["momentum"]),
+            pairs=PairsConfig(**raw["pairs"]),
+        )
+
+    def validate(self) -> None:
+        """Check the thresholds are ordered and the windows usable."""
+        if self.ml_thresholded["cost_multiple"] < 0:
+            raise ConfigError("strategies.ml_thresholded.cost_multiple cannot be negative")
+
+        m = self.momentum
+        if m.lookback_months <= m.skip_months or m.skip_months < 0:
+            raise ConfigError("strategies.momentum needs lookback_months > skip_months >= 0")
+        if m.top_k < 1 or m.bottom_k < 0:
+            raise ConfigError("strategies.momentum needs top_k >= 1 and bottom_k >= 0")
+        if m.rebalance not in REBALANCE_FREQUENCIES:
+            raise ConfigError(
+                f"strategies.momentum.rebalance must be one of {sorted(REBALANCE_FREQUENCIES)}"
+            )
+
+        p = self.pairs
+        if not 0 <= p.exit_z < p.entry_z < p.stop_z:
+            raise ConfigError("strategies.pairs needs 0 <= exit_z < entry_z < stop_z")
+        if not 0 < p.significance < 1 or not -1 < p.min_correlation < 1:
+            raise ConfigError("strategies.pairs significance and min_correlation out of range")
+        if p.hedge_window < 20 or p.zscore_window < 20:
+            raise ConfigError("strategies.pairs windows need at least 20 days")
 
 
 @dataclass(frozen=True)
@@ -400,6 +481,7 @@ class Config:
     validation: ValidationConfig
     model: ModelConfig
     backtest: BacktestConfig
+    strategies: StrategiesConfig
     evaluation: EvaluationConfig
     source_file: Path = field(repr=False)
 
@@ -412,6 +494,7 @@ class Config:
         self.validation.validate()
         self.model.validate()
         self.backtest.validate()
+        self.strategies.validate()
         self.evaluation.validate()
 
         if not self.universe.start_date < self.validation.test_start < self.universe.end_date:
@@ -455,6 +538,7 @@ def load_config(path: str | Path | None = None, *, create_dirs: bool = True) -> 
         "validation",
         "model",
         "backtest",
+        "strategies",
         "evaluation",
     }
     if absent := required - raw.keys():
@@ -470,6 +554,7 @@ def load_config(path: str | Path | None = None, *, create_dirs: bool = True) -> 
         validation=ValidationConfig.from_dict(raw["validation"]),
         model=ModelConfig(**raw["model"]),
         backtest=BacktestConfig(**raw["backtest"]),
+        strategies=StrategiesConfig.from_dict(raw["strategies"]),
         evaluation=EvaluationConfig.from_dict(raw["evaluation"], PROJECT_ROOT),
         source_file=config_path,
     )

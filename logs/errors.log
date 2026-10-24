@@ -338,3 +338,175 @@ Traceback (most recent call last):
     raise LeakageError(f"{len(train) - len(survivors)} training labels overlap test labels")
 src.validation.purged_cv.LeakageError: 11 training labels overlap test labels
 2026-10-23 15:15:58 | ERROR    | entrypoint.research:main:80 | config file not found: C:\Users\BRAIN\Desktop\ML\stock-return-predictor\does\not\exist.yaml
+2026-10-23 16:05:10 | ERROR    | entrypoint.evaluate:main:113 | Evaluation failed
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\entrypoint\evaluate.py", line 102, in main
+    result = run_evaluation(
+             ^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\evaluate.py", line 614, in run_evaluation
+    evaluation.trial_id = _log(trial_log, evaluation, strategy, config, features)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\evaluate.py", line 551, in _log
+    return trial_log.log_trial(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\evaluation\trial_log.py", line 417, in log_trial
+    raise TrialLogError(f"kind must be one of {sorted(KINDS)}, got '{kind}'")
+src.evaluation.trial_log.TrialLogError: kind must be one of ['backtest', 'diagnostic', 'other', 'research'], got 'benchmark'
+2026-10-23 16:05:10 | ERROR    | entrypoint.evaluate:main:110 | unknown strategies ['moonshot']; choose from ['buy_and_hold', 'equal_weight_hold', 'ml_long_only', 'ml_long_short', 'ml_thresholded', 'momentum', 'pairs']
+2026-10-23 16:05:40 | ERROR    | entrypoint.evaluate:main:110 | unknown strategies ['moonshot']; choose from ['buy_and_hold', 'equal_weight_hold', 'ml_long_only', 'ml_long_short', 'ml_thresholded', 'momentum', 'pairs']
+2026-10-23 16:06:42 | ERROR    | entrypoint.evaluate:main:110 | unknown strategies ['moonshot']; choose from ['buy_and_hold', 'equal_weight_hold', 'ml_long_only', 'ml_long_short', 'ml_thresholded', 'momentum', 'pairs']
+2026-10-23 16:07:04 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-23 16:07:04 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-23 16:07:04 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-23 16:07:04 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-23 16:07:24 | ERROR    | src.pipelines.research:log_step:119 | FAILED Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon) after 0.00s
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\logger.py", line 117, in log_step
+    yield
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 910, in run_research
+    fits = fit_splits(data, config, cv.iter_splits(data.X))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 669, in fit_splits
+    model = build_estimator(config)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\tests\test_research.py", line 122, in broken
+    raise RuntimeError("estimator exploded")
+RuntimeError: estimator exploded
+2026-10-23 16:07:30 | ERROR    | entrypoint.research:main:80 | config file not found: C:\Users\BRAIN\Desktop\ML\stock-return-predictor\does\not\exist.yaml
+2026-10-23 16:08:38 | ERROR    | entrypoint.evaluate:main:110 | unknown strategies ['moonshot']; choose from ['buy_and_hold', 'equal_weight_hold', 'ml_long_only', 'ml_long_short', 'ml_thresholded', 'momentum', 'pairs']
+2026-10-23 16:09:06 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-23 16:09:07 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-23 16:09:07 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-23 16:09:07 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-23 16:09:22 | ERROR    | src.pipelines.research:log_step:119 | FAILED Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon) after 0.01s
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\logger.py", line 117, in log_step
+    yield
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 910, in run_research
+    fits = fit_splits(data, config, cv.iter_splits(data.X))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 669, in fit_splits
+    model = build_estimator(config)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\tests\test_research.py", line 122, in broken
+    raise RuntimeError("estimator exploded")
+RuntimeError: estimator exploded
+2026-10-23 16:09:27 | ERROR    | entrypoint.research:main:80 | config file not found: C:\Users\BRAIN\Desktop\ML\stock-return-predictor\does\not\exist.yaml
+2026-10-23 16:11:00 | ERROR    | entrypoint.evaluate:main:110 | unknown strategies ['moonshot']; choose from ['buy_and_hold', 'equal_weight_hold', 'ml_long_only', 'ml_long_short', 'ml_thresholded', 'momentum', 'pairs']
+2026-10-23 16:11:22 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-23 16:11:23 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-23 16:11:23 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-23 16:11:23 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-23 16:11:43 | ERROR    | src.pipelines.research:log_step:119 | FAILED Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon) after 0.05s
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\logger.py", line 117, in log_step
+    yield
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 910, in run_research
+    fits = fit_splits(data, config, cv.iter_splits(data.X))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 669, in fit_splits
+    model = build_estimator(config)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\tests\test_research.py", line 122, in broken
+    raise RuntimeError("estimator exploded")
+RuntimeError: estimator exploded
+2026-10-23 16:11:53 | ERROR    | entrypoint.research:main:80 | config file not found: C:\Users\BRAIN\Desktop\ML\stock-return-predictor\does\not\exist.yaml
+2026-10-23 16:13:20 | ERROR    | entrypoint.evaluate:main:110 | unknown strategies ['moonshot']; choose from ['buy_and_hold', 'equal_weight_hold', 'ml_long_only', 'ml_long_short', 'ml_thresholded', 'momentum', 'pairs']
+2026-10-23 16:13:44 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-23 16:13:45 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-23 16:13:45 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-23 16:13:45 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-23 16:14:11 | ERROR    | src.pipelines.research:log_step:119 | FAILED Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon) after 0.01s
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\logger.py", line 117, in log_step
+    yield
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 910, in run_research
+    fits = fit_splits(data, config, cv.iter_splits(data.X))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 669, in fit_splits
+    model = build_estimator(config)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\tests\test_research.py", line 122, in broken
+    raise RuntimeError("estimator exploded")
+RuntimeError: estimator exploded
+2026-10-23 16:14:17 | ERROR    | src.pipelines.research:log_step:119 | FAILED Fitting 15 CPCV splits (research_random_forest_regression_triple_barrier) after 0.05s
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\logger.py", line 117, in log_step
+    yield
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 910, in run_research
+    fits = fit_splits(data, config, cv.iter_splits(data.X))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 664, in fit_splits
+    assert_no_overlap(
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\validation\purged_cv.py", line 261, in assert_no_overlap
+    raise LeakageError(f"{len(train) - len(survivors)} training labels overlap test labels")
+src.validation.purged_cv.LeakageError: 11 training labels overlap test labels
+2026-10-23 16:14:19 | ERROR    | entrypoint.research:main:80 | config file not found: C:\Users\BRAIN\Desktop\ML\stock-return-predictor\does\not\exist.yaml
+2026-10-23 16:15:45 | ERROR    | entrypoint.evaluate:main:110 | unknown strategies ['moonshot']; choose from ['buy_and_hold', 'equal_weight_hold', 'ml_long_only', 'ml_long_short', 'ml_thresholded', 'momentum', 'pairs']
+2026-10-23 16:16:11 | ERROR    | yfinance:_fetch:664 | HTTP Error 404: {"quoteSummary":{"result":null,"error":{"code":"Not Found","description":"Quote not found for symbol: NOTAREALTICKER"}}}
+2026-10-23 16:16:12 | ERROR    | yfinance:history:207 | $NOTAREALTICKER: possibly delisted; no timezone found
+2026-10-23 16:16:12 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-23 16:16:12 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: possibly delisted; no timezone found
+2026-10-23 16:16:34 | ERROR    | src.pipelines.research:log_step:119 | FAILED Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon) after 0.02s
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\logger.py", line 117, in log_step
+    yield
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 910, in run_research
+    fits = fit_splits(data, config, cv.iter_splits(data.X))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 669, in fit_splits
+    model = build_estimator(config)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\tests\test_research.py", line 122, in broken
+    raise RuntimeError("estimator exploded")
+RuntimeError: estimator exploded
+2026-10-23 16:16:45 | ERROR    | src.pipelines.research:log_step:119 | FAILED Fitting 15 CPCV splits (research_random_forest_regression_triple_barrier) after 0.13s
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\logger.py", line 117, in log_step
+    yield
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 910, in run_research
+    fits = fit_splits(data, config, cv.iter_splits(data.X))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 664, in fit_splits
+    assert_no_overlap(
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\validation\purged_cv.py", line 261, in assert_no_overlap
+    raise LeakageError(f"{len(train) - len(survivors)} training labels overlap test labels")
+src.validation.purged_cv.LeakageError: 11 training labels overlap test labels
+2026-10-23 16:16:50 | ERROR    | entrypoint.research:main:80 | config file not found: C:\Users\BRAIN\Desktop\ML\stock-return-predictor\does\not\exist.yaml
+2026-10-23 16:21:41 | ERROR    | entrypoint.evaluate:main:112 | unknown strategies ['moonshot']; choose from ['buy_and_hold', 'equal_weight_hold', 'ml_long_only', 'ml_long_short', 'ml_thresholded', 'momentum', 'pairs']
+2026-10-23 16:25:29 | ERROR    | entrypoint.evaluate:main:112 | unknown strategies ['moonshot']; choose from ['buy_and_hold', 'equal_weight_hold', 'ml_long_only', 'ml_long_short', 'ml_thresholded', 'momentum', 'pairs']
+2026-10-23 16:26:07 | ERROR    | yfinance:_fetch_ticker_tz:190 | Failed to get ticker 'NOTAREALTICKER' reason: Failed to perform, curl: (28) Operation timed out after 10006 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.
+2026-10-23 16:27:08 | ERROR    | yfinance:_download_impl:192 | 
+1 Failed download:
+2026-10-23 16:27:08 | ERROR    | yfinance:_download_impl:200 | ['NOTAREALTICKER']: Timeout('Failed to perform, curl: (28) Operation timed out after 30004 milliseconds with 0 bytes received. See https://curl.se/libcurl/c/libcurl-errors.html first for more details.')
+2026-10-23 16:27:24 | ERROR    | src.pipelines.research:log_step:119 | FAILED Fitting 15 CPCV splits (research_random_forest_regression_fixed_horizon) after 0.00s
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\logger.py", line 117, in log_step
+    yield
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 910, in run_research
+    fits = fit_splits(data, config, cv.iter_splits(data.X))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 669, in fit_splits
+    model = build_estimator(config)
+            ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\tests\test_research.py", line 122, in broken
+    raise RuntimeError("estimator exploded")
+RuntimeError: estimator exploded
+2026-10-23 16:27:30 | ERROR    | src.pipelines.research:log_step:119 | FAILED Fitting 15 CPCV splits (research_random_forest_regression_triple_barrier) after 0.04s
+Traceback (most recent call last):
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\logger.py", line 117, in log_step
+    yield
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 910, in run_research
+    fits = fit_splits(data, config, cv.iter_splits(data.X))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\pipelines\research.py", line 664, in fit_splits
+    assert_no_overlap(
+  File "C:\Users\BRAIN\Desktop\ML\stock-return-predictor\src\validation\purged_cv.py", line 261, in assert_no_overlap
+    raise LeakageError(f"{len(train) - len(survivors)} training labels overlap test labels")
+src.validation.purged_cv.LeakageError: 11 training labels overlap test labels
+2026-10-23 16:27:32 | ERROR    | entrypoint.research:main:80 | config file not found: C:\Users\BRAIN\Desktop\ML\stock-return-predictor\does\not\exist.yaml
