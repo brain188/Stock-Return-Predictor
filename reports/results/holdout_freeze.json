@@ -1,0 +1,671 @@
+{
+  "frozen_at": "2026-10-26T17:01:49+00:00",
+  "code_version": "20cdb7a",
+  "holdout_start": "2020-01-01",
+  "config_hash": "f33d4859198d",
+  "trial_log_rows": 175,
+  "trial_log_sha256": "92b90ef35d725c7bd90c769397b755a521ce594e7c3f4c68c401b9efc8834535",
+  "headline": {
+    "selected": "allocation_minimum_variance",
+    "n_trials": 98,
+    "variance_strategies_annual": 0.11748471361216536,
+    "variance_strategies_and_allocations_annual": 0.15815340100414585,
+    "variance_every_backtest_fingerprint_annual": 0.12159673383164765,
+    "variance_own_sampling_variance_annual": 0.07150838512411538,
+    "variance_used": "strategies_and_allocations",
+    "variance_used_annual": 0.15815340100414585,
+    "sharpe_period": 0.04945839445531852,
+    "n": 3504,
+    "skew": 0.36680908889854036,
+    "kurtosis": 20.89277869031633,
+    "paths": 1,
+    "sharpe_annual": 0.785127671839852,
+    "luck_threshold_annual": 1.003552935236288,
+    "psr_vs_zero": 0.9983378366144566,
+    "dsr": 0.20701671479480488,
+    "min_track_record_years": Infinity,
+    "n_where_dsr_below_0.95": 4
+  },
+  "count_scenarios": {
+    "all_fingerprints": {
+      "n_trials": 98,
+      "pipeline": 56,
+      "notebook": 42,
+      "rule": "every distinct (kind, fingerprint), including versions superseded by bug fixes; upper bound"
+    },
+    "distinct_choices": {
+      "n_trials": 66,
+      "pipeline": 24,
+      "notebook": 42,
+      "rule": "versions of one named trial merged: a corrected rerun is the same choice"
+    },
+    "distinct_less_overlap": {
+      "n_trials": 63,
+      "pipeline": 24,
+      "notebook": 39,
+      "rule": "as distinct_choices, less 3 notebook experiments the pipeline re-ran (notebook04_model_random_forest_spy, notebook04_rule_binary_long_short, notebook04_rule_long_only)"
+    },
+    "pipeline_only": {
+      "n_trials": 24,
+      "pipeline": 24,
+      "notebook": 0,
+      "rule": "pipeline trials only; ignores the notebook search, so understates N"
+    }
+  },
+  "variance_scenarios": {
+    "strategies": {
+      "candidates": 18,
+      "variance_annual": 0.11748471361216536,
+      "best": "ml_long_short",
+      "best_sharpe_annual": 0.7589705694264666,
+      "source": "saved development results",
+      "variance_period": 0.00046620918100065623
+    },
+    "strategies_and_allocations": {
+      "candidates": 22,
+      "variance_annual": 0.15815340100414585,
+      "best": "allocation_minimum_variance",
+      "best_sharpe_annual": 0.785127671839852,
+      "source": "saved development results",
+      "variance_period": 0.0006275928611275629
+    },
+    "every_backtest_fingerprint": {
+      "candidates": 54,
+      "variance_annual": 0.12159673383164765,
+      "best": "allocation_minimum_variance",
+      "best_sharpe_annual": 0.785127671839852,
+      "source": "trial log, superseded versions included",
+      "variance_period": 0.00048252672155415735
+    }
+  },
+  "trials": [
+    {
+      "kind": "research",
+      "fingerprint": "3a81ce133e435622",
+      "name": "research_random_forest_regression_fixed_horizon",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "b93ed39748eb07d3",
+      "name": "ml_long_short",
+      "executions": 4
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "daad4e1f9c1105d1",
+      "name": "ml_long_only",
+      "executions": 4
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "86b4ecee0da26fcd",
+      "name": "ml_thresholded",
+      "executions": 4
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "61a8ea71943018bb",
+      "name": "momentum",
+      "executions": 4
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "e4351db0c55fb18b",
+      "name": "pairs",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "14993443b7b5e4ee",
+      "name": "pair_INTC_MSFT",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "a85434aff353fc47",
+      "name": "pair_AAPL_SPY",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "752e94034d0da5f7",
+      "name": "pair_JNJ_SPY",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "1708bdf97a62f437",
+      "name": "pair_INTC_JPM",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "53b7b5298f14463f",
+      "name": "pair_JPM_MSFT",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "4cf0285e2016d735",
+      "name": "pair_GE_INTC",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "92b0b81b5cf9f992",
+      "name": "pair_GE_SPY",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "cb3fb2a8862eadc7",
+      "name": "pair_PG_SPY",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "dd66e8e56b15ca36",
+      "name": "pair_INTC_SPY",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "caa98608bda35c58",
+      "name": "pair_AAPL_INTC",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "ff7f7bdbd358444f",
+      "name": "pair_JPM_SPY",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "4e013e12e57b9787",
+      "name": "pair_JNJ_PG",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "cd10be29e0dbc8df",
+      "name": "pair_MSFT_SPY",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "c056f3d3108625b4",
+      "name": "pairs",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "271447a92e184751",
+      "name": "pair_INTC_MSFT",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "99d096cb6f50ae38",
+      "name": "pair_AAPL_INTC",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "b765cc3a3ae992ac",
+      "name": "pair_AAPL_SPY",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "fbf104aff96ff056",
+      "name": "pair_JNJ_SPY",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "6d00aa52c5eaae97",
+      "name": "pair_INTC_JPM",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "abe17eebb23c05c8",
+      "name": "pair_JPM_MSFT",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "510823d3b56e1533",
+      "name": "pair_GE_INTC",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "bba9c6ad5fcd5c99",
+      "name": "pair_GE_SPY",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "2bd75288f5ba628a",
+      "name": "pair_PG_SPY",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "361e34a84c2f635f",
+      "name": "pair_INTC_SPY",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "2331f118442410e4",
+      "name": "pair_JPM_SPY",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "ae68fa50518ed18b",
+      "name": "pair_KO_PG",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "37409143061c5ea8",
+      "name": "pair_MSFT_SPY",
+      "executions": 2
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "4f7e719f241e4627",
+      "name": "allocation_inverse_volatility",
+      "executions": 3
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "0326f798587635dd",
+      "name": "allocation_risk_parity",
+      "executions": 3
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "a7da6cf7f7b1476b",
+      "name": "allocation_minimum_variance",
+      "executions": 3
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "ca407dab0d0fcd91",
+      "name": "allocation_maximum_sharpe",
+      "executions": 3
+    },
+    {
+      "kind": "research",
+      "fingerprint": "f1937678a869dab7",
+      "name": "research_random_forest_regression_fixed_horizon",
+      "executions": 1
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "c48eb32d26a1be5b",
+      "name": "ml_long_short",
+      "executions": 1
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "5eefa4c31a15fc65",
+      "name": "ml_long_only",
+      "executions": 1
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "e719b3ee3da6792c",
+      "name": "ml_thresholded",
+      "executions": 1
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "ac5dd92ac3ec8e26",
+      "name": "momentum",
+      "executions": 1
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "314fc5663a3d9dc3",
+      "name": "pairs",
+      "executions": 1
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "00b2a1ebc16ac408",
+      "name": "pair_INTC_MSFT",
+      "executions": 1
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "ac7ebfaba64d31a1",
+      "name": "pair_AAPL_INTC",
+      "executions": 1
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "30f354d91baeba2b",
+      "name": "pair_AAPL_SPY",
+      "executions": 1
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "c30ffa7730ee48cd",
+      "name": "pair_JNJ_SPY",
+      "executions": 1
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "679221d738f3cf95",
+      "name": "pair_INTC_JPM",
+      "executions": 1
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "44772c17d809c403",
+      "name": "pair_JPM_MSFT",
+      "executions": 1
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "42400ca5d1cc337c",
+      "name": "pair_GE_INTC",
+      "executions": 1
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "f92e753bbdd701c9",
+      "name": "pair_GE_SPY",
+      "executions": 1
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "7315c7c96839cc85",
+      "name": "pair_PG_SPY",
+      "executions": 1
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "8a0c3b4d133d07e6",
+      "name": "pair_INTC_SPY",
+      "executions": 1
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "94166fe80b7efd1c",
+      "name": "pair_JPM_SPY",
+      "executions": 1
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "5fd6c313f0069b0c",
+      "name": "pair_KO_PG",
+      "executions": 1
+    },
+    {
+      "kind": "backtest",
+      "fingerprint": "8baa9165087a4f6b",
+      "name": "pair_MSFT_SPY",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "6a436ebb65278081",
+      "name": "notebook02_fracdiff_d_0.00",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "7c828b235cf08933",
+      "name": "notebook02_fracdiff_d_0.05",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "4ab97865290e29b4",
+      "name": "notebook02_fracdiff_d_0.10",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "07e70fdfc810af55",
+      "name": "notebook02_fracdiff_d_0.15",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "e0c1e1bb9d6af348",
+      "name": "notebook02_fracdiff_d_0.20",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "3bdd96e7e94f89e6",
+      "name": "notebook02_fracdiff_d_0.25",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "3c6e1c4ee619b016",
+      "name": "notebook02_fracdiff_d_0.30",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "6876c8f96a04d76b",
+      "name": "notebook02_fracdiff_d_0.35",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "798a4d72d96fd652",
+      "name": "notebook02_fracdiff_d_0.40",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "4ab43a0b03024493",
+      "name": "notebook02_fracdiff_d_0.45",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "923441b96030448d",
+      "name": "notebook02_fracdiff_d_0.50",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "68599e0fb48a808f",
+      "name": "notebook02_fracdiff_d_0.55",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "df0bc46205a9a560",
+      "name": "notebook02_fracdiff_d_0.60",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "f539aa4781b6abdb",
+      "name": "notebook02_fracdiff_d_0.65",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "b1c2856f576d2066",
+      "name": "notebook02_fracdiff_d_0.70",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "e36fb33e714e3f65",
+      "name": "notebook02_fracdiff_d_0.75",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "c7671487a7275ba6",
+      "name": "notebook02_fracdiff_d_0.80",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "b1cdca40e75a2b59",
+      "name": "notebook02_fracdiff_d_0.85",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "a4d51f26a183156a",
+      "name": "notebook02_fracdiff_d_0.90",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "e955cfc58087f1ce",
+      "name": "notebook02_fracdiff_d_0.95",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "a4c9af4ad151399c",
+      "name": "notebook02_fracdiff_d_1.00",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "e3658cb1c1e66f99",
+      "name": "notebook03_feature_rsi_14",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "c641842eff6e2037",
+      "name": "notebook03_feature_px_over_ma_10",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "b34d7c3eea02b485",
+      "name": "notebook03_feature_ret_5d",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "2195882cd4107bda",
+      "name": "notebook03_feature_px_over_ma_21",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "714edec485627194",
+      "name": "notebook03_feature_ret_10d",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "be6cc4ffbffdc4be",
+      "name": "notebook03_feature_px_over_ma_5",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "1f6a70af34394738",
+      "name": "notebook03_feature_ret_2d",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "fa6b801792bc9f7e",
+      "name": "notebook03_feature_px_over_ma_63",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "28bf48dfaf553d90",
+      "name": "notebook03_feature_ret_1d",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "bbc092ff26a79bdb",
+      "name": "notebook03_feature_vol_10d",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "87ad725193c70178",
+      "name": "notebook03_feature_fracdiff",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "284169d9da7f48a5",
+      "name": "notebook03_feature_ret_21d",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "d2f6b05fe28ec3ec",
+      "name": "notebook03_feature_ret_3d",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "4a1fcad69ebac110",
+      "name": "notebook03_feature_volume_ratio",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "522abf0c16fa1e94",
+      "name": "notebook03_feature_vol_ratio",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "aa798b78a0c982ca",
+      "name": "notebook03_feature_vol_21d",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "9acf466d94afcbcf",
+      "name": "notebook03_feature_vol_63d",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "79da873e47bbca77",
+      "name": "notebook04_rule_binary_long_short",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "18d2d497c2040929",
+      "name": "notebook04_rule_scaled_by_conviction",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "b848a3f7907e197d",
+      "name": "notebook04_rule_long_only",
+      "executions": 1
+    },
+    {
+      "kind": "notebook",
+      "fingerprint": "b28c154c81e00c6a",
+      "name": "notebook04_model_random_forest_spy",
+      "executions": 1
+    }
+  ]
+}
