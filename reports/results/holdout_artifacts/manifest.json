@@ -1,0 +1,21 @@
+{
+  "prepared_at": "2026-10-26T19:28:57+00:00",
+  "authorised_by": "project owner (Tendong Brain Nkengafac), instruction of 2026-10-26",
+  "code_version": "182ea0e",
+  "declaration_sha256": "84732cdb2453d4585039ec1b4fbef9428a29da55b487f5b3cc77dbf44633c209",
+  "config_hash": "f33d4859198d",
+  "training_start": "2005-07-22",
+  "training_end": "2019-12-30",
+  "training_rows": 39985,
+  "fracdiff_d": 0.6,
+  "pairs_selected": [
+    "INTC_MSFT",
+    "INTC_SPY"
+  ],
+  "boundary": "panel cut before 2020-01-01 before anything was built",
+  "files": {
+    "model/model.joblib": "57acd454619b528634de368650090c67b29ce5c0671a05acbe11719cb3cbf949",
+    "model/metadata.json": "ac7da4e2243492db5d99a477a89d80cebe0a95855b7fff3bb3dbeb98c2014935",
+    "pairs_selection.csv": "4b4eb755379a722482fd38bed595425a0b8e569960c5899bffd56805dce62def"
+  }
+}

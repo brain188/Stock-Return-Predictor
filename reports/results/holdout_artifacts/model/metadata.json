@@ -1,0 +1,56 @@
+{
+  "name": "random_forest_regression",
+  "class": "ReturnPredictor",
+  "params": {
+    "estimator": "random_forest",
+    "task": "regression",
+    "seed": 42,
+    "n_estimators": 300,
+    "max_depth": 6,
+    "min_samples_leaf": 50,
+    "max_features": "sqrt",
+    "n_jobs": -1
+  },
+  "features": [
+    "ret_1d",
+    "ret_2d",
+    "ret_3d",
+    "ret_5d",
+    "ret_10d",
+    "ret_21d",
+    "px_over_ma_5",
+    "px_over_ma_10",
+    "px_over_ma_21",
+    "px_over_ma_63",
+    "vol_10d",
+    "vol_21d",
+    "vol_63d",
+    "rsi_14",
+    "mom_63d",
+    "dist_high_63",
+    "vol_ratio_10_63",
+    "volume_ratio_21",
+    "fracdiff"
+  ],
+  "training_window": {
+    "start": "2005-07-22",
+    "end": "2019-12-30",
+    "rows": 39985
+  },
+  "labelling": "fixed_horizon",
+  "config_hash": "f33d4859198d",
+  "libraries": {
+    "python": "3.12.13",
+    "numpy": "2.5.2",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.9.0",
+    "lightgbm": "4.7.0",
+    "torch": "2.14.1+cpu"
+  },
+  "git": {
+    "commit": "182ea0e65bd0bdbc315dfc28c47995b1a11aa937",
+    "dirty": false
+  },
+  "created": "2026-10-26T19:28:57+00:00",
+  "metrics": {}
+}
