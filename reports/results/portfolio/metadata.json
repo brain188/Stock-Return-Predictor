@@ -1,0 +1,37 @@
+{
+  "development_returns": [
+    "2005-01-04",
+    "2019-12-31"
+  ],
+  "holdout_starts": "2020-01-01",
+  "allocation_period": [
+    "2006-01-31",
+    "2019-12-31"
+  ],
+  "frontier": {
+    "train": [
+      "2005-01-04",
+      "2012-06-29"
+    ],
+    "test": [
+      "2012-07-02",
+      "2019-12-31"
+    ],
+    "rule": "train: dates before the split date; test: the split date and after"
+  },
+  "monte_carlo": {
+    "method": "block",
+    "runs": 1000,
+    "block_days": 21,
+    "seed": 42,
+    "paired": true
+  },
+  "forward_risk": {
+    "runs": 10000,
+    "horizon_days": 252,
+    "seed": 42
+  },
+  "cash_return": 0.0,
+  "code_version": "e69b687-dirty",
+  "config_hash": "f33d4859198d"
+}

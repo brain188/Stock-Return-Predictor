@@ -26,6 +26,7 @@ rule is logged as a trial (equal weight as the benchmark).
 from __future__ import annotations
 
 import dataclasses
+import json
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -57,7 +58,7 @@ from src.evaluation.risk_simulation import (
     simulate_forward,
     stress_scenarios,
 )
-from src.evaluation.trial_log import TrialLog, trial_fingerprint
+from src.evaluation.trial_log import TrialLog, code_version, config_hash, trial_fingerprint
 from src.logger import get_logger, log_frame, log_step, setup_logging
 from src.portfolio.construction import (
     apply_constraints,
@@ -117,6 +118,8 @@ class PortfolioResult:
     frontier_assets: pd.DataFrame
     rolling_correlation: pd.Series
     period: tuple[str, str]
+    returns: pd.DataFrame = field(default_factory=pd.DataFrame)
+    metadata: dict[str, Any] = field(default_factory=dict)
     figures: list[Path] = field(default_factory=list)
     files: list[Path] = field(default_factory=list)
 
@@ -141,7 +144,17 @@ class PortfolioResult:
         for name, table in tables.items():
             table.to_csv(folder / name)
             self.files.append(folder / name)
-        logger.info("Saved %s portfolio tables to %s", len(self.files), folder)
+
+        # Daily returns of every allocation, so resampling can be redone without
+        # recomputing anything, and the record of how the tables were made.
+        returns = self.returns.copy()
+        returns.columns = ["|".join(column) for column in returns.columns]
+        returns.to_parquet(folder / "allocation_returns.parquet")
+        (folder / "metadata.json").write_text(
+            json.dumps(self.metadata, indent=2, default=str), encoding="utf-8"
+        )
+        self.files += [folder / "allocation_returns.parquet", folder / "metadata.json"]
+        logger.info("Saved %s portfolio files to %s", len(self.files), folder)
 
         return self.files
 
@@ -194,14 +207,19 @@ def allocation_weights(returns: pd.DataFrame, config: Config) -> dict[str, pd.Da
         trailing = returns.iloc[end - settings.covariance_window : end]
         cov = covariance_matrix(trailing, settings.covariance_method)
         mu = expected_returns(trailing, settings.expected_return_method)
-        try:
-            weights["minimum_variance"].loc[date] = minimum_variance_portfolio(cov, constraints)
-            weights["maximum_sharpe"].loc[date] = maximum_sharpe_portfolio(
+        solvers = {
+            "minimum_variance": lambda cov=cov: minimum_variance_portfolio(cov, constraints),
+            "maximum_sharpe": lambda cov=cov, mu=mu: maximum_sharpe_portfolio(
                 mu, cov, settings.risk_free_rate, constraints
-            )
-        except OptimisationError as exc:
-            # Keep the previous weights rather than trading on a failed solve.
-            logger.warning("Optimisation failed on %s (%s); weights held", date.date(), exc)
+            ),
+        }
+        # Each rule on its own: one failing solve must not skip the other.
+        for name, solve in solvers.items():
+            try:
+                weights[name].loc[date] = solve()
+            except OptimisationError as exc:
+                # Keep the previous weights rather than trading on a failed solve.
+                logger.warning("%s failed on %s (%s); weights held", name, date.date(), exc)
 
     for name, frame in weights.items():
         fitted = frame.loc[dates].dropna(how="all")
@@ -463,8 +481,8 @@ def run_portfolio_analysis(
             frontier.assets,
             frontier.portfolios,
             title=(
-                f"Fitted {frontier.train_period[0][:4]}-{frontier.train_period[1][:4]}, "
-                f"held {frontier.test_period[0][:4]}-{frontier.test_period[1][:4]}"
+                f"Fitted {frontier.train_period[0]} to {frontier.train_period[1]}, "
+                f"held {frontier.test_period[0]} to {frontier.test_period[1]}"
             ),
         )
         figures = [_save(figure, "portfolio_frontier_out_of_sample", figures_dir or FIGURES_DIR)]
@@ -474,6 +492,40 @@ def run_portfolio_analysis(
 
     with log_step(logger, "Forward risk"):
         forward = forward_risk(results, config)
+
+    allocation_returns = pd.concat(
+        {
+            (name, kind): getattr(result, kind)
+            for name, result in results.items()
+            for kind in ("gross", "net")
+        },
+        axis=1,
+    )
+    metadata = {
+        "development_returns": [str(returns.index[0].date()), str(returns.index[-1].date())],
+        "holdout_starts": str(config.validation.test_start),
+        "allocation_period": list(period),
+        "frontier": {
+            "train": list(frontier.train_period),
+            "test": list(frontier.test_period),
+            "rule": "train: dates before the split date; test: the split date and after",
+        },
+        "monte_carlo": {
+            "method": "block",
+            "runs": config.evaluation.monte_carlo_runs,
+            "block_days": config.evaluation.bootstrap_block_days,
+            "seed": config.project.random_seed,
+            "paired": True,
+        },
+        "forward_risk": {
+            "runs": FORWARD_RUNS,
+            "horizon_days": config.portfolio.horizon_days,
+            "seed": config.project.random_seed,
+        },
+        "cash_return": 0.0,
+        "code_version": code_version(),
+        "config_hash": config_hash(config),
+    }
 
     return PortfolioResult(
         comparison=comparison,
@@ -488,6 +540,8 @@ def run_portfolio_analysis(
         frontier_assets=frontier.assets,
         rolling_correlation=average,
         period=period,
+        returns=allocation_returns,
+        metadata=metadata,
         figures=figures,
     )
 

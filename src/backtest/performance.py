@@ -220,10 +220,22 @@ def drawdown_series(equity: pd.Series) -> pd.Series:
     return (equity / equity.cummax() - 1).rename("drawdown")
 
 
-def max_drawdown(equity: pd.Series) -> float:
-    """The worst fall from a peak, as a negative fraction; 0 if it never fell."""
+def max_drawdown(equity: pd.Series, start: float | None = None) -> float:
+    """The worst fall from a peak, as a negative fraction; 0 if it never fell.
+
+    Args:
+        equity: Capital over time.
+        start: Capital before the first value. When given it counts as the
+            first peak, so a loss on the very first day is a drawdown. The
+            statistics built from returns pass 1.0, the same convention as
+            the Monte Carlo drawdowns.
+    """
     if equity.empty:
         return float("nan")
+
+    if start is not None:
+        peak = np.maximum.accumulate(np.r_[start, equity.to_numpy(dtype=float)])[1:]
+        return float(min((equity.to_numpy(dtype=float) / peak - 1).min(), 0.0))
 
     return float(min(drawdown_series(equity).min(), 0.0))
 
@@ -233,9 +245,16 @@ def calmar_ratio(
     equity: pd.Series | None = None,
     days: int = TRADING_DAYS,
 ) -> float:
-    """Annual return over the size of the worst drawdown; NaN with no drawdown."""
-    equity = equity_from_returns(returns) if equity is None else equity
-    worst = max_drawdown(equity)
+    """Annual return over the size of the worst drawdown; NaN with no drawdown.
+
+    Without an equity curve, the drawdown is measured from a starting capital
+    of 1 built from the returns.
+    """
+    worst = (
+        max_drawdown(equity_from_returns(returns), start=1.0)
+        if equity is None
+        else max_drawdown(equity)
+    )
 
     if not worst:
         return float("nan")
@@ -321,8 +340,8 @@ def performance_stats(returns: pd.Series, days: int = TRADING_DAYS) -> dict[str,
         "annual_volatility": annualised_volatility(returns, days),
         "sharpe": sharpe_ratio(returns, days=days),
         "sortino": sortino_ratio(returns, days=days),
-        "max_drawdown": max_drawdown(equity),
-        "calmar": calmar_ratio(returns, equity, days),
+        "max_drawdown": max_drawdown(equity, start=1.0),
+        "calmar": calmar_ratio(returns, days=days),
     }
 
 

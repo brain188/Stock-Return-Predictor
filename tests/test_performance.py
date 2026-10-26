@@ -246,3 +246,24 @@ def test_an_idle_strategy_has_no_interval(returns):
     interval = sharpe_difference_interval(idle, returns, n_boot=100)
 
     assert all(math.isnan(v) for v in interval.values())
+
+
+def test_a_first_day_loss_counts_as_a_drawdown_from_the_starting_capital():
+    returns = pd.Series([-0.1, 0.05])
+
+    # Equity 0.9 then 0.945: from the start of 1.0 the worst fall is 10%.
+    assert performance.performance_stats(returns)["max_drawdown"] == pytest.approx(-0.1)
+    # Without a starting level the first day is its own peak.
+    assert max_drawdown(equity_from_returns(returns)) == 0.0
+    assert max_drawdown(equity_from_returns(returns), start=1.0) == pytest.approx(-0.1)
+
+
+def test_drawdown_conventions_agree_with_the_monte_carlo():
+    from src.evaluation.monte_carlo import max_drawdowns
+
+    rng = np.random.default_rng(11)
+    for _ in range(20):
+        returns = pd.Series(rng.normal(0, 0.02, 60))
+        assert performance.performance_stats(returns)["max_drawdown"] == pytest.approx(
+            float(max_drawdowns(returns.to_numpy()[None, :])[0])
+        )

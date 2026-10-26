@@ -844,9 +844,14 @@ def monte_carlo_table(
             f"p_beat_{reference}_historical": share(sharpe, hist),
             f"p_beat_{market}": share(sharpe, mkt),
             "runs": float(len(sharpe)),
+            # Enough to reproduce the row: method, block, and the seeds used.
+            "method": method,
+            "block_days": float(config.evaluation.bootstrap_block_days),
+            "seed_first_path": float(seed),
         }
 
-    table = pd.DataFrame(rows).T
+    # Row by row, so the numeric columns stay numeric next to the method name.
+    table = pd.DataFrame.from_dict(rows, orient="index")
     table.index.name = "strategy"
     logger.info(
         "Monte Carlo: %s %s-bootstrap runs per strategy, %s days per block",

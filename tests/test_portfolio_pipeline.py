@@ -161,5 +161,9 @@ def test_save_writes_every_table_and_the_figure(run, tmp_path):
     result, _, folder = run
     files = result.save(tmp_path)
 
-    assert len(files) == 11
+    names = {f.name for f in files}
+
+    # Eleven tables, the allocations' daily returns, and the run's metadata.
+    assert len(files) == 13
+    assert {"allocation_returns.parquet", "metadata.json"} <= names
     assert (folder / "portfolio_frontier_out_of_sample.png").is_file()

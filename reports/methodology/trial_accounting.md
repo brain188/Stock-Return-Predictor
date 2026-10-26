@@ -49,14 +49,30 @@ These cannot be turned into log rows with Sharpe ratios. Only notebook 4's three
 position rules have one (net 0.28, −0.10, 0.70, using data to 2024). They enter N
 as a fixed count of 42 and are left out of V[SR].
 
-### In the trial log (as of this verification)
+### In the trial log (as of the Phase 7 audit: 106 executions)
 
 | Kind | Unique trials | Counted in N? | Why |
 | --- | --- | --- | --- |
 | `research` | 1 (2 executions) | **Yes** | It is a model-selection step, judged on IC; it has no Sharpe, so it is not in V[SR] |
-| `backtest` | 18 from the first evaluation, plus the re-selected pairs trials after the gap fix | **Yes, all of them** | Every strategy and every traded pair is a candidate |
-| `benchmark` | 2 | No | Fixed reference points, never candidates for selection |
+| `backtest` | 36: 18 from the first evaluation, 14 re-selected pairs trials after the gap fix, and 4 Phase 7 allocation rules | **Yes, all of them** | Every strategy, every traded pair and every allocation rule is a candidate |
+| `benchmark` | 3: SPY hold, equal-weight hold, monthly equal weight | No | Fixed reference points, never candidates for selection |
 | `diagnostic` | 6 (5 embargo variants, 1 same-close) | No | They check the method, not the strategy. The embargo was fixed at 36 before its check ran; the same-close run is a known look-ahead and can never be selected |
+
+**Two kinds of Sharpe sit in the backtest trials.** The 32 Phase 6 trials report
+the mean over 5 CPCV paths of the period 2005-07-22 to 2019-12-31. The 4 Phase 7
+allocation trials report one backtest from 2006-01-31 to 2019-12-31. Both are
+annualised and net of costs, but they are not measured identically. Phase 8
+reports V[SR] with and without the allocation trials, and uses the larger luck
+threshold.
+
+**Dependence between trials.** Treating the 36 as independent overstates the
+independent evidence, because:
+
+- The three ML rules share one forecast.
+- The 13 pairs reuse the same 11 legs, and the 14 re-selected pairs trials mostly
+  repeat the 13 before the fix.
+- The four allocation rules all hold the same 11 names long-only.
+- Every trial covers the same market years.
 
 **Superseded trials stay counted.** The pairs trials from before the gap fix
 (selection differenced across CPCV gaps) remain in N. They are a real search
@@ -110,3 +126,6 @@ producing a result could not have been selected.
 - **The fingerprint covers settings, not code or data.** A change to how a feature
   is computed, with the config unchanged, keeps the fingerprint; the
   `consistent` flag and `code_version` make that visible but do not prevent it.
+- **Every execution so far ran on uncommitted code** (`code_version` ends in
+  `-dirty`). Before the holdout, the code is committed and the freeze file
+  records a clean commit.

@@ -126,6 +126,36 @@ def covariance_matrix(
     return pd.DataFrame(cov * days, index=clean.columns, columns=clean.columns)
 
 
+# Eigenvalues more negative than this share of the largest mean the matrix is
+# not a covariance, rather than a valid one with rounding noise.
+PSD_TOLERANCE = 1e-10
+
+
+def valid_covariance(cov: pd.DataFrame | np.ndarray) -> np.ndarray:
+    """The covariance as a symmetric array, refused if it is not positive semidefinite.
+
+    Rounding can leave a computed covariance a hair off symmetric, so it is
+    symmetrised. A materially negative eigenvalue means some combination of
+    assets would have negative variance, which an optimiser would happily
+    exploit, so that is an error rather than something to patch over.
+
+    Raises:
+        OptimisationError: If the matrix is not square or not positive semidefinite.
+    """
+    sigma = np.asarray(cov, dtype=float)
+    if sigma.ndim != 2 or sigma.shape[0] != sigma.shape[1]:
+        raise OptimisationError(f"covariance must be square, got shape {sigma.shape}")
+
+    sigma = (sigma + sigma.T) / 2
+    eigenvalues = np.linalg.eigvalsh(sigma)
+    if eigenvalues.min() < -PSD_TOLERANCE * max(abs(eigenvalues.max()), 1.0):
+        raise OptimisationError(
+            f"covariance is not positive semidefinite (smallest eigenvalue {eigenvalues.min():.3e})"
+        )
+
+    return sigma
+
+
 def _solve(objective, n: int, constraints: Constraints, extra: list | None = None) -> np.ndarray:
     """Minimise an objective over portfolios that respect the constraints."""
     if constraints.max_weight * n < constraints.budget - 1e-12:
@@ -159,7 +189,7 @@ def minimum_variance_portfolio(
     constraints: Constraints = DEFAULT_CONSTRAINTS,
 ) -> pd.Series:
     """The fully invested portfolio with the lowest variance."""
-    sigma = cov.to_numpy()
+    sigma = valid_covariance(cov)
     weights = _solve(lambda w: w @ sigma @ w, len(sigma), constraints)
 
     return pd.Series(weights, index=cov.index, name="minimum_variance")
@@ -172,7 +202,7 @@ def maximum_sharpe_portfolio(
     constraints: Constraints = DEFAULT_CONSTRAINTS,
 ) -> pd.Series:
     """The tangency portfolio: the highest expected excess return per unit of risk."""
-    m, sigma = mu.to_numpy(), cov.to_numpy()
+    m, sigma = mu.to_numpy(), valid_covariance(cov)
 
     def negative_sharpe(w):
         return -(w @ m - risk_free) / np.sqrt(w @ sigma @ w)
@@ -208,7 +238,7 @@ def efficient_frontier(
         One row per point: target_return, volatility, sharpe, then one weight
         column per asset. The first row is the minimum-variance portfolio.
     """
-    sigma, m = cov.to_numpy(), mu.to_numpy()
+    sigma, m = valid_covariance(cov), mu.to_numpy()
     w_min = minimum_variance_portfolio(cov, constraints)
     low, _ = portfolio_point(w_min, mu, cov)
     high = _highest_return(mu, constraints)

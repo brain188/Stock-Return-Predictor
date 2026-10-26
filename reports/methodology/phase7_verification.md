@@ -1,0 +1,216 @@
+# Phase 7 audit
+
+An audit of the Phase 7 portfolio and risk work, run on the development period
+only. Findings (what was executed and observed) are kept apart from
+recommendations at the end.
+
+## Data boundary
+
+| Item | First date | Last date |
+| --- | --- | --- |
+| Development returns (portfolio analysis) | 2005-01-04 | 2019-12-31 |
+| Allocation backtests | 2006-01-31 | 2019-12-31 |
+| Frontier training window | 2005-01-04 | 2012-06-29 |
+| Frontier test window | 2012-07-02 | 2019-12-31 |
+| Phase 6 path returns (used by the Monte Carlo) | 2005-07-22 | 2019-12-31 |
+| Holdout (not used) | 2020-01-02 | 2024-12-30 |
+
+The boundaries are read from `reports/results/portfolio/metadata.json` and the
+saved files. A scan of every saved CSV and parquet file under `reports/results`
+found no date later than 2019-12-31.
+
+## What was checked, and the result
+
+### A. Information timing
+
+| Check | How | Result |
+| --- | --- | --- |
+| Each rule's inputs use only data up to the rebalance date | Code reading: windows are `iloc[end - window : end]` with `end` = rebalance row + 1; `rolling(window)` ends at the current row. Existing test `test_weights_use_only_past_returns` refits every rule on truncated data | Passed |
+| Weights decided at close t are first held after close t + 1 | New test with hand-computed P&L (`test_weights_set_at_a_rebalance_are_first_held_after_the_next_close`) | Passed |
+| Inverse volatility matches a hand calculation | New test | Passed |
+| Missing data cannot leak | Real data: the only missing returns are the first row (one per ticker), dropped before use; `fillna(0)` never fires | Passed |
+| A failed optimisation cannot silently affect another rule | Code reading found minimum variance and maximum Sharpe shared one `try` block, so a failed minimum-variance solve would also skip maximum Sharpe on that date | **Latent bug, fixed.** The logs show no failed solve ever occurred, so no result changed |
+
+### B. Out-of-sample frontier
+
+- **No overlap.** Training uses dates strictly before the split date
+  (2012-07-02); testing uses the split date onwards. Train and test share
+  0 dates.
+- **The old title was ambiguous, not wrong.** "Fitted 2005-2012, held
+  2012-2019" listed 2012 on both sides because the split falls mid-year. It now
+  shows the exact dates.
+- **Fitting uses training data only.** The expected returns, the Ledoit–Wolf
+  covariance and the frontier are all estimated on the training window. A new
+  test changes only test-window returns and confirms every fitted column is
+  identical while the realised columns move.
+- **The evaluation is frictionless** (stated, not changed). Each frontier
+  portfolio's test result uses fixed weights, rebalanced daily, without
+  transaction costs.
+
+### C. Monte Carlo
+
+- **Pairing:** passed. The strategy and benchmark are resampled together, with
+  the same block indices (`simulate_paths` on a joined frame; tested by
+  `test_several_series_are_resampled_with_the_same_days`).
+- **The probability compares resampled with resampled:** passed.
+  `p_beat_equal_weight_hold` is the share of resamples in which the
+  strategy's Sharpe exceeds the benchmark's Sharpe on the same resample. The
+  column `p_beat_equal_weight_hold_historical` is the notebook-4 style
+  comparison against one fixed historical Sharpe, kept for comparison and
+  labelled as such.
+- **Dates and costs:** both series are joined on common dates with missing
+  rows dropped; the resampled returns are net of costs.
+- **Reproducibility:** the seeds, run counts and block length are now written
+  into `monte_carlo.csv` (the `method`, `block_days` and `seed_first_path`
+  columns) and into the portfolio `metadata.json`.
+- **What "probability of beating" means:** an empirical proportion of
+  resampled comparisons. It measures how stable the historical comparison is
+  under reshuffling. It is not a probability that a strategy will beat the
+  benchmark in future.
+
+**Block length sensitivity** (`bootstrap_sensitivity.py`, saved results only,
+7 seconds per block length):
+
+| Share of resamples beating equal weight | 10 days | 21 days | 42 days |
+| --- | --- | --- | --- |
+| ML long/short | 0.208 | 0.213 | 0.239 |
+| ML long only | 0.158 | 0.177 | 0.197 |
+| Momentum | 0.004 | 0.003 | 0.000 |
+| Minimum variance (vs monthly equal weight) | 0.686 | 0.708 | 0.674 |
+| Maximum Sharpe (vs monthly equal weight) | 0.199 | 0.176 | 0.170 |
+
+- **No conclusion depends on the block length.** Every probability moves by at
+  most 4 points.
+- **Tail depth does depend on it.** Equal-weight hold's worst 5% drawdown is
+  −45.5% at 10 days and −52.6% at 42 days.
+- **Limitation.** A block bootstrap cannot build a crisis longer than its
+  blocks out of pieces it has never seen together, so a 2008-length decline is
+  only approximated. The historical maximum drawdown sits near the 21-day 5th
+  percentile.
+
+### D. Rebalancing, costs and cash
+
+| Check | Result |
+| --- | --- |
+| The monthly calendar does not depend on where the data ends | Passed (`test_the_schedule_does_not_depend_on_where_the_data_ends`). The fix changed exactly one date on the full calendar, 2024-12-30; no development date changed |
+| Monthly equal weight really rebalances | Passed (`test_equal_weight_trades_only_on_rebalance_days`) |
+| Unchanged targets do not trade; a forced rebalance trades exactly back from the drifted weights | Passed (new hand-computed test: a 0.55 / 0.45 drift trades 0.10 in total) |
+| Costs are charged consistently | Commission and slippage are charged on drift-adjusted turnover; borrow only on shorts, so long-only allocations pay none (new test) |
+| Weight caps hold when too few names can absorb the excess | Passed (`test_an_impossible_cap_leaves_the_rest_in_cash`) |
+| Cash | Uninvested weight earns 0, consistent with the zero risk-free rate used in every Sharpe (new hand-computed test) |
+| Phase 6 compatibility | The engine's `rebalance` argument defaults to off; all Phase 6 tests pass; recomputing every allocation reproduces the saved comparison to 1e-15 |
+
+### E. Optimisation and risk
+
+New tests with small fixed matrices, checked against hand values:
+
+- **Portfolio volatility:** for w = (0.6, 0.4), w'Σw = 0.03168.
+- **Risk contributions:** equal at 0.01584 / σ each, and they sum to σ.
+- **Minimum variance:** matches the two-asset closed form.
+- **Maximum Sharpe:** matches the closed form Σ⁻¹μ when no constraint binds,
+  beats a 0.01-step brute-force grid under a 50% cap, and stays a valid
+  portfolio when every expected return is negative.
+- **Risk parity:** with two assets it equals inverse volatility.
+
+**Covariance validity.** All 168 rebalance covariances used in the real run are
+exactly symmetric and positive definite (smallest eigenvalue 2.7e-3, condition
+numbers 11 to 131). A guard now symmetrises every covariance passed to an
+optimiser and refuses one that is materially not positive semidefinite.
+
+**Drawdown convention, fixed.** The performance module measured drawdowns from
+the first day's ending value; the Monte Carlo measured from the starting
+capital. They now agree, starting from the capital. On all 105 saved Phase 6
+paths the two conventions gave identical numbers, so no saved result changed.
+
+**Maximum Sharpe is fragile (finding, not tuned).** Redrawing its expected
+returns within one standard error (about 25% a year on the 1-year window)
+moves a median 65% of the book, and the whole book at the 90th percentile. Its
+weights are dominated by estimation noise, which is consistent with it having
+the lowest Sharpe of the allocation rules.
+
+### F. Risk simulation and crisis replays
+
+- **Student t variance:** the variance is matched (variance = scale² ×
+  df / (df − 2) equals the sample variance); tested.
+- **Horizon:** the forward risk is on the compounded 252-day return. The
+  normal model's mean compounded return matches (1 + μ)²⁵² − 1 (new test).
+- **Tail definitions:** "average loss in the worst 1%" is
+  −mean(outcomes ≤ 1st percentile). On a normal it matches the analytic
+  expected shortfall within 1%, and VaR matches the analytic quantile (new
+  test).
+- **Crisis windows:** both ends are inclusive and nothing outside the window
+  counts (new test: −50% returns placed outside the window have no effect).
+  The first day's return is the move from the previous close, so the book is
+  held entering the window.
+- **No 2020 replay.** The guard against windows reaching 2020 is unchanged.
+- **Correlation regimes:** each regime label uses data up to its date. The
+  regime summaries are means, medians, minima, maxima and counts, which do not
+  need consecutive days.
+
+### G. Trial accounting
+
+- **Allocation trials:** 5 fingerprints with 3 executions each (the last
+  regeneration added one), with equal weight recorded as `benchmark`.
+- **Whole log:** 106 executions, of which:
+  - 1 unique research trial
+  - 36 unique backtest trials
+  - 3 benchmarks
+  - 6 diagnostics
+- **Reruns:** no trial's reruns disagree.
+- **History:** all 101 rows committed at HEAD are byte-identical; 5 rows were
+  appended.
+- **Saved-results mode** fits nothing and writes no trial (tested).
+- **Code version:** every execution recorded a `code_version` ending in
+  `-dirty`, meaning the code was uncommitted when it ran. Settings and data
+  ranges are fully recorded, but the exact code can't be recovered from the
+  commit hash alone.
+
+## A boundary finding beyond Phase 7
+
+The research label for the last development date, 2019-12-31, is the return
+from 2019-12-31 to 2020-01-02, the first holdout date. That is one return per
+ticker (11 observations among about 40,000), used as training labels in some
+CPCV splits and in IC scoring. Its effect on development metrics is
+negligible. The holdout protocol must therefore not count the return dated
+2020-01-02. Under the one-bar delay it would not anyway: the first holdout P&L
+is dated 2020-01-06.
+
+The Phase 5 and 6 pipelines also load the full panel (to 2024) into memory and
+compute features and rolling targets on holdout dates before discarding them.
+No holdout return enters any saved metric, as the date scan above shows.
+
+## Changes made
+
+- **Independent solvers:** minimum variance and maximum Sharpe are solved
+  independently on each rebalance date.
+- **Covariance guard:** a check for symmetry and positive semidefiniteness on
+  every optimiser input.
+- **One drawdown convention:** both modules measure from the starting capital.
+- **Exact frontier dates** in the figure title and in `metadata.json`.
+- **Saved allocation returns** (`allocation_returns.parquet`) and portfolio
+  `metadata.json` (boundaries, seeds, runs, block length, code version, config
+  hash).
+- **Monte Carlo provenance:** `monte_carlo.csv` records its method, block
+  length and seed.
+- **New:** `tests/test_phase7_audit.py` (16 tests), two drawdown tests, and
+  `reports/methodology/bootstrap_sensitivity.py`.
+
+## Regenerated results, and why
+
+- **Portfolio outputs** (`reports/results/portfolio/`, the frontier figure):
+  for the exact dates, the metadata and the saved returns. Every number is
+  unchanged.
+- **`reports/results/evaluation/monte_carlo.csv`:** from saved paths, for the
+  provenance columns. The probabilities are unchanged.
+- **New block-sensitivity tables** in both folders.
+
+## Unresolved
+
+- **The data:** the 11-ticker universe was chosen with hindsight (survivorship).
+  Absolute returns are inflated.
+- **The bootstrap** approximates long crises; worst-case drawdowns depend on
+  the block length.
+- **The frontier test** is frictionless and daily-rebalanced.
+- **Code provenance:** runs used uncommitted code.
+- **The boundary:** one holdout-date return was used as a development label
+  (above).
