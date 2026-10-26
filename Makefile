@@ -6,11 +6,12 @@
 #
 # `all` runs the whole development-period pipeline. It refits models (several
 # minutes) and appends to the trial log, so it is never part of `ci`. Nothing
-# here touches the 2020-2024 holdout.
+# in `all` or `ci` touches the 2020-2024 holdout: `holdout` opens it once, by
+# hand, after `holdout-check` passes (reports/methodology/holdout_protocol.md).
 
 .DEFAULT_GOAL := help
 .PHONY: help install setup fetch eda research evaluate portfolio report freeze reconcile results \
-	dashboard all lint format test ci lock clean
+	dashboard all lint format test ci lock clean holdout-check holdout
 
 help:  ## Show the available targets
 	@grep -E '^[a-z-]+:.*?## ' $(MAKEFILE_LIST) \
@@ -48,6 +49,12 @@ reconcile:  ## Re-run notebook 4's code on development years and reconcile its c
 
 results:  ## Execute notebooks/05_results.ipynb from a clean kernel, in place
 	uv run jupyter nbconvert --to notebook --execute --inplace notebooks/05_results.ipynb
+
+holdout-check:  ## Preflight for the holdout run: every safeguard, no holdout data read
+	uv run python entrypoint/holdout.py check
+
+holdout:  ## Open the 2020-2024 holdout ONCE (needs approval, prepared artifacts, clean commit)
+	uv run python entrypoint/holdout.py run
 
 dashboard:  ## Not built yet: the dashboard is Phase 9
 	@echo "The dashboard is built in Phase 9 and does not exist yet." >&2

@@ -1,0 +1,140 @@
+{
+  "declaration_version": 1,
+  "created_at": "2026-10-26T19:07:56+00:00",
+  "created_with_code_version": "65263c7-dirty",
+  "approval": {
+    "status": "approved",
+    "approved_on": "2026-10-26",
+    "approved_by": "project owner (written instructions of 2026-10-26)",
+    "scope": "the candidates, benchmarks, timing, costs and statistical rules below, and the protocol text pinned by its hash"
+  },
+  "protocol": {
+    "path": "reports/methodology/holdout_protocol.md",
+    "sha256_lf": "fd5ff93f5f63d82901b0d60af0883ea371c9fcf1f01e1406b16eec32f2611c2c"
+  },
+  "freeze": {
+    "path": "reports/results/holdout_freeze.json",
+    "commit": "65263c7",
+    "code_version": "20cdb7a",
+    "sha256_committed": "06f2623d8aa2b61c6704948a4d3346987b4e7c4297a2c7bf607ee89ee1488e6b",
+    "frozen_at": "2026-10-26T17:01:49+00:00",
+    "holdout_start": "2020-01-01"
+  },
+  "trial_log": {
+    "path": "reports/trial_log.csv",
+    "frozen_rows": 175,
+    "prefix_sha256_raw": "92b90ef35d725c7bd90c769397b755a521ce594e7c3f4c68c401b9efc8834535",
+    "prefix_sha256_lf": "1c8192f5449477a7a4df77ad8e8aae64b6e218ff8848a454752b8d4e10ca703a",
+    "representations": "raw = CRLF, as the csv module wrote it on the freezing machine (this is the freeze's own trial_log_sha256); lf = as git stores it. Both were derived from the trial log committed in FREEZE_COMMIT",
+    "verified_at_declaration": "raw bytes match the frozen SHA-256 (CRLF, as written when frozen)",
+    "rows_after_prefix": "kind holdout only"
+  },
+  "config_hash": "f33d4859198d",
+  "candidates": {
+    "primary": "allocation_minimum_variance",
+    "secondary": [
+      "allocation_inverse_volatility",
+      "allocation_risk_parity",
+      "allocation_maximum_sharpe",
+      "ml_long_short",
+      "ml_long_only",
+      "ml_thresholded",
+      "momentum",
+      "pairs"
+    ],
+    "benchmarks": [
+      "buy_and_hold",
+      "equal_weight_hold",
+      "equal_weight"
+    ],
+    "excluded": {
+      "ml_long_short_same_close": "a diagnostic of notebook 4's timing, not a candidate",
+      "pair_<A>_<B>": "individual development pair trials; the pairs book is one strategy"
+    }
+  },
+  "primary_rationale": "Chosen on development evidence only. It had the highest development net Sharpe (0.785, one walk-forward path, 2006-01-31 to 2019-12-31) among the 22 current candidates of the frozen strategies_and_allocations scenario. It is long only, rebalanced monthly and has low turnover, and it needs no trained model or pair selection, so its holdout run depends on no newly prepared artifact. The evidence is inconclusive: its frozen DSR is 0.207; its paired interval against monthly equal weight (0.724) included zero; and its lead over ml_long_short (0.759, an average over CPCV paths) compares a single path with a path average and is within noise.",
+  "references": {
+    "decision": "equal_weight_hold",
+    "development": "equal_weight",
+    "note": "The primary's development comparison was against monthly equal weight (equal_weight); the holdout decision compares it against equal-weight buy and hold (equal_weight_hold), as the protocol fixed before this declaration. The equal_weight comparison is reported, as descriptive only"
+  },
+  "window": {
+    "calendar": "the trading dates of the cleaned panel (data/02-bars); no weekend or holiday rows",
+    "decision_date": "D0 = the first trading date on or after validation.test_start (2020-01-01). Expected 2020-01-02; the run records the actual date.",
+    "first_row": "D1 = D0 + execution_lag bars (expected 2020-01-03): every book trades from flat to its D0 target at the close of D1 and pays the entry cost. The gross return of D1 is zero for every book; its net return is minus the entry cost.",
+    "first_return_earned": "the bar after D1 (expected 2020-01-06)",
+    "last_date": "the last trading date on or before universe.end_date (2024-12-31) on which every ticker has a price; recorded by the run",
+    "common_window": "every candidate and benchmark is evaluated on the same rows, D1 to the last date; no book starts later or ends earlier",
+    "fair_start": "the window starts at D1 only if every book can be evaluated there: the development history before D0 must cover every warm-up (required_history) and every book's D0 target must be defined; otherwise the run fails rather than moving the window",
+    "missing_prices": "as in development: the cleaned panel forward-fills at most three days; a return still missing is treated as zero, and the count of missing cells in the window is recorded"
+  },
+  "execution": {
+    "execution_lag": "one bar: a target set at the close of t is held from the close of t + 1 and earns the return of t + 2 (backtest.engine)",
+    "starting_state": "every book is flat (all cash) until the close of D1",
+    "december_2019_weights": "not carried over. The development books' 2019 positions belong to the development period. A monthly book's D0 target is its weights from the last scheduled rebalance on or before D0 (2019-12-31, estimated on the trailing window ending that day, development data only), entered at D1 from flat",
+    "rebalance": "allocations and momentum: the last trading date of each month, traded one bar later, with allocations forced back to target on each rebalance (as in development); the other books trade whenever their target changes",
+    "warm_up": "signals may use any price up to the decision date, so development prices serve as warm-up history; no holdout return is used to fit anything",
+    "ml_signal": "forecasts from the prepared model exist only for dates from D0: the model was trained on every earlier date, so earlier forecasts would be in-sample. The thresholded rule's held state therefore starts flat at D0",
+    "pairs_state": "the spread rule runs on the unbroken price history, as in development, so a trade open at the close of D0 (decided from past prices) is entered at D1",
+    "costs": {
+      "commission_bps": 2.0,
+      "slippage_bps": 3.0,
+      "borrow_rate_annual": 0.005
+    },
+    "execution_lag_bars": 1,
+    "max_position_size": 1.0,
+    "max_gross_leverage": 1.0,
+    "allow_short": true,
+    "allocations_long_only": true,
+    "cash_return": 0.0
+  },
+  "pairs_procedure": "The pairs book is one predeclared strategy. Its pairs are selected once, by backtest.pairs.find_pairs on every development date (before 2020-01-01, one contiguous segment), with the frozen screen: daily log-return correlation of at least 0.5, Engle-Granger cointegration at 5%, and a half-life above 0 and at most 126 days. The selection table is a prepared artifact, hashed in the manifest. The book trades every selected pair with an equal share of the gross budget, a rolling 252-day hedge ratio, a 63-day z score, entry at 2, exit at 0.5 and stop at 4. The individual historical pair trials are not candidates. If no pair is selected, the book is flat, reported as such, and its Sharpe is undefined.",
+  "ml_procedure": "One model with the frozen settings (random forest regression, fixed-horizon labels, the frozen features and fracdiff order) is fitted once on every labelled development row, with the development sample weights, and saved as a prepared artifact. The three ML books share its forecasts, made on features built from prices up to each date.",
+  "statistics": {
+    "primary_metric": "annualised net Sharpe ratio of the primary over the window",
+    "dsr": {
+      "n_trials": 98,
+      "n_trials_field": "headline.n_trials",
+      "variance_scenario": "strategies_and_allocations",
+      "variance_field": "variance_scenarios.strategies_and_allocations.variance_period",
+      "variance_annual": 0.15815340100414585,
+      "variance_period": 0.0006275928611275629,
+      "periods_per_year": 252,
+      "moments": "per-period Sharpe, n, skewness and raw kurtosis of the primary's daily net returns over the window",
+      "note": "The full frozen trial count N = 98 deflates the single predeclared primary. This is a deliberately conservative choice: the selection happened on development data, and the rule charges the holdout result for it again."
+    },
+    "psr": "The PSR against zero of every book is reported, separately from the DSR. Neither the PSR nor the DSR is a probability of future profit. Each is the probability, under the method's assumptions, that the true Sharpe ratio over the holdout period exceeded a benchmark (zero, or the luck threshold for N trials).",
+    "bootstrap": {
+      "method": "paired block bootstrap of the net Sharpe difference (backtest.performance.sharpe_difference_interval), the same blocks of dates for both series",
+      "block_days": 21,
+      "resamples": 1000,
+      "seed": 0,
+      "level": 0.95
+    },
+    "decision_rule": {
+      "dsr_above": 0.95,
+      "interval_against": "equal_weight_hold",
+      "interval_low_above": 0.0,
+      "both_required": true,
+      "pass": "evidence of an edge",
+      "otherwise": "no convincing evidence of an edge",
+      "strict": "a DSR of exactly 0.95 or an interval bound of exactly 0 fails"
+    },
+    "secondary_and_benchmarks": "reported in full, descriptive only; they never replace the primary or change the rule"
+  },
+  "development_artifacts": {
+    "status": "not prepared",
+    "manifest": "reports/results/holdout_artifacts/manifest.json",
+    "required": [
+      "model/model.joblib",
+      "model/metadata.json",
+      "pairs_selection.csv"
+    ],
+    "note": "Built by `python entrypoint/holdout.py prepare` only after separate authorisation. Their hashes are recorded in the manifest, which cites this declaration's SHA-256; this file is not rewritten when they are built"
+  },
+  "runner": {
+    "code_version": null,
+    "note": "recorded in each attempt's STARTED.json and COMPLETE.json, with all attempt metadata"
+  },
+  "replacement_policy": "This file is never overwritten. Before the holdout is opened, a change is made by `python entrypoint/holdout.py declare --replace REASON`, which writes holdout_declaration.r<k>.json citing the SHA-256 of the file it replaces. Once any attempt exists, no replacement is accepted."
+}

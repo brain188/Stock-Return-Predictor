@@ -89,7 +89,9 @@ LEGACY_COLUMNS = [
 # and diagnostics check the method; both are recorded and counted apart.
 # Notebook rows are the experiments run in notebooks 2 to 4, before the
 # pipeline existed: recorded so they count, but only partly documented.
-KINDS = {"research", "backtest", "benchmark", "diagnostic", "notebook", "other"}
+# Holdout rows record the one-time 2020-2024 evaluation. They are never
+# selection candidates, so they cannot change N.
+KINDS = {"research", "backtest", "benchmark", "diagnostic", "notebook", "holdout", "other"}
 SELECTION_KINDS = ("research", "backtest", "notebook")
 STATUSES = {"ok", "failed"}
 

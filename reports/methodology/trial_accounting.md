@@ -244,3 +244,36 @@ existing freeze.
 **It has not been run.** Every execution so far is `-dirty`, so the freeze
 must follow a commit. Declaring the holdout's primary candidate is left to a
 person, as `holdout_protocol.md` requires.
+
+### Amendment (2026-10-26, after the freeze)
+
+The paragraph above is kept as it was written. It was correct at the time and
+is now out of date.
+
+**The freeze exists.** `make freeze` ran from the clean commit `20cdb7a`, and
+the file it wrote, `reports/results/holdout_freeze.json`, was committed in
+`65263c7`. It records:
+
+- N = 98 and the four V[SR] options;
+- the headline (V[SR] = 0.1582 a year from `strategies_and_allocations`, DSR
+  0.207);
+- the config hash `f33d4859198d`;
+- the 175-row trial log and its SHA-256.
+
+**That SHA-256 is of the CRLF working copy.** The csv module writes CRLF line
+endings, and git stores the file with LF. Both forms reproduce exactly from
+the committed trial log. The holdout runner accepts either one for exactly the
+first 175 rows, and nothing else (`holdout_protocol.md`, section 2).
+
+**The primary candidate is now declared.** The freeze's `headline.selected`
+was the best Sharpe in the scenario, chosen by the code, not a declaration.
+The primary candidate, the secondary candidates and the benchmarks are now
+declared explicitly, by a person, in
+`reports/results/holdout_declaration.json`, written once. The primary is
+`allocation_minimum_variance`.
+
+**Holdout rows don't change N.** The trial log gained a `holdout` kind for the
+one-time evaluation. It is not in `SELECTION_KINDS`, so holdout rows can never
+change N or V[SR]. None has been logged.
+
+**The holdout has not been opened.**
