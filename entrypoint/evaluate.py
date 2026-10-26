@@ -19,6 +19,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.config import ConfigError, load_config
 from src.logger import get_logger, log_config, setup_logging
+from src.tracking.mlflow_tracking import get_tracker
 
 logger = get_logger(__name__)
 
@@ -69,6 +70,11 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         "--from-saved",
         action="store_true",
         help="only recompute the Monte Carlo table from saved path returns: no refit, no trial",
+    )
+    parser.add_argument(
+        "--no-tracking",
+        action="store_true",
+        help="do not log runs to MLflow (sqlite:///mlflow.db by default)",
     )
     parser.add_argument(
         "--no-same-close",
@@ -138,6 +144,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             n_paths=args.n_paths,
             same_close_check=not args.no_same_close,
             monte_carlo_runs=args.monte_carlo_runs,
+            tracker=None if args.no_tracking else get_tracker(),
         )
         files = result.save(output)
     except (ConfigError, ValueError) as exc:

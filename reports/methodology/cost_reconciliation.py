@@ -15,6 +15,10 @@ The notebook's raw bars are cut at 2019-12-31 before its code runs, so no
 figures (0.5901 gross, 0.2787 net, cost_drag 0.9035) used data to 2024 and
 come from the notebook's saved outputs; this script's step 0 is the same
 code on the development years only, so its numbers differ from them.
+
+The step table and the share-of-days figures are also saved to
+reports/results/reconciliation/, so the results notebook reads them instead
+of retyping them.
 """
 
 from __future__ import annotations
@@ -34,6 +38,7 @@ sys.path.insert(0, str(ROOT))
 
 import numpy as np  # noqa: E402
 import pandas as pd  # noqa: E402
+from scipy.stats import spearmanr  # noqa: E402
 
 from src.backtest.engine import run_backtest  # noqa: E402
 from src.backtest.performance import sharpe_ratio  # noqa: E402
@@ -46,6 +51,7 @@ MODEL_CELLS = (3, 5, 6, 8, 10)
 LAST_DEVELOPMENT_DATE = "2019-12-31"
 
 RESEARCH = ROOT / "reports/results/research/research_random_forest_regression_fixed_horizon"
+OUTPUT = ROOT / "reports/results/reconciliation"
 
 
 def run_notebook() -> dict:
@@ -215,6 +221,28 @@ def main() -> None:
     print("\nShare of days:")
     for key, value in flips.items():
         print(f"  {key:40s} {value:.3f}")
+
+    # Saved for the results notebook; every figure printed here, none retyped.
+    OUTPUT.mkdir(parents=True, exist_ok=True)
+    pd.DataFrame(rows).set_index("step").to_csv(OUTPUT / "notebook4_costs.csv")
+    pd.Series({**flips, **drift_check}, name="value").to_csv(OUTPUT / "notebook4_signals.csv")
+    # Every notebook rule and its forecast quality on the development years, the
+    # notebook's own definitions (Spearman IC, sign agreement).
+    rules = pd.DataFrame(
+        [stats(n, b["gross"], b["net"], b["turnover"], b["cost"]) for n, b in ns["books"].items()]
+    ).set_index("step")
+    rules.index.name = "rule"
+    rules.to_csv(OUTPUT / "notebook4_rules.csv")
+    predictions, realised = ns["predictions"], ns["realised"]
+    pd.Series(
+        {
+            "ic": spearmanr(predictions, realised).statistic,
+            "hit_rate": float((np.sign(predictions) == np.sign(realised)).mean()),
+            "first_prediction": str(predictions.index[0].date()),
+            "last_prediction": str(predictions.index[-1].date()),
+        },
+        name="value",
+    ).to_csv(OUTPUT / "notebook4_forecast.csv")
 
     print("\nWhere the two engines' gross returns differ (step 0 vs step 1):")
     for key, value in drift_check.items():

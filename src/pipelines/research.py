@@ -223,6 +223,7 @@ def research_settings(config: Config) -> dict[str, Any]:
             **dataclasses.asdict(getattr(labelling, labelling.method)),
         },
         "validation": {
+            "development_boundary": DEVELOPMENT_BOUNDARY,
             "embargo_days": validation.embargo_days,
             "n_groups": validation.cpcv.n_groups,
             "n_test_groups": validation.cpcv.n_test_groups,
@@ -246,50 +247,89 @@ def run_name(config: Config) -> str:
     return f"research_{config.model.estimator}_{config.model.task}_{config.labelling.method}"
 
 
+# How the development period ends. Part of every research and backtest
+# fingerprint: changing it changes which rows exist, so results made under an
+# earlier rule are different trials, not reruns.
+DEVELOPMENT_BOUNDARY = "cut_before_features_and_labels"
+
+
+class BoundaryError(AssertionError):
+    """Raised when development data reaches the holdout."""
+
+
+def development_panel(panel: pd.DataFrame, config: Config) -> pd.DataFrame:
+    """The cleaned panel with every row on or after validation.test_start removed.
+
+    Applied before any feature or label is built, so nothing downstream can
+    depend on a holdout price: a fixed-horizon label needs the next close,
+    and the last development date has none, so it gets no label; a triple
+    barrier needs max_holding_days closes ahead, so the last events get none.
+    Labels are never truncated to fit.
+
+    Raises:
+        BoundaryError: If the panel has no development rows at all.
+    """
+    holdout = pd.Timestamp(config.validation.test_start)
+    dates = panel.index.get_level_values("date")
+    cut = panel[dates < holdout]
+
+    if cut.empty:
+        raise BoundaryError(f"no development rows before {holdout.date()}")
+
+    log_frame(logger, cut, "Development panel")
+
+    return cut
+
+
+def check_development_boundary(labels: pd.DataFrame, config: Config) -> None:
+    """Refuse any label dated, or resolved, on or after validation.test_start."""
+    holdout = pd.Timestamp(config.validation.test_start)
+    dated = row_dates(labels.index) >= holdout
+    resolved = labels["touch_time"] >= holdout
+
+    if dated.any() or resolved.any():
+        raise BoundaryError(
+            f"{int(dated.sum())} labels dated and {int(resolved.sum())} resolved in the holdout"
+        )
+
+
 def prepare_research_data(panel: pd.DataFrame, config: Config) -> ResearchData:
     """Features, labels and weights for the development period.
 
-    Rows are kept only where features, label and weight all exist, the date
-    is before test_start, and the label's outcome is known by the first
-    holdout date. The last of those rules matters for the 5 day triple
-    barrier, whose final development labels would otherwise be made of
-    holdout returns.
+    The panel is cut at validation.test_start before anything is built
+    (development_panel), so every label's outcome is known by the last
+    development close: none uses a 2020 price. Rows are then kept where
+    features, label and weight all exist.
 
     Args:
-        panel: Cleaned panel indexed by (date, ticker).
+        panel: Cleaned panel indexed by (date, ticker); later rows are removed.
         config: Loaded project configuration.
 
     Returns:
         Aligned development data.
+
+    Raises:
+        BoundaryError: If a label still reaches the holdout.
     """
+    panel = development_panel(panel, config)
     features = build_features(panel, config)
     labels = LABELLERS[config.labelling.method](panel, config)
     weights = sample_weights(labels, config)
 
-    holdout = pd.Timestamp(config.validation.test_start)
-    first_holdout = panel.index.get_level_values("date")[
-        panel.index.get_level_values("date") >= holdout
-    ].min()
-
     labels = labels.reindex(features.index)
     weights = weights.reindex(features.index)
-    dates = row_dates(features.index)
 
     keep = (
-        (dates < holdout)
-        & labels["return"].notna().to_numpy()
-        & weights.notna().to_numpy()
-        & (weights > 0).to_numpy()
-        & ~(labels["touch_time"] > first_holdout).to_numpy()
+        labels["return"].notna().to_numpy() & weights.notna().to_numpy() & (weights > 0).to_numpy()
     )
-
-    crossing = int(((dates < holdout) & (labels["touch_time"] > first_holdout).to_numpy()).sum())
+    unlabelled = int(labels["return"].isna().sum())
     logger.info(
-        "Development set: %s of %s rows before %s (%s dropped at the holdout boundary)",
+        "Development set: %s of %s rows to %s (%s without a label, the last of them "
+        "because their outcome would need a holdout price)",
         f"{keep.sum():,}",
         f"{len(features):,}",
-        holdout.date(),
-        crossing,
+        row_dates(features.index).max().date(),
+        unlabelled,
     )
 
     data = ResearchData(
@@ -298,6 +338,7 @@ def prepare_research_data(panel: pd.DataFrame, config: Config) -> ResearchData:
         weights=weights[keep],
         fracdiff_d=float(features.attrs.get("fracdiff_d", np.nan)),
     )
+    check_development_boundary(data.labels, config)
     log_frame(logger, data.X, "Research features")
 
     return data

@@ -129,3 +129,118 @@ producing a result could not have been selected.
 - **Every execution so far ran on uncommitted code** (`code_version` ends in
   `-dirty`). Before the holdout, the code is committed and the freeze file
   records a clean commit.
+
+## Phase 8: how the rules were applied (2026-10-26)
+
+The rules above were written before any DSR was computed and are left as
+written. This section records what Phase 8 did with them, including where it
+departed from them. The numbers come from `reports/research_report.md`, which is
+rebuilt from the saved results and the trial log (`make report`). Rebuild it
+rather than trusting the figures quoted here.
+
+### Changes to the trial log
+
+- **The boundary refit added 27 rows** (trial_id 107 to 133): 1 research, 18
+  backtest, 2 benchmark and 6 diagnostic. All 27 fingerprints are new, because
+  `research_settings()` now records `development_boundary`. Rows 1 to 106 are
+  unchanged, byte for byte against the pre-refit copy, and against HEAD apart
+  from line endings.
+- **The 42 notebook experiments are now in the log** (trial_id 134 to 175, kind
+  `notebook`, code_version `notebook, not recorded`), parsed from the
+  notebooks' saved outputs by `src/evaluation/notebook_trials.py`. Their
+  metrics are only what the outputs printed: ADF statistic and correlation for
+  21 differencing orders, IC and p-value for 17 features, gross and net Sharpe
+  for 3 position rules, and IC and hit rate for the model. Every metric name
+  carries its period (for example `sharpe_net_2008_2024`). They ran on data to
+  2024 and none is a development Sharpe ratio. They count in N and never enter
+  V[SR].
+- **The count is 42, not "notebooks 3 and 4".** Notebook 4's tally of 42
+  includes notebook 2's 21 differencing orders. Notebooks 3 and 4 alone hold
+  21 experiments (17 + 3 + 1).
+
+### Rule 2: N
+
+Four defensible counts are reported. The headline is the pre-registered one.
+
+| Scenario | N | Rule |
+| --- | --- | --- |
+| `all_fingerprints` (headline) | 98 | Every distinct research, backtest and notebook fingerprint, superseded versions included (56 pipeline + 42 notebook) |
+| `distinct_choices` | 66 | Versions of one named trial merged (24 + 42) |
+| `distinct_less_overlap` | 63 | Less the 3 notebook experiments the pipeline re-ran: binary long/short (`ml_long_short`), long only (`ml_long_only`), and the random forest (the research trial) |
+| `pipeline_only` | 24 | Ignores the notebook search; a lower bound that understates N |
+
+Notebook 4's "scaled by conviction" rule, the 21 differencing orders and the 17
+feature tests have no pipeline counterpart, so they are not treated as overlaps.
+
+### Rule 3: V[SR]
+
+| Option | Candidates | Variance (annual) |
+| --- | --- | --- |
+| Current strategies, no allocations | 18 | 0.1175 |
+| Current strategies and allocations | 22 | 0.1582 |
+| Every backtest fingerprint in the log (rule 3) | 54 | 0.1216 |
+| Selected strategy's own sampling variance (rule 3 cross-check) | 1 | 0.0715 |
+
+The rules gave two instructions that point different ways. Rule 3 names the
+log-wide variance, and the inventory section says "uses the larger luck
+threshold" across the with- and without-allocation options. The headline takes
+the largest of all four options, 0.1582, which is the most conservative reading
+consistent with both.
+
+**Departure from the rule.** Rule 3's cross-check asked for the spread of the
+selected strategy's Sharpe across Phase 7's resampled paths. The saved Monte
+Carlo table keeps only quantile intervals, and only for the Phase 6
+strategies, not the allocations. The cross-check therefore uses the analytic
+sampling variance, the PSR denominator (Mertens). As a sanity check for
+`ml_long_short`: its bootstrap 95% range of 0.31 to 1.26 implies a variance of
+about 0.06, close to the analytic figure. It is the smallest option either way,
+so it does not set the headline.
+
+Superseded versions cannot be selected, so the headline's selected strategy is
+the best current candidate: `allocation_minimum_variance`, with an annual net
+Sharpe of 0.785. Its moments come from its saved net returns, 2006-01-31 to
+2019-12-31.
+
+### The headline
+
+| N | V[SR] | Luck threshold (annual) | Selected Sharpe | PSR vs 0 | DSR |
+| --- | --- | --- | --- | --- | --- |
+| 98 | 0.1582 | 1.004 | 0.785 | 0.998 | 0.207 |
+
+Across every count and variance scenario, the DSR ranges from 0.207 to 0.638.
+For every selected strategy it falls below 0.95 from N = 4. **No development
+Sharpe ratio is distinguishable from the best of that many unskilled trials.**
+This is about the past sample under the model's assumptions. It is not a
+probability of future profit, nor of holdout performance.
+
+### Rule 4: correlated trials
+
+The raw counts are not evidence that the trials are independent. The 22
+current candidates' daily net returns were averaged over CPCV paths, aligned
+on shared dates (2006-01-31 to 2019-12-30), and clustered (average linkage on
+sqrt((1 - rho)/2), cut at correlation 0.5). This gives 15 clusters, and a
+participation ratio of 8.2 for their correlation matrix. With the other 41
+trials kept at their counted value, the effective N is 56 or 49, and the DSR
+is 0.30 or 0.33.
+
+Two limits on this estimate:
+
+- **Notebook trials stay uncorrected.** The other 41 trials (pair_JNJ_PG from
+  an earlier pairs selection, the research trial, and 39 notebook experiments)
+  have no comparable daily returns, so their own dependence cannot be measured.
+- **The threshold is a choice.** The correlation cut-off of 0.5 is
+  conventional, not derived.
+
+The adjustment moves the DSR by about 0.1 and changes no conclusion.
+
+### Rule 6: freezing
+
+`make freeze` (`python -m src.reporting.report --freeze`) writes
+`reports/results/holdout_freeze.json`. It records N, every V[SR] option, the
+headline, the config hash, the selection-trial list and a SHA-256 of the
+trial log. It refuses to run on uncommitted code and never overwrites an
+existing freeze.
+
+**It has not been run.** Every execution so far is `-dirty`, so the freeze
+must follow a commit. Declaring the holdout's primary candidate is left to a
+person, as `holdout_protocol.md` requires.

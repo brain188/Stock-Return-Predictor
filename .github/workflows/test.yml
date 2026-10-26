@@ -1,0 +1,50 @@
+name: tests
+
+# Lint, format check and the test suite. The tests run on synthetic data and
+# the committed config: CI downloads no market data, fits no production
+# model, and never touches the 2020-2024 holdout.
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      # Keep any MLflow use inside the job's workspace.
+      MLFLOW_TRACKING_URI: sqlite:///${{ github.workspace }}/ci-mlflow.db
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Install Python
+        run: uv python install 3.12
+
+      - name: Install the project and dev dependencies from the lock file
+        run: uv sync --locked
+
+      - name: Ruff check
+        run: uv run ruff check .
+
+      - name: Ruff format check
+        run: uv run ruff format --check .
+
+      - name: Pytest
+        run: uv run pytest -q
+
+      - name: Makefile targets parse (dry run, nothing executed)
+        run: |
+          for target in install fetch research evaluate test lint format all; do
+            make -n "$target" > /dev/null
+          done
+          if make dashboard; then exit 1; fi

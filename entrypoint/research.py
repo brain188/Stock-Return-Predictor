@@ -18,6 +18,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from src.config import ESTIMATORS, LABELLING_METHODS, ConfigError, load_config
 from src.logger import get_logger, log_config, setup_logging
+from src.tracking.mlflow_tracking import get_tracker
 
 logger = get_logger(__name__)
 
@@ -61,6 +62,11 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
         help="skip permutation importance, the slowest step",
     )
     parser.add_argument(
+        "--no-tracking",
+        action="store_true",
+        help="do not log the run to MLflow (sqlite:///mlflow.db by default)",
+    )
+    parser.add_argument(
         "--splits-only",
         action="store_true",
         help="write splits.csv and validation.csv without fitting or logging a trial",
@@ -83,6 +89,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     # Imported after the config loads, so a bad path fails fast and cleanly.
     from src.pipelines.research import (
         DEFAULT_OUTPUT,
+        research_settings,
         run_research,
         with_overrides,
         write_split_report,
@@ -101,6 +108,11 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         result = run_research(config, refresh=args.refresh, permutation=not args.no_permutation)
         files = result.save(args.output or DEFAULT_OUTPUT)
+        if not args.no_tracking:
+            tracker = get_tracker()
+            with tracker.start_run(run_name=result.name, tags={"kind": "research"}):
+                tracker.log_params(research_settings(config))
+                tracker.log_metrics(result.metrics)
     except ConfigError as exc:
         logger.error("%s", exc)
         return EXIT_FAILED

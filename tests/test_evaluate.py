@@ -247,7 +247,14 @@ def test_cli_writes_results_to_the_output_path(panel, small_config, tmp_path, mo
     monkeypatch.setattr("src.pipelines.evaluate.load_clean_panel", lambda config: panel)
 
     code = cli.main(
-        ["--strategies", "momentum,buy_and_hold", "--no-same-close", "--output", str(tmp_path)]
+        [
+            "--strategies",
+            "momentum,buy_and_hold",
+            "--no-same-close",
+            "--no-tracking",
+            "--output",
+            str(tmp_path),
+        ]
     )
 
     assert code == cli.EXIT_OK

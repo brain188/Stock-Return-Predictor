@@ -6,6 +6,16 @@ One earlier run of the cost reconciliation read notebook 4's data to 2024, as
 the notebook itself does; that is disclosed under point 2, and the script now
 cuts the data at 2019-12-31.
 
+> **Note added in Phase 8 (2026-10-26).** The figures below come from the runs
+> before the boundary fix. Phase 8 cut the panel at `validation.test_start`
+> before features and labels are built, refitted research and evaluation, and
+> logged the refits as new trials (107 to 133). The development set lost the 11
+> rows dated 2019-12-31, whose labels needed the return dated 2020-01-02. Path
+> returns now end 2019-12-30. Net Sharpe ratios moved by at most 0.009 (ML
+> books) and 0.002 (benchmarks), and the pairs selection did not change. No
+> conclusion here changes. The current figures are in `reports/results/` and
+> `reports/research_report.md`.
+
 Evidence files:
 
 - `tests/test_timing.py`, `tests/test_evaluate.py`, `tests/test_pairs.py`,

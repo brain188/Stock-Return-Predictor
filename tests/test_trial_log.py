@@ -410,3 +410,34 @@ def test_benchmarks_are_recorded_but_not_selection_trials(log):
 
     assert log.unique_trial_count({"kind": "backtest"}) == 1
     assert log.unique_trial_count({"kind": "benchmark"}) == 1
+
+
+def test_the_task_list_call_shape_works(log, config):
+    trial_id = log.log_trial(
+        config=config,
+        features=["ret_1d"],
+        model_params={"depth": 6},
+        label="fixed_horizon",
+        metrics={"sharpe": 0.3},
+    )
+
+    row = log.trial_table().iloc[0]
+    assert trial_id == 1
+    assert row["name"] == "fixed_horizon"
+    assert row["features"] == ["ret_1d"]
+
+
+def test_notebook_records_count_as_selection_trials(log):
+    log.log_trial("notebook02_d_0.30", kind="notebook", status="ok", notes="count only")
+
+    assert log.unique_trial_count({"kind": "notebook"}) == 1
+    assert "notebook" in __import__("src.evaluation.trial_log", fromlist=["x"]).SELECTION_KINDS
+
+
+def test_a_rewritten_history_is_detected_on_the_next_append(log):
+    log.log_trial("a", metrics={"sharpe": 0.1})
+    text = log.path.read_text(encoding="utf-8").replace("trial_id", "trial", 1)
+    log.path.write_text(text, encoding="utf-8")
+
+    with pytest.raises(TrialLogError, match="layout"):
+        log.log_trial("b", metrics={"sharpe": 0.2})

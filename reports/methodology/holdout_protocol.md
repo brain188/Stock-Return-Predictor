@@ -12,8 +12,10 @@ beforehand. Anything decided after opening it is exploratory and labelled so.
 
 ## 1. Preconditions: freeze before opening
 
-1. **The deflated Sharpe is built and tested.** Phase 8.2,
-   `src/evaluation/deflated_sharpe.py`, currently empty.
+1. **The deflated Sharpe is built and tested.** Done in Phase 8:
+   `src/evaluation/deflated_sharpe.py` reproduces Bailey and López de Prado's
+   (2014) worked example, and `src/evaluation/trial_scenarios.py` applies it to
+   the saved development results.
 2. **The code is committed.** The holdout run must record a clean
    `code_version`; every development run so far was `-dirty`.
 3. **The config is frozen.** Its hash goes in the freeze file. No parameter
@@ -21,6 +23,10 @@ beforehand. Anything decided after opening it is exploratory and labelled so.
 4. **The trial count is frozen.** N, V[SR] (with and without the allocation
    trials) and the full trial list are written to
    `reports/results/holdout_freeze.json`, following `trial_accounting.md`.
+   `make freeze` (`python -m src.reporting.report --freeze`) writes it, and refuses
+   to run on uncommitted code or to overwrite an existing freeze. It has not
+   been run yet, because the code is not committed. It does not declare the
+   candidates (item 5); that stays a decision for a person.
 5. **The candidates are declared** in the freeze file before any holdout number
    exists:
    - **Primary candidate:** one strategy, chosen on development evidence only.
@@ -41,12 +47,18 @@ beforehand. Anything decided after opening it is exploratory and labelled so.
   because those are past prices.
 - **Nothing is tuned.**
 
-**The boundary.** The development label for 2019-12-31 already used the return
-dated 2020-01-02 (see `phase7_verification.md`). Holdout metrics therefore use
-returns dated **2020-01-06 onward**: the first position comes from a signal at
-the 2020-01-02 close, traded under the one-bar delay at the 2020-01-03 close,
-earning the return dated 2020-01-06. The return dated 2020-01-02 is never
-counted as out of sample.
+**The boundary.** Before Phase 8, the development label for 2019-12-31 used the
+return dated 2020-01-02 (see `phase7_verification.md`). Phase 8 fixed this at the
+source: the cleaned panel is cut at `validation.test_start` before features and
+labels are built (`development_panel` in `src/pipelines/research.py`), so
+2019-12-31 now has no label. The last labelled date is 2019-12-30, whose
+outcome is the return dated 2019-12-31. `check_development_boundary` refuses any
+label dated or resolved in the holdout, and `tests/test_boundary.py` checks both
+labelling methods. The affected runs were refitted and logged as new trials.
+
+Holdout metrics still use returns dated **2020-01-06 onward**: the first
+position comes from a signal at the 2020-01-02 close, traded under the one-bar
+delay at the 2020-01-03 close, earning the return dated 2020-01-06.
 
 ## 3. Costs and execution (same as development)
 

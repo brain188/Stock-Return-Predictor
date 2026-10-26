@@ -68,6 +68,7 @@ from src.evaluation.trial_log import TrialLog, trial_fingerprint
 from src.logger import get_logger, log_frame, log_step
 from src.pipelines.research import (
     ResearchData,
+    development_panel,
     fit_splits,
     prepare_research_data,
     research_settings,
@@ -217,7 +218,8 @@ def build_context(
     Returns:
         The shared evaluation inputs.
     """
-    panel = load_clean_panel(config) if panel is None else panel
+    # Prices, returns, features and labels all stop before the holdout.
+    panel = development_panel(load_clean_panel(config) if panel is None else panel, config)
     data = prepare_research_data(panel, config)
     cv = CombinatorialPurgedCV.from_config(config, data.labels["touch_time"])
     splits = list(cv.iter_splits(data.X))
@@ -872,6 +874,7 @@ def run_evaluation(
     same_close_check: bool = True,
     trial_log: TrialLog | None = None,
     monte_carlo_runs: int | None = None,
+    tracker: Any = None,
 ) -> EvaluationResult:
     """Run every requested strategy through CPCV and compare them.
 
@@ -883,6 +886,8 @@ def run_evaluation(
         same_close_check: Also run ML long/short at the signal's own close,
             as a diagnostic, to measure what notebook 4's timing was worth.
         trial_log: Where to record trials. Defaults to the config's.
+        tracker: An MLflowTracker to log each strategy to, best effort.
+            None (the default, and what tests use) logs nothing to MLflow.
         monte_carlo_runs: Block-bootstrap runs per strategy. None uses
             evaluation.monte_carlo_runs; 0 skips the resampling. It needs both
             benchmarks among the strategies.
@@ -916,6 +921,8 @@ def run_evaluation(
             evaluation = evaluate_strategy(strategy, context, name=name, kind=kind, n_paths=n_paths)
         evaluation.trial_id = _log(trial_log, evaluation, strategy, config, features)
         evaluations[name] = evaluation
+        if tracker is not None:
+            tracker.log_backtest(evaluation, config)
 
         if isinstance(strategy, MeanReversionPairs):
             for pair_name, pair in evaluate_pairs_individually(
@@ -923,6 +930,8 @@ def run_evaluation(
             ).items():
                 pair.trial_id = _log(trial_log, pair, strategy, config, features)
                 evaluations[pair_name] = pair
+                if tracker is not None:
+                    tracker.log_backtest(pair, config)
 
     paths = pd.concat(
         {name: evaluation.path_table for name, evaluation in evaluations.items()},

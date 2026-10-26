@@ -6,10 +6,38 @@ dist/
 wheels/
 *.egg-info
 
-# Virtual environments
+# Virtual environments and local secrets
 .venv
-
 .env
+
+# Tool caches
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+
+# Notebook checkpoints (the notebooks themselves are committed)
+.ipynb_checkpoints/
 
 # Run logs, rewritten on every run (including rotated files like pipeline.log.1)
 logs/
+
+# MLflow tracking: the local SQLite store and any artifact folders. The trial
+# log (reports/trial_log.csv), not MLflow, is the committed record of trials.
+mlflow.db
+*-mlflow.db
+mlruns/
+mlartifacts/
+
+# Saved model bundles are rebuilt by the pipeline; the folder itself is kept.
+models/*
+!models/.gitkeep
+
+# OS clutter
+.DS_Store
+Thumbs.db
+
+# Not ignored, on purpose: data/ (the cached prices and the committed clean
+# panel and features, so the results can be reproduced without a download),
+# reports/ (results, figures, methodology and the trial log) and notebooks/.

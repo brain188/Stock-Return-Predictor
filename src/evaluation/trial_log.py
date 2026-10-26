@@ -87,8 +87,10 @@ LEGACY_COLUMNS = [
 # What a trial is. Only research and backtest trials are candidates for
 # selection. Benchmarks are reference points every strategy is compared with,
 # and diagnostics check the method; both are recorded and counted apart.
-KINDS = {"research", "backtest", "benchmark", "diagnostic", "other"}
-SELECTION_KINDS = ("research", "backtest")
+# Notebook rows are the experiments run in notebooks 2 to 4, before the
+# pipeline existed: recorded so they count, but only partly documented.
+KINDS = {"research", "backtest", "benchmark", "diagnostic", "notebook", "other"}
+SELECTION_KINDS = ("research", "backtest", "notebook")
 STATUSES = {"ok", "failed"}
 
 # Columns stored as JSON text, decoded by trial_table().
@@ -370,7 +372,7 @@ class TrialLog:
 
     def log_trial(
         self,
-        name: str,
+        name: str | None = None,
         *,
         kind: str = "research",
         fingerprint: str | None = None,
@@ -381,6 +383,7 @@ class TrialLog:
         label: str = "",
         metrics: Mapping[str, Any] | None = None,
         notes: str = "",
+        version: str | None = None,
     ) -> int:
         """Append one execution. Called for every attempt, whatever its outcome.
 
@@ -390,6 +393,9 @@ class TrialLog:
 
         Args:
             name: What was tried, for example "rf_fixed_horizon" or "pair_XOM_JPM".
+                Optional, so the call log_trial(config=..., features=...,
+                model_params=..., label=..., metrics=...) of the task list
+                works; without it the name is the label, or "trial".
             kind: One of KINDS.
             fingerprint: Identity of the trial, from trial_fingerprint(). When
                 omitted, it is derived from the name, label, features and
@@ -404,6 +410,9 @@ class TrialLog:
                 trials (daily or annualised Sharpe, not a mix), since
                 sharpe_variance() compares them directly.
             notes: Free text, for example why a run failed.
+            version: The code version that produced the result, when it is
+                not the code running now (a historical record). Defaults to
+                the current commit.
 
         Returns:
             The trial_id given to the new row.
@@ -413,6 +422,7 @@ class TrialLog:
                 cannot be appended to.
         """
         status = status or ("ok" if metrics else "failed")
+        name = name or label or "trial"
 
         if kind not in KINDS:
             raise TrialLogError(f"kind must be one of {sorted(KINDS)}, got '{kind}'")
@@ -441,7 +451,7 @@ class TrialLog:
             "status": status,
             "fingerprint": fingerprint,
             "config_hash": config_hash(config),
-            "code_version": code_version(),
+            "code_version": version or code_version(),
             "features": _dumps(list(features)),
             "model_params": _dumps(dict(model_params or {})),
             "metrics": _dumps(dict(metrics or {})),
@@ -555,7 +565,10 @@ class TrialLog:
             first_trial_id=("trial_id", "min"),
             last_trial_id=("trial_id", "max"),
         )
-        summary["consistent"] = groups[metric_columns].agg(_consistent).all(axis=1)
+        # Count-only records carry no metrics at all; nothing can disagree.
+        summary["consistent"] = (
+            groups[metric_columns].agg(_consistent).all(axis=1) if metric_columns else True
+        )
 
         return pd.concat([summary, groups[metric_columns].mean()], axis=1)
 
