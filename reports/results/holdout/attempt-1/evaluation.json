@@ -1,0 +1,60 @@
+{
+  "window": {
+    "decision_date": "2020-01-02",
+    "first_row_and_trade": "2020-01-03",
+    "first_return_earned": "2020-01-06",
+    "last_date": "2024-12-30",
+    "execution_lag": "1"
+  },
+  "primary": {
+    "moments": {
+      "sharpe_period": 0.03381309442932443,
+      "n": 1256,
+      "skew": 0.012930442448858439,
+      "kurtosis": 16.656203367102712
+    },
+    "sharpe_annual": 0.5367662335052156,
+    "luck_threshold_annual": 1.003552935236288,
+    "psr_vs_zero": 0.8840445465670158,
+    "dsr": 0.14926357736851004,
+    "min_track_record_years": "inf",
+    "n_trials": 98,
+    "variance_field": "variance_scenarios.strategies_and_allocations.variance_period",
+    "variance_period": 0.0006275928611275629,
+    "variance_annual": 0.15815340100414585,
+    "interval": {
+      "difference": -0.26080313818175593,
+      "low": -0.7372460111658499,
+      "high": 0.13781641828019883,
+      "share_positive": 0.104
+    },
+    "dsr_above_level": false,
+    "interval_entirely_above_zero": false,
+    "evidence_of_edge": false,
+    "conclusion": "no convincing evidence of an edge"
+  },
+  "panel_rows": 55352,
+  "panel_sha256": "1ff87cb8fe9342c50ffc5e205755da526ac57be7fef96119b6613024a507b8d1",
+  "history_bars_before_decision": 3775,
+  "required_history": {
+    "allocations": 253,
+    "momentum": 253,
+    "pairs": 315,
+    "ml_features": 140
+  },
+  "missing_return_cells_in_window": 0,
+  "readiness": {
+    "allocation_minimum_variance": "weights from the 2019-12-31 rebalance",
+    "allocation_inverse_volatility": "weights from the 2019-12-31 rebalance",
+    "allocation_risk_parity": "weights from the 2019-12-31 rebalance",
+    "allocation_maximum_sharpe": "weights from the 2019-12-31 rebalance",
+    "ml_long_short": "forecasts from D0",
+    "ml_long_only": "forecasts from D0",
+    "ml_thresholded": "forecasts from D0",
+    "momentum": "12-1 signal defined at D0",
+    "pairs": "2 pair(s)",
+    "buy_and_hold": "constant target",
+    "equal_weight_hold": "constant target",
+    "equal_weight": "weights from the 2019-12-31 rebalance"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "completed_at": "2026-10-26T19:46:19+00:00",
+  "outputs_sha256": {
+    "daily_returns.csv": "63e7aaf810c62a22fe5bd1c46851af9c7835dc0415b3c91bc2f8052a75b6cb4a",
+    "summary.csv": "79ddcd9be68f6826cc24f43e4dad057ae30ea01580dabcb995dc74ea4274e4d9",
+    "comparisons.csv": "66538e79faa4c86738af6c502fbd581cad0de11876daeb1255a5d290f4bccc39",
+    "evaluation.json": "355e46f6d801c82d758902c5bd2cc6267bb85ab6e3fe0bde62384f382471b5d6",
+    "report.md": "490f7ac6ec5fbeebdf81aa628c1316325082a048191fddc075881fe0fe8c8a58"
+  },
+  "trial_ids": {
+    "allocation_minimum_variance": 176,
+    "allocation_inverse_volatility": 177,
+    "allocation_risk_parity": 178,
+    "allocation_maximum_sharpe": 179,
+    "ml_long_short": 180,
+    "ml_long_only": 181,
+    "ml_thresholded": 182,
+    "momentum": 183,
+    "pairs": 184,
+    "buy_and_hold": 185,
+    "equal_weight_hold": 186,
+    "equal_weight": 187
+  },
+  "trial_log_prefix_after_run": "raw bytes match the frozen SHA-256 (CRLF, as written when frozen)",
+  "conclusion": "no convincing evidence of an edge"
+}

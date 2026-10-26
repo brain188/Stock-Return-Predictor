@@ -1,0 +1,80 @@
+{
+  "attempt": {
+    "number": 1,
+    "reason": "",
+    "previous": {}
+  },
+  "started_at": "2026-10-26T19:46:01+00:00",
+  "runner_commit": "b3891469baf3cc9365890190a8e6a846fb5efdda",
+  "runner_code_version": "b389146",
+  "frozen_code_version": "20cdb7a",
+  "freeze_commit": "65263c7",
+  "declaration_sha256": "84732cdb2453d4585039ec1b4fbef9428a29da55b487f5b3cc77dbf44633c209",
+  "frozen_dsr_inputs": {
+    "n_trials": 98,
+    "n_trials_field": "headline.n_trials",
+    "variance_scenario": "strategies_and_allocations",
+    "variance_field": "variance_scenarios.strategies_and_allocations.variance_period",
+    "variance_annual": 0.15815340100414585,
+    "variance_period": 0.0006275928611275629,
+    "periods_per_year": 252
+  },
+  "bootstrap": {
+    "method": "paired block bootstrap of the net Sharpe difference (backtest.performance.sharpe_difference_interval), the same blocks of dates for both series",
+    "block_days": 21,
+    "resamples": 1000,
+    "seed": 0,
+    "level": 0.95
+  },
+  "candidates": {
+    "primary": "allocation_minimum_variance",
+    "secondary": [
+      "allocation_inverse_volatility",
+      "allocation_risk_parity",
+      "allocation_maximum_sharpe",
+      "ml_long_short",
+      "ml_long_only",
+      "ml_thresholded",
+      "momentum",
+      "pairs"
+    ],
+    "benchmarks": [
+      "buy_and_hold",
+      "equal_weight_hold",
+      "equal_weight"
+    ],
+    "excluded": {
+      "ml_long_short_same_close": "a diagnostic of notebook 4's timing, not a candidate",
+      "pair_<A>_<B>": "individual development pair trials; the pairs book is one strategy"
+    }
+  },
+  "costs": {
+    "commission_bps": 2.0,
+    "slippage_bps": 3.0,
+    "borrow_rate_annual": 0.005
+  },
+  "preflight": {
+    "stage": "run",
+    "checked_at": "2026-10-26T19:46:01+00:00",
+    "head": "b3891469baf3cc9365890190a8e6a846fb5efdda",
+    "frozen_code_version": "20cdb7a",
+    "freeze_commit": "65263c7",
+    "freeze_sha256": "06f2623d8aa2b61c6704948a4d3346987b4e7c4297a2c7bf607ee89ee1488e6b",
+    "declaration_sha256": "84732cdb2453d4585039ec1b4fbef9428a29da55b487f5b3cc77dbf44633c209",
+    "manifest_sha256": "1cf1d507488cd5bc50bd49e4e3da639894bd276f7ddc423af642d8bb1ba71af0",
+    "protocol_sha256_lf": "fd5ff93f5f63d82901b0d60af0883ea371c9fcf1f01e1406b16eec32f2611c2c",
+    "config_hash": "f33d4859198d",
+    "checks": {
+      "1_clean_tree": "clean, untracked files included",
+      "2_ancestry": "20cdb7a is an ancestor of HEAD b389146",
+      "3_freeze": "identical to 65263c7 (LF-normalised), SHA-256 06f2623d8aa2b61c6704948a4d3346987b4e7c4297a2c7bf607ee89ee1488e6b",
+      "4_config": "config hash f33d4859198d as frozen",
+      "7_declaration": "holdout_declaration.json (SHA-256 84732cdb2453d4585039ec1b4fbef9428a29da55b487f5b3cc77dbf44633c209), 0 replacement(s)",
+      "5_6_trial_log_prefix": "175 frozen rows: raw bytes match the frozen SHA-256 (CRLF, as written when frozen); 0 holdout rows after",
+      "8_books": "12 books, all supported",
+      "9_artifacts": "3 files match the manifest (1cf1d507488cd5bc50bd49e4e3da639894bd276f7ddc423af642d8bb1ba71af0)",
+      "10_attempt": "attempt 1",
+      "11_frozen_paths": "13 changed path(s), all allowlisted"
+    }
+  }
+}
