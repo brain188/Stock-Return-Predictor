@@ -36,31 +36,40 @@ DOWNLOADS = {
 TABLE_STYLE = {
     "style_table": {"overflowX": "auto", "maxHeight": "460px", "overflowY": "auto"},
     "style_header": {
-        "backgroundColor": t.SURFACE_LOW,
+        "backgroundColor": t.SURFACE,
         "color": t.OUTLINE,
-        "fontFamily": t.FONT_MONO,
-        "fontSize": "10px",
-        "fontWeight": 600,
-        "letterSpacing": "0.06em",
-        "textTransform": "uppercase",
+        "fontFamily": t.FONT_UI,
+        "fontSize": "12px",
+        "fontWeight": 500,
         "border": "none",
-        "padding": "6px 8px",
+        "borderBottom": f"1px solid {t.OUTLINE_VARIANT}",
+        "padding": "8px 12px",
     },
     "style_cell": {
         "backgroundColor": t.SURFACE,
-        "color": t.ON_SURFACE,
-        "fontFamily": t.FONT_MONO,
-        "fontSize": "12px",
+        "color": t.ON_SURFACE_VARIANT,
+        "fontFamily": t.FONT_UI,
+        "fontSize": "13px",
         "border": "none",
         "borderTop": f"1px solid {t.SURFACE_HIGHEST}",
-        "padding": "5px 8px",
+        "padding": "7px 12px",
         "textAlign": "left",
         "maxWidth": "280px",
         "overflow": "hidden",
         "textOverflow": "ellipsis",
     },
     "style_cell_conditional": [
-        {"if": {"column_id": c}, "textAlign": "right"} for c in ("trial_id", "metric")
+        {
+            "if": {"column_id": c},
+            "textAlign": "right",
+            "fontFamily": t.FONT_MONO,
+            "fontSize": "12px",
+        }
+        for c in ("trial_id", "metric")
+    ]
+    + [
+        {"if": {"column_id": c}, "fontFamily": t.FONT_MONO, "fontSize": "12px"}
+        for c in ("date", "code_version")
     ],
     "style_data_conditional": [
         {
@@ -68,7 +77,7 @@ TABLE_STYLE = {
             "backgroundColor": t.SURFACE_HIGH,
             "border": f"1px solid {t.PRIMARY_CONTAINER}",
         },
-        {"if": {"filter_query": '{kind} = "holdout"'}, "color": t.PRIMARY},
+        {"if": {"filter_query": '{kind} = "holdout"'}, "color": t.PRIMARY_DIM},
         {"if": {"filter_query": '{status} = "failed"'}, "color": t.NEG},
     ],
 }
@@ -92,15 +101,11 @@ def layout() -> html.Div:
                                         html.Div(
                                             [
                                                 html.H2(
-                                                    "Trial execution log", className="h-sm strong"
+                                                    "Trial execution log", className="section-title"
                                                 ),
-                                                html.Span(id="ex-count", className="tag"),
+                                                html.Span(id="ex-count", className="caption"),
                                             ],
-                                            style={
-                                                "display": "flex",
-                                                "gap": "8px",
-                                                "alignItems": "center",
-                                            },
+                                            className="titles",
                                         ),
                                         html.Div(
                                             [
@@ -123,16 +128,11 @@ def layout() -> html.Div:
                                                     placeholder="All kinds",
                                                     clearable=True,
                                                     searchable=False,
-                                                    style={"minWidth": "140px"},
                                                 ),
                                             ],
-                                            className="chip",
-                                            style={
-                                                "flexDirection": "row",
-                                                "alignItems": "center",
-                                                "gap": "8px",
-                                                "minHeight": "32px",
-                                            },
+                                            className="table-filters",
+                                            role="group",
+                                            **{"aria-label": "Filter the trial log"},
                                         ),
                                     ],
                                     className="table-head",
@@ -154,7 +154,7 @@ def layout() -> html.Div:
                                     cell_selectable=True,
                                     **TABLE_STYLE,
                                 ),
-                                html.Div(id="ex-table-foot", className="table-foot mono-sm"),
+                                html.Div(id="ex-table-foot", className="table-foot"),
                             ],
                             className="panel flush",
                         ),
@@ -166,8 +166,8 @@ def layout() -> html.Div:
             ),
             html.Div(
                 [
-                    html.Div(id="ex-counts", className="c-6"),
-                    html.Div(id="ex-variance", className="c-6"),
+                    html.Div(id="ex-counts", className="c-12"),
+                    html.Div(id="ex-variance", className="c-12"),
                 ],
                 className="grid",
             ),
@@ -177,128 +177,85 @@ def layout() -> html.Div:
     )
 
 
-def head() -> html.Div:
-    """Breadcrumb, title and the identifiers that pin the audit."""
+def head() -> html.Header:
+    """Title, what the page audits, and the identifiers that pin the audit."""
     freeze = data.freeze()
     declaration = data.declaration()
     started = data.holdout_started()
-    return html.Div(
-        [
-            html.Div(
-                [
-                    html.Span("Governance", className="caps muted"),
-                    html.Span(" / ", className="muted"),
-                    html.Span(
-                        f"Protocol approved {declaration['approval']['approved_on']}",
-                        className="caps primary",
-                    ),
-                    html.Span(" / ", className="muted"),
-                    html.Span(f"Trials frozen at {freeze['code_version']}", className="caps pos"),
-                ]
+    return t.page_header(
+        "Trial registry and multiple-testing governance",
+        "Every logged execution, the frozen trial count and the luck threshold the deflated "
+        "Sharpe ratio was judged against. Filtering the log never changes the frozen inputs.",
+        eyebrow="Governance",
+        meta=[
+            ("Protocol approved", declaration["approval"]["approved_on"]),
+            ("Trials frozen at", freeze["code_version"]),
+            ("Config", freeze["config_hash"]),
+            (
+                "Freeze SHA-256",
+                html.Span(
+                    f"{started['preflight']['freeze_sha256'][:12]}…",
+                    title=started["preflight"]["freeze_sha256"],
+                ),
             ),
-            html.H1(
-                "Trial registry & multiple-testing governance",
-                className="h-lg strong",
-                style={"margin": "4px 0"},
+            (
+                "Declaration SHA-256",
+                html.Span(
+                    f"{started['declaration_sha256'][:12]}…",
+                    title=started["declaration_sha256"],
+                ),
             ),
-            html.Div(
-                [
-                    t.tag(
-                        f"freeze {started['preflight']['freeze_sha256'][:12]}…",
-                        "",
-                        "SHA-256 of the committed freeze file",
-                    ),
-                    t.tag(
-                        f"declaration {started['declaration_sha256'][:12]}…",
-                        "",
-                        "SHA-256 of the approved declaration",
-                    ),
-                    t.tag(f"config {freeze['config_hash']}", ""),
-                ],
-                style={"display": "flex", "gap": "8px", "flexWrap": "wrap"},
-            ),
-        ]
+        ],
+        status=t.tag("Frozen"),
     )
 
 
-def banner() -> html.Div:
+def banner() -> html.Section:
     """The multiple-testing defence, stated with the frozen numbers."""
     freeze = data.freeze()
     h = freeze["headline"]
     p = data.holdout_evaluation()["primary"]
     counts = freeze["count_scenarios"]
     scenario = counts["all_fingerprints"]
-    return html.Div(
-        [
-            html.Div(t.icon("shield", "lg"), className="brand-mark", style={"flexShrink": 0}),
-            html.Div(
-                [
-                    html.Div(
-                        [
-                            html.Span("Multiple-testing defence", className="caps neg"),
-                            html.Span(" | ", className="muted"),
-                            html.Span(
-                                f"Trials counted: N = {h['n_trials']} "
-                                f"({scenario['pipeline']} pipeline + "
-                                f"{scenario['notebook']} notebook)",
-                                className="mono-sm strong",
-                            ),
-                        ]
-                    ),
-                    html.P(
-                        [
-                            html.Span(
-                                "Deflated Sharpe ratio (Bailey & López de Prado). ",
-                                className="strong",
-                            ),
-                            "The best of ",
-                            html.Span(str(h["n_trials"]), className="num"),
-                            " unskilled trials with V[SR] = ",
-                            html.Span(f"{h['variance_used_annual']:.3f}", className="num"),
-                            " would be expected to show an annual Sharpe of ",
-                            html.Span(f"{h['luck_threshold_annual']:.2f}", className="num"),
-                            (
-                                ". The best development candidate "
-                                f"({data.BOOKS[h['selected']].label}, "
-                            ),
-                            html.Span(f"{h['sharpe_annual']:.3f}", className="num"),
-                            ") had DSR ",
-                            html.Span(f"{h['dsr']:.3f}", className="num neg"),
-                            "; in the holdout it scored ",
-                            html.Span(f"{p['sharpe_annual']:.3f}", className="num"),
-                            ", DSR ",
-                            html.Span(f"{p['dsr']:.3f}", className="num neg"),
-                            ". Both are far below the 0.95 required.",
-                        ],
-                        className="prose body-sm",
-                    ),
-                ],
-                style={"flex": 1, "minWidth": 0},
-            ),
-            html.Div(
-                [
-                    html.Span("Count scenarios", className="caps muted"),
-                    html.Span(
-                        " / ".join(str(v["n_trials"]) for v in counts.values()),
-                        className="mono-display strong",
-                    ),
-                    html.Span("headline uses the largest", className="mono-sm muted"),
-                ],
-                style={
-                    "display": "flex",
-                    "flexDirection": "column",
-                    "alignItems": "flex-end",
-                    "flexShrink": 0,
-                },
-            ),
-        ],
-        className="panel high",
-        style={
-            "flexDirection": "row",
-            "gap": "12px",
-            "alignItems": "center",
-            "borderLeft": f"2px solid {t.NEG}",
-        },
+    return t.panel(
+        html.Div(
+            [
+                html.P(
+                    [
+                        "The best of ",
+                        html.Span(str(h["n_trials"]), className="num"),
+                        " unskilled trials with V[SR] = ",
+                        html.Span(f"{h['variance_used_annual']:.3f}", className="num"),
+                        " would be expected to show an annual Sharpe of ",
+                        html.Span(f"{h['luck_threshold_annual']:.2f}", className="num"),
+                        (f". The best development candidate ({data.BOOKS[h['selected']].label}, "),
+                        html.Span(f"{h['sharpe_annual']:.3f}", className="num"),
+                        ") had DSR ",
+                        html.Span(f"{h['dsr']:.3f}", className="num neg"),
+                        "; in the holdout it scored ",
+                        html.Span(f"{p['sharpe_annual']:.3f}", className="num"),
+                        ", DSR ",
+                        html.Span(f"{p['dsr']:.3f}", className="num neg"),
+                        ". Both are far below the 0.95 required. The DSR estimates how likely the "
+                        "true Sharpe is to exceed that luck threshold; it is not a probability of "
+                        "future profit.",
+                    ],
+                    className="prose",
+                ),
+                t.stat(
+                    "Count scenarios",
+                    " / ".join(str(v["n_trials"]) for v in counts.values()),
+                    "The headline uses the largest",
+                ),
+            ],
+            className="callout-body",
+        ),
+        title="Multiple-testing defence: deflated Sharpe ratio (Bailey & López de Prado)",
+        subtitle=(
+            f"Trials counted: N = {h['n_trials']} ({scenario['pipeline']} pipeline + "
+            f"{scenario['notebook']} notebook)"
+        ),
+        cls="callout",
     )
 
 
@@ -317,21 +274,19 @@ def kpis() -> list[Any]:
     figure.update_yaxes(title_text=None, showticklabels=False)
     return [
         t.kpi(
-            "Expected max Sharpe (null)",
+            "Expected max Sharpe under the null",
             fmt.number(h["luck_threshold_annual"], 3),
-            "annual",
-            "insights",
+            "Annual; the luck threshold",
             rows=[
                 ("Trials N", str(h["n_trials"]), "soft"),
-                ("V[SR] used", f"{h['variance_used_annual']:.4f} ({h['variance_used']})", "soft"),
+                ("V[SR] used", f"{h['variance_used_annual']:.4f}", "soft"),
+                ("Variance scenario", h["variance_used"], "soft"),
             ],
         ),
         t.kpi(
             "Deflated Sharpe bar",
             "> 0.95",
-            "required to claim an edge",
-            "rule",
-            tone="primary",
+            "Required to claim an edge",
             rows=[
                 ("Development DSR", fmt.number(h["dsr"], 3), "neg"),
                 ("Holdout DSR", fmt.number(p["dsr"], 3), "neg"),
@@ -340,8 +295,7 @@ def kpis() -> list[Any]:
         t.kpi(
             "Development → holdout",
             fmt.pct(decay, 1, True),
-            "primary's net Sharpe",
-            "trending_down",
+            "Change in the primary's net Sharpe",
             tone=fmt.tone(decay),
             rows=[
                 ("Development", fmt.sharpe(h["sharpe_annual"]), "soft"),
@@ -350,19 +304,23 @@ def kpis() -> list[Any]:
         ),
         html.Div(
             [
+                html.Div(html.Span("Trial Sharpe spread", className="label"), className="kpi-top"),
                 html.Div(
-                    [html.Span("Trial Sharpe spread", className="caps"), t.icon("analytics", "sm")],
-                    className="kpi-top",
+                    dcc.Graph(
+                        figure=figure,
+                        config={"displayModeBar": False, "responsive": True},
+                        style={"height": "70px"},
+                    ),
+                    role="img",
+                    **{"aria-label": "Histogram of the backtest trials' Sharpe ratios"},
                 ),
-                dcc.Graph(
-                    figure=figure,
-                    config={"displayModeBar": False, "responsive": True},
-                    style={"height": "70px"},
+                html.Div(
+                    f"{len(sharpes)} backtest trials against the luck threshold",
+                    className="kpi-caption",
                 ),
-                t.kv(
-                    f"{len(sharpes)} backtest trials",
-                    f"threshold {h['luck_threshold_annual']:.2f}",
-                    "neg",
+                html.Div(
+                    t.kv("Luck threshold", f"{h['luck_threshold_annual']:.2f}", "neg"),
+                    className="kpi-rows",
                 ),
             ],
             className="kpi",
@@ -427,28 +385,7 @@ def inspector(trial_id: int | None) -> html.Section:
     tone = "pos" if r["status"] == "ok" else "neg"
     return t.panel(
         [
-            html.Div(
-                [
-                    html.Div(
-                        [
-                            html.Span("Kind", className="caps muted"),
-                            html.Span(r["kind"], className="mono-data strong"),
-                        ],
-                        className="kpi",
-                        style={"background": "var(--surface-low)"},
-                    ),
-                    html.Div(
-                        [
-                            html.Span("Status", className="caps muted"),
-                            html.Span(r["status"], className=f"mono-data {tone}"),
-                        ],
-                        className="kpi",
-                        style={"background": "var(--surface-low)"},
-                    ),
-                ],
-                className="kpis",
-                style={"--n": 2},
-            ),
+            t.stat_grid([t.stat("Kind", r["kind"]), t.stat("Status", r["status"], tone=tone)]),
             html.Div(
                 [
                     t.kv("Name", r["name"], "strong"),
@@ -462,38 +399,20 @@ def inspector(trial_id: int | None) -> html.Section:
                     t.kv("Config hash", r["config_hash"] or fmt.MISSING, "strong"),
                 ],
                 className="list-rows",
-                style={"margin": "8px 0"},
+                style={"margin": "12px 0"},
             ),
-            html.P(
-                r["notes"] or "No notes.",
-                className="body-sm soft",
-                style={"fontStyle": "italic", "marginBottom": "8px"},
-            ),
+            html.P(r["notes"] or "No notes.", className="caption trial-notes"),
             html.Div(
                 [
-                    html.Span("Recorded settings & metrics", className="caps muted"),
-                    html.Span("trial_log.csv", className="mono-sm primary"),
+                    html.Span("Recorded settings and metrics", className="label"),
+                    html.Span("trial_log.csv", className="caption"),
                 ],
-                className="kv",
+                className="kv text",
             ),
-            html.Pre(
-                json.dumps(details, indent=2, default=str),
-                className="mono-sm",
-                style={
-                    "background": "var(--surface-lowest)",
-                    "padding": "8px",
-                    "borderRadius": "4px",
-                    "maxHeight": "260px",
-                    "overflow": "auto",
-                    "margin": "4px 0 0",
-                    "color": "var(--on-surface-variant)",
-                    "whiteSpace": "pre-wrap",
-                },
-            ),
+            html.Pre(json.dumps(details, indent=2, default=str), className="code-block"),
         ],
-        title_icon="dataset",
         title=f"Trial inspector: #{trial_id}",
-        actions=t.tag(r["kind"], "info"),
+        subtitle="Click a row in the log to inspect it",
     )
 
 
@@ -608,15 +527,7 @@ def bundle() -> html.Section:
                     html.Div([t.kv(k, v, tone) for k, v, tone in facts], className="list-rows c-6"),
                     html.Div(
                         [
-                            html.Div(
-                                buttons,
-                                style={
-                                    "display": "flex",
-                                    "gap": "8px",
-                                    "flexWrap": "wrap",
-                                    "marginBottom": "8px",
-                                },
-                            ),
+                            html.Div(buttons, className="button-row"),
                             mlflow,
                         ],
                         className="c-6",
@@ -625,7 +536,6 @@ def bundle() -> html.Section:
                 className="grid",
             ),
         ],
-        title_icon="lock",
         title="Replication & reproducibility bundle",
         subtitle=(
             "Every file the audit rests on, as committed; reports are Markdown (no PDF "
@@ -675,7 +585,7 @@ def table_rows(search: str | None, kind: str | None, _token: int) -> tuple:
         rows = filtered(search, kind)
         total = len(data.trial_table())
     except data.DataError as exc:
-        return [], "0 rows", exc.detail
+        return [], "0 executions", exc.detail
     foot = [
         html.Span(
             f"Showing {len(rows)} of {total} executions · filters change the list only, "
@@ -686,7 +596,11 @@ def table_rows(search: str | None, kind: str | None, _token: int) -> tuple:
             f"{views.trials_note()}"
         ),
     ]
-    return rows.drop(columns=["fingerprint", "notes"]).to_dict("records"), f"{total} logged", foot
+    return (
+        rows.drop(columns=["fingerprint", "notes"]).to_dict("records"),
+        f"{total} executions logged",
+        foot,
+    )
 
 
 @callback(

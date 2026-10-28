@@ -45,46 +45,30 @@ def layout() -> html.Div:
     """The page skeleton with the page's own allocation and method selectors."""
     return html.Div(
         [
-            html.Div(
+            html.Div(id="pr-engine"),
+            t.page_controls(
                 [
-                    html.Div(id="pr-engine"),
-                    html.Div(
-                        [
-                            html.Div(
-                                [
-                                    html.Span("Allocation", className="caps muted"),
-                                    dcc.RadioItems(
-                                        id="pr-rule",
-                                        options=[
-                                            {"label": v, "value": k} for k, v in RULES.items()
-                                        ],
-                                        value="minimum_variance",
-                                        className="seg",
-                                        inline=True,
-                                    ),
-                                ],
-                                className="chip",
-                            ),
-                            html.Div(
-                                [
-                                    html.Span("Forward-risk model", className="caps muted"),
-                                    dcc.RadioItems(
-                                        id="pr-method",
-                                        options=[
-                                            {"label": v, "value": k} for k, v in METHODS.items()
-                                        ],
-                                        value="bootstrap",
-                                        className="seg",
-                                        inline=True,
-                                    ),
-                                ],
-                                className="chip",
-                            ),
-                        ],
-                        style={"display": "flex", "gap": "8px", "flexWrap": "wrap"},
+                    t.field(
+                        "Allocation",
+                        dcc.RadioItems(
+                            id="pr-rule",
+                            options=[{"label": v, "value": k} for k, v in RULES.items()],
+                            value="minimum_variance",
+                            className="seg",
+                            inline=True,
+                        ),
                     ),
-                ],
-                className="strip",
+                    t.field(
+                        "Forward-risk model",
+                        dcc.RadioItems(
+                            id="pr-method",
+                            options=[{"label": v, "value": k} for k, v in METHODS.items()],
+                            value="bootstrap",
+                            className="seg",
+                            inline=True,
+                        ),
+                    ),
+                ]
             ),
             html.Div(id="pr-kpis", className="kpis", style={"--n": 4}),
             html.Div(
@@ -107,27 +91,24 @@ def layout() -> html.Div:
     )
 
 
-def engine() -> html.Div:
-    """How every allocation is estimated and constrained."""
+def engine() -> html.Header:
+    """The page header: what it answers, and how every allocation is estimated."""
     p = data.config().portfolio
-    items = [
-        (
-            "Covariance",
-            f"{p.covariance_method.replace('_', '-').title()}, {p.covariance_window}-day window",
-        ),
-        ("Constraints", "Long only, fully invested" if p.long_only else "Long/short"),
-        ("Expected returns", f"{p.expected_return_method}, rf = {p.risk_free_rate:.0%}"),
-        ("Asset pool", f"N = {len(data.tickers())}"),
-    ]
-    return html.Div(
-        [
-            html.Div(
-                [html.Span(k, className="caps muted"), html.Span(v, className="mono-data strong")],
-                className="chip",
-            )
-            for k, v in items
+    return t.page_header(
+        "Portfolio and risk",
+        "How the allocation rules spread weight and risk, what the frontier promised against "
+        "what it delivered, and the saved forward-risk and stress results.",
+        eyebrow="Research question Q5",
+        meta=[
+            (
+                "Covariance",
+                f"{p.covariance_method.replace('_', '-').title()}, {p.covariance_window}-day",
+            ),
+            ("Constraints", "long only, fully invested" if p.long_only else "long/short"),
+            ("Expected returns", f"{p.expected_return_method}, rf = {p.risk_free_rate:.0%}"),
+            ("Assets", str(len(data.tickers()))),
         ],
-        style={"display": "flex", "gap": "8px", "flexWrap": "wrap"},
+        status=t.tag("Development, with holdout column"),
     )
 
 
@@ -149,9 +130,7 @@ def kpis(rule: str, method: str) -> list[Any]:
         t.kpi(
             "Annualised volatility",
             fmt.pct(dev["net_annual_volatility"], 1),
-            "development, net",
-            "insights",
-            tone="primary",
+            "Development, net of costs",
             rows=[
                 (
                     "Holdout, net",
@@ -164,9 +143,7 @@ def kpis(rule: str, method: str) -> list[Any]:
         t.kpi(
             "95% one-year VaR",
             fmt.pct(-r["var_95"], 1),
-            f"CVaR {fmt.pct(-r['cvar_95'], 1)}",
-            "warning",
-            tone="neg",
+            f"Simulated loss; CVaR {fmt.pct(-r['cvar_95'], 1)}",
             rows=[
                 ("Model", METHODS[method], "soft"),
                 (
@@ -179,9 +156,7 @@ def kpis(rule: str, method: str) -> list[Any]:
         t.kpi(
             "99% one-year VaR",
             fmt.pct(-r["var_99"], 1),
-            f"CVaR {fmt.pct(-r['cvar_99'], 1)}",
-            "error",
-            tone="neg",
+            f"Simulated loss; CVaR {fmt.pct(-r['cvar_99'], 1)}",
             rows=[
                 ("CVaR ÷ VaR (99%)", fmt.number(r["cvar_99"] / r["var_99"], 2), "soft"),
                 ("P(ruin, −50%)", fmt.pct(r["ruin_probability"], 2), "soft"),
@@ -190,9 +165,7 @@ def kpis(rule: str, method: str) -> list[Any]:
         t.kpi(
             "Effective N",
             fmt.number(effective, 1),
-            f"of {len(weights)} assets",
-            "hub",
-            tone="primary",
+            f"Of {len(weights)} assets, from the latest weights",
             rows=[
                 ("Diversification ratio", fmt.number(summary["diversification_ratio"], 2), "soft"),
                 ("Largest weight", f"{fmt.pct(weights.max(), 1)} {weights.idxmax()}", "soft"),
@@ -217,7 +190,6 @@ def frontier_panel(rule: str) -> html.Section:
             f"Estimated on {fmt.date_range(*meta['train'])} · realised "
             f"{fmt.date_range(*meta['test'])}"
         ),
-        actions=[t.tag(f"IS {train}", "info"), t.tag(f"OOS {test}", "warn")],
         footer=[
             html.Span(
                 ["Best in-sample Sharpe: ", html.Span(fmt.sharpe(sharpe_in), className="primary")]
@@ -277,20 +249,13 @@ def weights_panel(rule: str) -> html.Section:
     return t.panel(
         [
             t.table(rows, columns, compact=True),
-            html.Div(
-                [
-                    t.icon("info", "sm"),
-                    html.Span(why, className="body-sm soft"),
-                ],
-                style={"marginTop": "8px", "display": "flex", "gap": "4px"},
-            ),
+            t.note(why.strip()),
         ],
         title="Weight vs contribution to risk",
         subtitle=(
             f"{RULES[rule]} at its last development rebalance, {fmt.date(weights.name)} "
             "· the weights the holdout entered"
         ),
-        actions=t.tag(f"vol {fmt.pct(data.risk_summary().loc[rule, 'volatility'], 1)}", "info"),
     )
 
 
@@ -309,9 +274,8 @@ def mc_panel(rule: str, method: str) -> html.Section:
         title=f"Monte Carlo drawdown: {fmt.integer(meta['runs'])} paths, one-year horizon",
         subtitle=(
             f"{METHODS[method]} model fitted to development returns · seed "
-            f"{meta['seed']} · at the latest weights"
+            f"{meta['seed']} · at the latest weights · saved percentiles only"
         ),
-        actions=t.tag("Saved percentiles only"),
         footer=[
             html.Span(
                 [
@@ -345,49 +309,35 @@ def stress_panel(rule: str) -> html.Section:
         items.append(
             html.Div(
                 [
-                    html.Div(
-                        [
-                            html.Span(r["scenario"], className="body-sm strong"),
-                            html.Span(
-                                fmt.pct(r["total_return"], 1, True),
-                                className=f"mono-data {fmt.tone(r['total_return'])}",
-                            ),
-                        ],
-                        className="kv",
+                    t.kv(
+                        r["scenario"],
+                        fmt.pct(r["total_return"], 1, True),
+                        fmt.tone(r["total_return"]),
                     ),
                     html.Div(
                         [
+                            html.Span(f"{r['start']} → {r['end']} · {int(r['days'])} days"),
                             html.Span(
-                                f"{r['start']} → {r['end']} · {int(r['days'])} days",
-                                className="mono-sm muted",
-                            ),
-                            html.Span(
-                                (
-                                    f"max DD {fmt.pct(r['max_drawdown'], 1)} · worst day "
-                                    f"{fmt.pct(r['worst_day'], 1)}"
-                                ),
-                                className="mono-sm muted",
+                                f"Max drawdown {fmt.pct(r['max_drawdown'], 1)} · worst day "
+                                f"{fmt.pct(r['worst_day'], 1)}"
                             ),
                         ],
-                        className="kv",
+                        className="stress-meta caption",
                     ),
                     html.Div(
                         html.Div(
-                            className="bar-fill",
-                            style={
-                                "width": f"{max(3, share * 100):.0f}%",
-                                "background": "var(--neg)",
-                            },
+                            className="bar-fill neg",
+                            style={"width": f"{max(3, share * 100):.0f}%"},
                         ),
                         className="bar-track",
+                        title=f"Max drawdown relative to the worst scenario ({fmt.pct(worst, 1)})",
                     ),
                 ],
-                style={"padding": "6px 0", "borderTop": "1px solid var(--surface-highest)"},
+                className="stress-row",
             )
         )
     return t.panel(
         items,
-        title_icon="history",
         title="Stress tests: historical crises",
         subtitle="Latest development weights replayed through each crisis window (before 2020)",
         footer=[
@@ -440,8 +390,16 @@ def comparison() -> html.Section:
         [
             html.Div(
                 [
-                    html.H2("Allocation rules: development and holdout", className="h-sm strong"),
-                    t.tag(views.trials_note()),
+                    html.Div(
+                        [
+                            html.H2(
+                                "Allocation rules: development and holdout",
+                                className="section-title",
+                            ),
+                            html.Span(views.trials_note(), className="caption"),
+                        ],
+                        className="titles",
+                    ),
                 ],
                 className="table-head",
             ),
@@ -457,7 +415,7 @@ def comparison() -> html.Section:
                         "attempt 1, 2020-01-03 → 2024-12-30"
                     ),
                 ],
-                className="table-foot mono-sm",
+                className="table-foot",
             ),
         ],
         className="panel flush",

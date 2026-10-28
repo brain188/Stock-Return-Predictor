@@ -250,14 +250,33 @@ def test_the_app_builds_and_routes_every_page(app_module):
     assert "Page not found" in text_of(app_module.route("/nowhere"))
 
 
-def test_each_page_dims_the_controls_it_does_not_use(app_module):
-    out = app_module.mark_page("/market")
-    controls = app_module.CONTROLS
-    classes = dict(zip(controls, out[2 : 2 + len(controls)], strict=True))
+def toolbar_classes(app_module, pathname: str) -> tuple[dict, dict, str]:
+    """The field and group classes and the note class mark_page gives one page."""
+    out = app_module.mark_page(pathname)
+    controls, groups = app_module.CONTROLS, list(app_module.GROUPS)
+    fields = dict(zip(controls, out[2 : 2 + len(controls)], strict=True))
+    start = 2 + len(controls)
+    return fields, dict(zip(groups, out[start : start + len(groups)], strict=True)), out[-1]
 
-    assert classes["asset"] == "chip"
-    assert classes["period"] == "chip inactive"
-    assert out[0][list(app_module.PAGES).index("/market")] == "nav-item active"
+
+def test_each_page_shows_only_the_global_controls_it_uses(app_module):
+    fields, groups, note = toolbar_classes(app_module, "/market")
+
+    assert "hidden" not in fields["asset"]
+    assert "hidden" in fields["period"]
+    assert groups == {"market": "filter-group", "evaluation": "filter-group hidden"}
+    assert "hidden" in note
+    assert app_module.mark_page("/market")[0][list(app_module.PAGES).index("/market")] == (
+        "nav-item active"
+    )
+
+
+def test_a_page_without_global_controls_says_so(app_module):
+    fields, groups, note = toolbar_classes(app_module, "/portfolio")
+
+    assert all("hidden" in c for c in fields.values())
+    assert all("hidden" in c for c in groups.values())
+    assert note == "toolbar-note"
 
 
 def test_selection_fills_blank_controls_with_defaults():

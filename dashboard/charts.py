@@ -18,12 +18,14 @@ from scipy import stats
 
 from dashboard import theme as t
 
+# Diverging scale centred on zero: red for negative, neutral surface at zero,
+# blue for positive; equal lightness steps either side.
 DIVERGING = [
-    [0.0, "#93000a"],
-    [0.25, "#7a3b44"],
+    [0.0, "#b4483f"],
+    [0.25, "#5e2f34"],
     [0.5, t.SURFACE_HIGH],
-    [0.75, "#1f5f86"],
-    [1.0, "#38bdf8"],
+    [0.75, "#1d4f6e"],
+    [1.0, "#3a9fd0"],
 ]
 
 
@@ -48,16 +50,18 @@ def shade_holdout(figure: go.Figure, start: pd.Timestamp | None, end: pd.Timesta
     if start is None or end is None or end < start:
         return
     figure.add_vrect(x0=start, x1=end, fillcolor=t.HOLDOUT_BAND, line_width=0, layer="below")
-    figure.add_vline(x=start, line={"color": t.PRIMARY_CONTAINER, "dash": "dot", "width": 1})
+    figure.add_vline(x=start, line={"color": t.OUTLINE, "dash": "dot", "width": 1})
     figure.add_annotation(
         x=start,
-        y=1,
+        y=0,
         yref="paper",
         xanchor="left",
-        yanchor="top",
+        yanchor="bottom",
+        xshift=4,
+        yshift=2,
         showarrow=False,
-        text=" HOLDOUT (one-time evaluation)",
-        font={"family": t.FONT_MONO, "size": 9, "color": t.PRIMARY_CONTAINER},
+        text="Holdout",
+        font={"family": t.FONT_UI, "size": 10, "color": t.OUTLINE},
     )
 
 
@@ -262,7 +266,7 @@ def volatility(frame: pd.DataFrame, median: float, high: float) -> go.Figure:
             yanchor="bottom",
             showarrow=False,
             text=f"{name} {level:.1%}",
-            font={"family": t.FONT_MONO, "size": 9, "color": colour},
+            font={"family": t.FONT_UI, "size": 10, "color": colour},
         )
     figure.update_yaxes(title_text="annualised volatility", tickformat=".0%")
     figure.update_xaxes(hoverformat="%Y-%m-%d")
@@ -490,7 +494,7 @@ def frontier(
             name="Assets (in-sample)",
             mode="markers+text",
             textposition="top center",
-            textfont={"family": t.FONT_MONO, "size": 9, "color": t.OUTLINE},
+            textfont={"family": t.FONT_UI, "size": 10, "color": t.OUTLINE},
             marker={"color": t.OUTLINE, "size": 5},
             hovertemplate="%{text}: vol %{x:.1%}, return %{y:.1%}<extra>in-sample</extra>",
         )
@@ -511,7 +515,7 @@ def frontier(
                 mode="lines+markers+text",
                 text=[f"{label} (exp.)", f"{label} (real.)"],
                 textposition=["middle right", "bottom right"],
-                textfont={"family": t.FONT_MONO, "size": 9, "color": colour},
+                textfont={"family": t.FONT_UI, "size": 10, "color": colour},
                 line={"color": colour, "width": 1, "dash": "dot"},
                 marker={"color": colour, "size": [9, 9], "symbol": ["square", "circle"]},
                 name=label,
@@ -569,7 +573,7 @@ def trial_sharpes(
         yanchor="top",
         showarrow=False,
         text=f" luck threshold {threshold:.2f}",
-        font={"family": t.FONT_MONO, "size": 9, "color": t.NEG},
+        font={"family": t.FONT_UI, "size": 10, "color": t.NEG},
     )
     for label, x, colour in marks:
         figure.add_vline(x=x, line={"color": colour, "width": 1.2})
@@ -581,7 +585,7 @@ def trial_sharpes(
             yanchor="top",
             showarrow=False,
             text=f"{label} {x:.2f} ",
-            font={"family": t.FONT_MONO, "size": 9, "color": colour},
+            font={"family": t.FONT_UI, "size": 10, "color": colour},
         )
     figure.update_layout(hovermode="closest", bargap=0.05)
     figure.update_xaxes(title_text="annualised net Sharpe of each backtest trial")

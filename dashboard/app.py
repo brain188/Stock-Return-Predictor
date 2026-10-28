@@ -70,22 +70,20 @@ CONTROLS = controls.CONTROLS
 
 
 def sidebar() -> html.Aside:
-    """Brand, the seven pages with the active one marked, and the run's provenance."""
+    """Brand, the seven pages with the active one marked, and the run's status."""
     try:
-        provenance = data.provenance()
-        version = provenance["code_version"]
+        version = data.provenance()["code_version"]
     except data.DataError:
         version = "unknown"
     links = [
         dcc.Link(
             [
                 t.icon(page.ICON),
-                html.Div(
+                html.Span(
                     [
                         html.Span(page.TITLE, className="nav-title"),
                         html.Span(page.SUBTITLE, className="nav-sub"),
-                    ],
-                    style={"display": "flex", "flexDirection": "column", "minWidth": 0},
+                    ]
                 ),
             ],
             href=path,
@@ -95,9 +93,8 @@ def sidebar() -> html.Aside:
         for path, page in PAGES.items()
     ]
     try:
-        attempt = data.holdout_complete()
-        holdout = ("Attempt 1 complete", "pos")
-        conclusion = attempt.get("conclusion", fmt.MISSING)
+        conclusion = data.holdout_complete().get("conclusion", fmt.MISSING)
+        holdout = ("Attempt 1 complete", "strong")
     except data.DataError:
         holdout, conclusion = ("Not run", "warn"), fmt.MISSING
     return html.Aside(
@@ -111,21 +108,20 @@ def sidebar() -> html.Aside:
                                     html.Div(t.icon("terminal"), className="brand-mark"),
                                     html.Div(
                                         [
-                                            html.Span("QuantLab", className="h-sm strong"),
-                                            html.Span("Research Terminal", className="caps muted"),
-                                        ],
-                                        style={"display": "flex", "flexDirection": "column"},
+                                            html.Div("QuantLab", className="brand-name"),
+                                            html.Div("Research terminal", className="brand-sub"),
+                                        ]
                                     ),
                                 ],
                                 className="brand-row",
                             ),
                             html.Div(
                                 [
-                                    html.Span("stock-return-predictor", className="mono-sm soft"),
+                                    html.Span("stock-return-predictor", className="caption"),
                                     t.tag(
                                         version,
-                                        "pos" if "dirty" not in version else "warn",
-                                        "code version (git)",
+                                        "" if "dirty" not in version else "warn",
+                                        "Code version (git commit)",
                                     ),
                                 ],
                                 className="brand-meta",
@@ -134,17 +130,18 @@ def sidebar() -> html.Aside:
                         className="brand",
                     ),
                     html.Div(
-                        html.Span("Research questions", className="caps muted"),
-                        className="nav-label",
+                        html.Span("Research questions", className="eyebrow"), className="nav-label"
                     ),
                     html.Nav(links, className="nav", **{"aria-label": "Pages"}),
                 ]
             ),
             html.Div(
                 [
-                    t.kv(html.Span("Holdout", className="caps"), holdout[0], holdout[1]),
-                    t.kv(html.Span("Verdict", className="caps"), conclusion, "soft"),
-                    t.kv(html.Span("Trials (frozen)", className="caps"), _frozen_n(), "strong"),
+                    t.kv("Holdout", holdout[0], holdout[1]),
+                    t.kv(
+                        "Verdict", conclusion, "neg" if "no convincing" in conclusion else "strong"
+                    ),
+                    t.kv("Trials (frozen)", _frozen_n(), "strong"),
                 ],
                 className="sidebar-foot",
             ),
@@ -161,35 +158,35 @@ def _frozen_n() -> str:
         return fmt.MISSING
 
 
-def _chip(label: str, control: Any, chip_id: str, min_width: int | None = None) -> html.Div:
-    style = {"minWidth": f"{min_width}px"} if min_width else {}
-    return html.Div(
-        [html.Span(label, className="caps"), control], className="chip", id=chip_id, style=style
+def _dropdown(control_id: str, options: list[dict], value: str) -> dcc.Dropdown:
+    return dcc.Dropdown(
+        id=control_id, options=options, value=value, clearable=False, searchable=False
     )
 
 
-def header() -> html.Header:
-    """The global controls strip, the data status and the shared actions."""
+def toolbar() -> html.Header:
+    """Global filters in two groups, the data status and the shared actions.
+
+    Every control is always mounted (so its value survives navigation); each
+    page shows only the ones it uses, and a page with none says so.
+    """
     d = controls.defaults()
-    seg = {"className": "seg", "inline": True, "labelStyle": {"display": "inline-block"}}
+    seg = {"className": "seg", "inline": True}
     strategies = [{"label": data.BOOKS[k].label, "value": k} for k in data.STRATEGIES]
     benchmarks = [{"label": data.BOOKS[k].label, "value": k} for k in data.BENCHMARKS]
-    chip_row = html.Div(
+    models = [{"label": v, "value": k} for k, v in controls.MODEL_LABELS.items()]
+    market = html.Div(
         [
-            _chip(
-                "Universe · asset",
-                dcc.Dropdown(
-                    id="ctl-asset",
-                    options=[{"label": x, "value": x} for x in data.tickers()],
-                    value=d["asset"],
-                    clearable=False,
-                    searchable=False,
+            t.field(
+                "Asset",
+                _dropdown(
+                    "ctl-asset", [{"label": x, "value": x} for x in data.tickers()], d["asset"]
                 ),
-                "chip-asset",
-                84,
+                "field-asset",
+                "w-sm",
             ),
-            _chip(
-                "Date window",
+            t.field(
+                "Window",
                 dcc.DatePickerRange(
                     id="ctl-dates",
                     start_date=d["start"],
@@ -200,106 +197,112 @@ def header() -> html.Header:
                     minimum_nights=20,
                     first_day_of_week=1,
                 ),
-                "chip-dates",
-                184,
+                "field-dates",
             ),
-            _chip(
-                "Evaluation period",
+            t.field(
+                "Sampling",
+                dcc.RadioItems(
+                    id="ctl-freq",
+                    options=[
+                        {"label": "Daily", "value": "1D"},
+                        {"label": "Weekly", "value": "1W"},
+                        {"label": "Monthly", "value": "1M"},
+                    ],
+                    value=d["freq"],
+                    **seg,
+                ),
+                "field-freq",
+            ),
+        ],
+        className="filter-group",
+        id="group-market",
+        role="group",
+        **{"aria-label": "Market data filters"},
+    )
+    evaluation = html.Div(
+        [
+            t.field(
+                "Period",
                 dcc.RadioItems(
                     id="ctl-period",
                     options=[
-                        {"label": "Dev 2005–19", "value": data.DEVELOPMENT},
-                        {"label": "Holdout 2020–24", "value": data.HOLDOUT},
+                        {
+                            "label": html.Span(
+                                "Development", title="2005–2019, out-of-sample CPCV"
+                            ),
+                            "value": data.DEVELOPMENT,
+                        },
+                        {
+                            "label": html.Span("Holdout", title="2020–2024, one-time evaluation"),
+                            "value": data.HOLDOUT,
+                        },
                     ],
                     value=d["period"],
                     **seg,
                 ),
-                "chip-period",
+                "field-period",
             ),
-            _chip(
-                "Sampling",
-                dcc.RadioItems(
-                    id="ctl-freq",
-                    options=[{"label": x, "value": x} for x in ("1D", "1W", "1M")],
-                    value=d["freq"],
-                    **seg,
-                ),
-                "chip-freq",
+            t.field("Model", _dropdown("ctl-model", models, d["model"]), "field-model", "w-lg"),
+            t.field(
+                "Strategy", _dropdown("ctl-strategy", strategies, d["strategy"]), "field-strategy"
             ),
-            _chip(
-                "Model",
-                dcc.Dropdown(
-                    id="ctl-model",
-                    options=[{"label": v, "value": k} for k, v in controls.MODEL_LABELS.items()],
-                    value=d["model"],
-                    clearable=False,
-                    searchable=False,
-                ),
-                "chip-model",
-                170,
-            ),
-            _chip(
-                "Strategy",
-                dcc.Dropdown(
-                    id="ctl-strategy",
-                    options=strategies,
-                    value=d["strategy"],
-                    clearable=False,
-                    searchable=False,
-                ),
-                "chip-strategy",
-                160,
-            ),
-            _chip(
+            t.field(
                 "Benchmark",
-                dcc.Dropdown(
-                    id="ctl-benchmark",
-                    options=benchmarks,
-                    value=d["benchmark"],
-                    clearable=False,
-                    searchable=False,
-                ),
-                "chip-benchmark",
-                150,
+                _dropdown("ctl-benchmark", benchmarks, d["benchmark"]),
+                "field-benchmark",
             ),
         ],
-        className="chips",
-        role="toolbar",
-        **{"aria-label": "Global controls"},
+        className="filter-group",
+        id="group-evaluation",
+        role="group",
+        **{"aria-label": "Evaluation filters"},
     )
-    right = html.Div(
+    note = html.Span(
+        "No global filters on this page; its own controls are under the page title.",
+        id="toolbar-note",
+        className="toolbar-note hidden",
+    )
+    actions = html.Div(
         [
-            html.Button(
-                t.icon("menu"),
-                id="btn-menu",
-                className="btn menu-toggle",
-                title="Show pages",
-                **{"aria-label": "Show pages"},
-            ),
             html.Div(id="data-status", className="status"),
             html.Button(
-                [t.icon("refresh", "sm"), "Reload"],
+                t.icon("refresh", "sm"),
                 id="btn-reload",
-                className="btn primary-btn",
-                title="Re-read every saved result from disk. Nothing is recomputed or rerun.",
+                className="btn icon-only",
+                title="Reload: re-read every saved result from disk. "
+                "Nothing is recomputed or rerun.",
+                **{"aria-label": "Reload saved results"},
             ),
             html.Button(
-                [t.icon("download", "sm"), "Export"],
+                [t.icon("download", "sm"), "Export CSV"],
                 id="btn-export",
                 className="btn",
                 title="Download the main table of this page, as shown, as CSV",
             ),
             html.Button(
-                [t.icon("restart_alt", "sm")],
+                t.icon("restart_alt", "sm"),
                 id="btn-reset",
-                className="btn",
-                title="Reset every control to its default",
-                **{"aria-label": "Reset controls"},
+                className="btn icon-only",
+                title="Reset every filter to its default",
+                **{"aria-label": "Reset filters"},
             ),
         ],
-        className="header-right",
+        className="actions",
     )
-    return html.Header([chip_row, right], className="header")
+    menu = html.Button(
+        t.icon("menu"),
+        id="btn-menu",
+        className="btn icon-only menu-toggle",
+        title="Show pages",
+        **{"aria-label": "Show pages"},
+    )
+    filters = html.Div(
+        [market, evaluation, note],
+        className="filters",
+        role="toolbar",
+        **{"aria-label": "Global filters"},
+    )
+    return html.Header([menu, filters, actions], className="toolbar")
 
 
 def serve_layout() -> html.Div:
@@ -312,7 +315,7 @@ def serve_layout() -> html.Div:
             sidebar(),
             html.Div(
                 [
-                    header(),
+                    toolbar(),
                     html.Main(
                         dcc.Loading(
                             html.Div(id="page", className="page"),
@@ -326,12 +329,7 @@ def serve_layout() -> html.Div:
                 ],
                 className="content",
             ),
-            html.Div(
-                id="export-status",
-                className="mono-sm muted",
-                role="status",
-                style={"display": "none"},
-            ),
+            html.Div(id="export-status", role="status", className="sr-only"),
         ]
     )
 
@@ -361,24 +359,36 @@ def route(pathname: str) -> Any:
     return t.guarded(page.layout, f"the {page.TITLE} page")
 
 
+GROUPS = {
+    "market": ("asset", "dates", "freq"),
+    "evaluation": ("period", "model", "strategy", "benchmark"),
+}
+
+
 @dash.callback(
     Output({"type": "nav", "path": ALL}, "className"),
     # dcc.Link has no aria-current; its title names the current page instead.
     Output({"type": "nav", "path": ALL}, "title"),
-    [Output(f"chip-{c}", "className") for c in CONTROLS],
-    [Output(f"chip-{c}", "title") for c in CONTROLS],
+    [Output(f"field-{c}", "className") for c in CONTROLS],
+    [Output(f"group-{g}", "className") for g in GROUPS],
+    Output("toolbar-note", "className"),
     Input("url", "pathname"),
 )
 def mark_page(pathname: str) -> tuple:
-    """Highlight the current page and dim the controls it does not use."""
+    """Highlight the current page and show only the global filters it uses."""
     paths = list(PAGES)
     current = pathname if pathname in PAGES else "/"
     classes = ["nav-item active" if p == current else "nav-item" for p in paths]
-    aria = ["Current page" if p == current else PAGES[p].TITLE for p in paths]
+    titles = ["Current page" if p == current else PAGES[p].TITLE for p in paths]
     uses = PAGES[current].USES
-    chip_classes = ["chip" if c in uses else "chip inactive" for c in CONTROLS]
-    titles = [None if c in uses else "Not used on this page" for c in CONTROLS]
-    return classes, aria, *chip_classes, *titles
+    sizes = {"asset": " w-sm", "model": " w-lg"}
+    fields = [f"field{sizes.get(c, '')}" + ("" if c in uses else " hidden") for c in CONTROLS]
+    groups = [
+        "filter-group" if any(c in uses for c in members) else "filter-group hidden"
+        for members in GROUPS.values()
+    ]
+    note = "toolbar-note" if not uses else "toolbar-note hidden"
+    return classes, titles, *fields, *groups, note
 
 
 @dash.callback(
@@ -412,20 +422,14 @@ def show_status(token: int) -> Any:
     try:
         p = data.provenance()
     except data.DataError as exc:
-        return html.Span(exc.title, className="mono-sm neg")
+        return html.Span(exc.title, className="caption neg")
     loaded = datetime.now(UTC).strftime("%H:%M UTC")
     return [
-        html.Div(
-            [
-                html.Span(className="dot"),
-                html.Span(f" Results loaded {loaded}", className="mono-sm pos"),
-            ],
-            style={"display": "flex", "alignItems": "center", "gap": "4px"},
-        ),
         html.Span(
-            f"Prices to {fmt.date(p['last_bar'])} · written {fmt.date(p['results_written'])}",
-            className="mono-sm muted",
+            [html.Span(className="dot"), f"Prices to {fmt.date(p['last_bar'])}"],
+            className="caption",
         ),
+        html.Span(f"Results loaded {loaded}", className="caption"),
     ]
 
 

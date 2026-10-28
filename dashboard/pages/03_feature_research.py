@@ -61,80 +61,31 @@ def layout() -> html.Div:
     )
 
 
-def strip() -> html.Div:
+def strip() -> html.Header:
     """The research question and the validation design behind every number on the page."""
     m = data.research_metrics()
     v = data.research_validation()
     cfg = data.config().validation
-    return html.Div(
-        [
-            html.Div(
-                [
-                    html.Div(
-                        [
-                            t.tag("Research question Q2", "info"),
-                            html.Span(
-                                f"CPCV (N = {cfg.cpcv.n_groups}, k = "
-                                f"{cfg.cpcv.n_test_groups}) · "
-                                f"{int(m['embargo_days'])}-day embargo · fingerprint "
-                                f"{v['fingerprint']}",
-                                className="mono-sm pos",
-                            ),
-                        ],
-                        style={
-                            "display": "flex",
-                            "gap": "8px",
-                            "alignItems": "center",
-                            "flexWrap": "wrap",
-                        },
-                    ),
-                    html.H1(
-                        "Do the 19 features carry information about next-day returns?",
-                        className="h-sm strong",
-                    ),
-                    html.Div(
-                        [
-                            html.Span(
-                                [
-                                    "Target: ",
-                                    html.Span(
-                                        "next-day return (fixed horizon, 1 day)",
-                                        className="primary",
-                                    ),
-                                ]
-                            ),
-                            html.Span(
-                                [
-                                    "Sample: ",
-                                    html.Span(
-                                        f"{fmt.integer(m['n_rows'])} rows · "
-                                        f"{fmt.integer(m['cs_dates'])} dates · "
-                                        f"{int(m['cs_mean_tickers'])} tickers",
-                                        className="strong",
-                                    ),
-                                ]
-                            ),
-                            html.Span(
-                                [
-                                    "Period: ",
-                                    html.Span(
-                                        "development 2005-07 → 2019-12, out-of-fold",
-                                        className="strong",
-                                    ),
-                                ]
-                            ),
-                        ],
-                        className="meta mono-sm",
-                    ),
-                ],
-                style={"display": "flex", "flexDirection": "column", "gap": "2px", "minWidth": 0},
+    return t.page_header(
+        "Feature and signal research",
+        "Do the 19 features carry information about next-day returns? Development evidence, "
+        "out-of-fold, and every test the project ran with its sample size.",
+        eyebrow="Research question Q2",
+        meta=[
+            ("Target", "next-day return, 1-day horizon"),
+            (
+                "Sample",
+                f"{fmt.integer(m['n_rows'])} rows · {fmt.integer(m['cs_dates'])} dates · "
+                f"{int(m['cs_mean_tickers'])} tickers",
             ),
-            html.Div(
-                [t.tag("Exploratory + development evidence"), t.tag(views.trials_note())],
-                className="panel-actions",
+            (
+                "Validation",
+                f"CPCV N = {cfg.cpcv.n_groups}, k = {cfg.cpcv.n_test_groups}, "
+                f"{int(m['embargo_days'])}-day embargo",
             ),
+            ("Run", v["fingerprint"]),
         ],
-        className="strip",
+        status=t.tag("Development, out-of-fold"),
     )
 
 
@@ -145,24 +96,21 @@ def kpis() -> list[Any]:
     matrix = red.drop(columns=["cluster"])
     pairs = int((np.triu(matrix.abs().to_numpy(), k=1) > REDUNDANCY).sum())
     cs_t = float(m["cs_spearman_t_stat"])
+    significant = abs(cs_t) >= T_CRITICAL
     return [
         t.kpi(
             "Mean cross-sectional IC",
             fmt.number(m["cs_spearman_mean"], 4, signed=True),
-            "Spearman",
-            "insights",
-            tone=fmt.tone(m["cs_spearman_mean"]),
+            "Daily Spearman across tickers, mean",
             rows=[
                 ("Positive days", fmt.pct(m["cs_spearman_positive_share"], 1), "soft"),
                 ("Dates", fmt.integer(m["cs_dates"]), "soft"),
             ],
         ),
         t.kpi(
-            "Pooled IC (5 paths)",
+            "Pooled IC",
             fmt.number(m["ic_mean"], 4, signed=True),
-            f"± {fmt.number(m['ic_std'], 4)} s.d.",
-            "analytics",
-            tone=fmt.tone(m["ic_mean"]),
+            f"Mean of 5 CPCV paths, s.d. {fmt.number(m['ic_std'], 4)}",
             rows=[
                 ("Positive paths", f"{int(m['positive_ic_paths'])} of {int(m['n_paths'])}", "soft"),
                 ("Range", f"{fmt.number(m['ic_min'], 4)} to {fmt.number(m['ic_max'], 4)}", "soft"),
@@ -171,33 +119,30 @@ def kpis() -> list[Any]:
         t.kpi(
             "t-stat of daily IC",
             fmt.number(cs_t, 2),
-            "not significant" if abs(cs_t) < T_CRITICAL else "significant at 5%",
-            "rule",
-            tone="neg" if abs(cs_t) < T_CRITICAL else "pos",
+            "Two-sided test that the mean daily IC is 0",
+            badge_text=("Significant at 5%", "pos") if significant else ("Not significant", ""),
             rows=[
-                ("Two-sided 5% bar", f"|t| > {T_CRITICAL}", "soft"),
-                ("Yearly-IC t-stat", fmt.number(m["ic_year_t_stat"], 2), "soft"),
+                ("5% bar", f"|t| > {T_CRITICAL}", "soft"),
+                ("Yearly-IC t-stat (exploratory)", fmt.number(m["ic_year_t_stat"], 2), "soft"),
             ],
         ),
         t.kpi(
-            "Feature pool",
+            "Features",
             str(len(red)),
-            "features",
-            "hub",
+            f"In {red['cluster'].nunique()} redundancy clusters",
             rows=[
-                ("Redundancy clusters", str(red["cluster"].nunique()), "soft"),
+                ("Largest cluster", f"{red['cluster'].value_counts().iloc[0]} features", "soft"),
                 ("Fracdiff order d", fmt.number(m["fracdiff_d"], 2), "soft"),
             ],
         ),
         t.kpi(
-            "Collinearity",
+            "Collinear pairs",
             str(pairs),
-            f"pairs |ρ| > {REDUNDANCY}",
-            "warning",
-            tone="warn" if pairs else "pos",
+            f"Feature pairs with |ρ| > {REDUNDANCY}",
+            badge_text=("Redundant inputs", "warn") if pairs else None,
             rows=[
-                ("Largest cluster", f"{red['cluster'].value_counts().iloc[0]} features", "soft"),
-                ("Threshold", "research pipeline", "soft"),
+                ("Threshold", f"|ρ| > {REDUNDANCY}", "soft"),
+                ("Source", "research pipeline", "soft"),
             ],
         ),
     ]
@@ -209,10 +154,9 @@ def importance_panel() -> html.Section:
     stable = imp[imp["positive_share"] >= 0.8]
     return t.panel(
         t.graph(charts.importance(imp), 470, label="Permutation importance by feature"),
-        kicker="Stability analysis",
         title="Permutation importance across CPCV folds",
         subtitle="Mean IC lost when a feature is shuffled · whisker: s.d. over 15 folds",
-        actions=t.legend([("Mean", t.PRIMARY_CONTAINER, "box"), ("Fold s.d.", t.POS, "line")]),
+        legend=t.legend([("Mean", t.PRIMARY_CONTAINER, "box"), ("Fold s.d.", t.POS, "line")]),
         footer=[
             html.Span(
                 [
@@ -240,10 +184,8 @@ def redundancy_panel() -> html.Section:
         t.graph(
             charts.heatmap(matrix, "ρ", show_text=False), 470, label="Feature correlation matrix"
         ),
-        kicker="Multi-collinearity",
         title="Feature correlation by cluster",
         subtitle=f"Ordered by the research run's clusters (|ρ| > {REDUNDANCY} joins)",
-        actions=t.tag(f"{red['cluster'].nunique()} clusters"),
         footer=[
             html.Span("Hover a cell for the exact correlation; clusters run along the diagonal.")
         ],
@@ -258,13 +200,12 @@ def ic_panel() -> html.Section:
     below = float((roll["high"] < 0).mean())
     return t.panel(
         t.graph(charts.rolling_ic(roll), 260, label="Rolling cross-sectional IC"),
-        kicker="Dynamic stability",
         title="12-month rolling IC with 95% band",
         subtitle=(
             "Daily cross-sectional Spearman IC, mean of 5 paths · band ±1.96 SE "
             "(understates: days overlap)"
         ),
-        actions=t.legend(
+        legend=t.legend(
             [("Rolling IC", t.PRIMARY, "line"), ("±1.96 SE", "rgba(142,213,255,0.4)", "box")]
         ),
         footer=[
@@ -329,23 +270,14 @@ def regimes_panel() -> html.Section:
     return t.panel(
         [
             t.table(rows, columns, compact=True),
-            html.Div(
-                [
-                    t.icon("info", "sm"),
-                    html.Span(
-                        f" IC is highest in {best['regime'].lower()} "
-                        f"({fmt.number(best['ic_mean'], 4, True)}) and lowest in "
-                        f"{worst['regime'].lower()} "
-                        f"({fmt.number(worst['ic_mean'], 4, True)}). No regime's "
-                        "strategy interval lies wholly above equal-weight hold; regimes are "
-                        "labelled with past volatility only.",
-                        className="body-sm soft",
-                    ),
-                ],
-                style={"marginTop": "8px", "display": "flex", "gap": "4px"},
+            t.note(
+                f"IC is highest in {best['regime'].lower()} "
+                f"({fmt.number(best['ic_mean'], 4, True)}) and lowest in "
+                f"{worst['regime'].lower()} ({fmt.number(worst['ic_mean'], 4, True)}). No regime's "
+                "strategy interval lies wholly above equal-weight hold; regimes are labelled with "
+                "past volatility only."
             ),
         ],
-        kicker="Conditional performance",
         title="Volatility regime conditioning",
         subtitle="Development, out-of-fold · Sharpe vs equal-weight hold, paired bootstrap",
     )
@@ -477,7 +409,7 @@ def tests_panel() -> html.Section:
         t.Col("n", "n", fmt.integer, title="Dates, rows, years, splits or paths, as the test used"),
         t.Col("Statistic", "stat", str),
         t.Col("Estimate", "result", str),
-        t.Col("Verdict", "verdict", str, tone=lambda v, r: "pos" if r["reject"] else "neg"),
+        t.Col("Verdict", "verdict", str, tone=lambda v, r: "strong" if r["reject"] else "muted"),
     ]
     rejected = sum(r["reject"] for r in rows)
     return html.Section(
@@ -486,10 +418,13 @@ def tests_panel() -> html.Section:
                 [
                     html.Div(
                         [
-                            html.Span("Saved tests only", className="caps pos"),
-                            html.H2("Hypothesis tests and significance", className="h-sm strong"),
+                            html.H2("Hypothesis tests and significance", className="section-title"),
+                            html.Span(
+                                "Only tests the project ran and saved; none is computed here",
+                                className="caption",
+                            ),
                         ],
-                        style={"display": "flex", "flexDirection": "column"},
+                        className="titles",
                     ),
                     t.tag(f"{rejected} of {len(rows)} reject H0"),
                 ],
@@ -507,7 +442,7 @@ def tests_panel() -> html.Section:
                         "further correction is applied to them."
                     ),
                 ],
-                className="table-foot mono-sm",
+                className="table-foot",
             ),
         ],
         className="panel flush",
@@ -528,13 +463,12 @@ def series_panel(c: dict[str, Any]) -> html.Section:
         t.graph(
             charts.feature_series(frame, SERIES), 330, label=f"Feature series for {c['asset']}"
         ),
-        kicker="Inputs",
         title=f"{c['asset']}: momentum, lagged return and rolling volatility",
         subtitle=(
             "Model features as built (no look-ahead) · "
             f"{fmt.date_range(frame.index.min(), frame.index.max())}"
         ),
-        actions=t.legend(
+        legend=t.legend(
             [
                 (label, colour, "line")
                 for (_, label, _), colour in zip(

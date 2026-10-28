@@ -53,9 +53,7 @@ def layout() -> html.Div:
 
 
 def tabs(c: dict[str, Any]) -> html.Div:
-    """Strategy tabs bound to the global strategy, and the engine's fixed settings."""
-    cfg = data.config().backtest
-    b = data.book(c["strategy"])
+    """The page header and the strategy tabs, bound to the global strategy."""
     stats = data.book_stats(c["strategy"], c["period"])
     roles = {}
     try:
@@ -65,7 +63,7 @@ def tabs(c: dict[str, Any]) -> html.Div:
         pass
     buttons = [
         html.Button(
-            [data.BOOKS[k].label, t.tag("primary") if roles.get(k) == "primary" else None],
+            [data.BOOKS[k].label, t.tag("Primary", "info") if roles.get(k) == "primary" else None],
             id={"type": "pick-strategy", "key": k},
             className="tab active" if k == c["strategy"] else "tab",
             title=f"{data.BOOKS[k].family} · {roles.get(k, 'development only')}",
@@ -73,152 +71,77 @@ def tabs(c: dict[str, Any]) -> html.Div:
         )
         for k in data.STRATEGIES
     ]
-    chips = [
-        (
-            "Execution",
-            f"{cfg.execution_lag}-bar lag, close to close",
-            "trade at the close after the signal",
-        ),
-        ("Max gross leverage", f"{cfg.max_gross_leverage:.1f}×", "long + short"),
-        ("Rebalance", b.rebalance, b.family),
-        ("Universe", f"{len(data.tickers())} tickers", "incl. SPY"),
-        (
-            "Backtest window",
-            fmt.date_range(stats["start"], stats["end"]),
-            f"{fmt.integer(stats['days'])} trading days",
-        ),
-    ]
     return html.Div(
         [
-            html.Div(
-                [
-                    html.Span("Active strategy:", className="caps muted"),
-                    html.Div(buttons, className="tabs"),
+            t.page_header(
+                "Backtesting",
+                "Saved backtests, gross beside net of costs, against the selected benchmark. "
+                "Nothing here reruns: changing a selection shows a result already computed.",
+                eyebrow="Research question Q4",
+                meta=[
+                    ("Strategy", data.BOOKS[c["strategy"]].label),
+                    ("Period", views.PERIOD_LABELS[c["period"]]),
+                    ("Window", fmt.date_range(stats["start"], stats["end"])),
+                    ("Source", stats["source"]),
                 ],
-                style={"display": "flex", "gap": "8px", "alignItems": "center", "flexWrap": "wrap"},
+                status=t.tag(
+                    views.PERIOD_LABELS[c["period"]],
+                    "pos" if c["period"] == data.HOLDOUT else "info",
+                ),
             ),
             html.Div(
-                [
-                    html.Span(f"Source: {stats['source']}", className="mono-sm muted"),
-                    t.tag(
-                        views.PERIOD_LABELS[c["period"]],
-                        "pos" if c["period"] == data.HOLDOUT else "info",
-                    ),
-                ],
-                style={
-                    "display": "flex",
-                    "gap": "8px",
-                    "alignItems": "center",
-                    "flexWrap": "wrap",
-                    "margin": "8px 0",
-                },
+                t.page_controls(t.field("Strategy", html.Div(buttons, className="tabs"))),
+                style={"marginTop": "16px"},
             ),
-            html.Div(
-                [
-                    html.Div(
-                        [
-                            html.Span(label, className="caps muted"),
-                            html.Span(main, className="mono-data strong"),
-                            html.Span(sub, className="mono-sm muted"),
-                        ],
-                        className="kpi",
-                        style={"background": "var(--surface-low)"},
-                    )
-                    for label, main, sub in chips
-                ],
-                className="kpis",
-                style={"--n": 5},
-            ),
-        ],
-        className="panel low",
+        ]
     )
 
 
 def costs(c: dict[str, Any]) -> html.Section:
-    """The cost assumptions in basis points, and what they cost this strategy."""
+    """How trades are executed and charged, and what that cost this strategy."""
     cfg = data.config().backtest
+    b = data.book(c["strategy"])
     s = data.book_stats(c["strategy"], c["period"])
     turnover, drag = s.get("turnover_annual"), s.get("cost_annual")
-
-    def cell(
-        label: str, main: str, unit: str, note: str, share: float, tone: str = "strong"
-    ) -> html.Div:
-        return html.Div(
-            [
-                html.Span(label, className="caps muted"),
-                html.Div(
-                    [
-                        html.Span(main, className=f"mono-display {tone}"),
-                        html.Span(unit, className="mono-sm muted"),
-                    ],
-                    className="kpi-value",
-                ),
-                html.Span(note, className="mono-sm muted"),
-                html.Div(
-                    html.Div(
-                        className="bar-fill",
-                        style={"width": f"{max(2, min(100, share * 100)):.0f}%"},
-                    ),
-                    className="bar-track",
-                ),
-            ],
-            className="kpi",
-            style={"background": "var(--surface-low)"},
-        )
-
+    setup = t.stat_grid(
+        [
+            t.stat(
+                "Execution", f"{cfg.execution_lag}-bar lag", "Trade at the close after the signal"
+            ),
+            t.stat("Rebalance", b.rebalance, b.family),
+            t.stat("Gross leverage", f"≤ {cfg.max_gross_leverage:.1f}×", "Long plus short"),
+            t.stat("Universe", f"{len(data.tickers())} tickers", "Including SPY"),
+            t.stat("Trading days", fmt.integer(s["days"]), fmt.date_range(s["start"], s["end"])),
+        ]
+    )
+    charges = t.stat_grid(
+        [
+            t.stat("Commission", f"{cfg.commission_bps:.1f} bps", "Per side, on traded weight"),
+            t.stat("Slippage", f"{cfg.slippage_bps:.1f} bps", "Per side, on traded weight"),
+            t.stat(
+                "Round trip",
+                f"{cfg.round_trip_cost * 1e4:.1f} bps",
+                "Commission plus slippage, both sides",
+            ),
+            t.stat(
+                "Short borrow",
+                f"{cfg.borrow_rate_annual * 1e4:.0f} bps/yr",
+                "On short exposure held",
+            ),
+            t.stat("Turnover", f"{fmt.number(turnover, 1)}× /yr", "Traded weight, one side"),
+            t.stat(
+                "Cost drag",
+                f"{fmt.number(-(drag or 0) * 1e4, 1)} bps/yr",
+                f"{fmt.pct(-(drag or 0), 2)} of capital a year",
+                "neg" if (drag or 0) > 0 else "",
+            ),
+        ]
+    )
     return t.panel(
-        html.Div(
-            [
-                cell(
-                    "Commission",
-                    f"{cfg.commission_bps:.1f}",
-                    "bps / side",
-                    "per unit traded",
-                    cfg.commission_bps / 10,
-                ),
-                cell(
-                    "Slippage",
-                    f"{cfg.slippage_bps:.1f}",
-                    "bps / side",
-                    "per unit traded",
-                    cfg.slippage_bps / 10,
-                ),
-                cell(
-                    "Short borrow",
-                    f"{cfg.borrow_rate_annual * 1e4:.0f}",
-                    "bps / yr",
-                    "on short exposure held",
-                    cfg.borrow_rate_annual * 20,
-                ),
-                cell(
-                    "Turnover",
-                    fmt.number(turnover, 1),
-                    "× / yr",
-                    "traded weight, one side",
-                    min(1.0, (turnover or 0) / 40),
-                ),
-                cell(
-                    "Annual cost drag",
-                    fmt.number(-(drag or 0) * 1e4, 1),
-                    "bps / yr",
-                    f"{fmt.pct(-(drag or 0), 2)} p.a. of capital",
-                    min(1.0, (drag or 0) * 20),
-                    "neg",
-                ),
-            ],
-            className="kpis",
-            style={"--n": 5},
-        ),
-        title_icon="tune",
-        kicker="Transaction cost & slippage protocol",
-        title="Costs applied at every trade, on the traded weight",
-        actions=html.Span(
-            [
-                "Round trip: ",
-                html.Span(f"{cfg.round_trip_cost * 1e4:.1f} bps", className="primary mono-data"),
-            ],
-            className="mono-sm muted",
-        ),
+        [setup, html.Hr(className="rule"), charges],
+        title="Execution and costs",
+        subtitle="Engine settings and the cost model applied to every trade; turnover and drag are "
+        "this strategy's",
     )
 
 
@@ -270,7 +193,8 @@ def kpis(c: dict[str, Any]) -> list[Any]:
         t.kpi_pair(
             "Calmar ratio",
             *pair("calmar", lambda v: fmt.number(v, 2)),
-            rows=[("Return ÷ max drawdown", note or "saved statistics", "soft")],
+            rows=[("Defined as", "return ÷ max drawdown", "soft")]
+            + ([("Gross", note, "soft")] if note else []),
         ),
     ]
 
@@ -282,8 +206,8 @@ def equity(c: dict[str, Any]) -> html.Section:
     return t.panel(
         t.graph(charts.growth(lines, log_y=True), 300, label="Growth of 100"),
         title="Cumulative growth (base = 100)",
-        subtitle=views.period_caption(c["strategy"], c["period"]),
-        actions=[t.tag("log scale"), views.period_tabs(c["period"])],
+        subtitle=f"{views.period_caption(c['strategy'], c['period'])} · log scale",
+        actions=views.period_tabs(c["period"]),
         footer=[
             html.Span([f"{name}: ", html.Span(fmt.pct(v, 1, True), className="strong")])
             for name, v in reversed(totals)
@@ -304,7 +228,6 @@ def drawdown_panel(c: dict[str, Any]) -> html.Section:
         t.graph(charts.drawdowns(lines), 300, label="Drawdown from peak"),
         title="Underwater drawdown",
         subtitle="Net strategy (filled) against the benchmark, from each running peak",
-        actions=t.tag("peak-to-trough"),
         footer=[
             html.Span(
                 [
@@ -357,7 +280,6 @@ def years(c: dict[str, Any]) -> html.Section:
         ),
         title="Annual return decomposition",
         subtitle=f"{views.PERIOD_LABELS[c['period']]} · compounded within each year · * partial",
-        actions=t.tag("Units: %"),
     )
 
 
@@ -367,17 +289,14 @@ def rigor(c: dict[str, Any]) -> html.Section:
     interval = data.interval_against(c["strategy"], c["benchmark"], c["period"])
     verdict, tone = views.interval_verdict(interval)
     rows = [
-        t.kv(
-            "Turnover", f"{fmt.number(s.get('turnover_annual'), 1)}× a year", "strong", "mono-data"
-        ),
+        t.kv("Turnover", f"{fmt.number(s.get('turnover_annual'), 1)}× a year", "strong"),
         t.kv(
             "Mean exposure (net · gross)",
             f"{fmt.pct(s.get('exposure_net_mean'), 0)} · "
             f"{fmt.pct(s.get('exposure_gross_mean'), 0)}",
             "strong",
-            "mono-data",
         ),
-        t.kv("Sharpe standard error", fmt.sharpe(s.get("sharpe_se")), "strong", "mono-data"),
+        t.kv("Sharpe standard error", fmt.sharpe(s.get("sharpe_se")), "strong"),
     ]
     if c["period"] == data.DEVELOPMENT and data.book(c["strategy"]).source == "evaluation":
         mc = data.monte_carlo()
@@ -388,16 +307,11 @@ def rigor(c: dict[str, Any]) -> html.Section:
                     "Resampled paths beating EW hold",
                     fmt.pct(mc.loc[name, "p_beat_equal_weight_hold"], 1),
                     "strong",
-                    "mono-data",
                 )
             )
-        rows.append(
-            t.kv("Breakeven cost", fmt.bps(s.get("breakeven_return"), 1), "strong", "mono-data")
-        )
+        rows.append(t.kv("Breakeven cost", fmt.bps(s.get("breakeven_return"), 1), "strong"))
     if c["period"] == data.HOLDOUT:
-        rows.append(
-            t.kv("PSR against 0", fmt.number(s.get("psr_vs_zero"), 3), "strong", "mono-data")
-        )
+        rows.append(t.kv("PSR against 0", fmt.number(s.get("psr_vs_zero"), 3), "strong"))
     label = data.BOOKS[c["benchmark"]].label
     if interval:
         conclusion = (
@@ -418,18 +332,7 @@ def rigor(c: dict[str, Any]) -> html.Section:
     return t.panel(
         [
             html.Div(rows, className="list-rows"),
-            html.Div(
-                [
-                    html.Span("Conclusion: ", className="caps warn"),
-                    html.Span(conclusion, className="mono-sm soft"),
-                ],
-                style={
-                    "marginTop": "8px",
-                    "padding": "8px",
-                    "background": "var(--surface-low)",
-                    "borderRadius": "4px",
-                },
-            ),
+            html.P([html.Strong("Conclusion: "), conclusion], className="note conclusion"),
         ],
         title="Execution & statistical rigour",
         actions=[

@@ -21,7 +21,7 @@ from dashboard.controls import INPUTS, MODEL_KEY, MODEL_LABELS, RELOAD, selectio
 
 PATH = "/model"
 TITLE = "Model Performance"
-SUBTITLE = "Q3: CPCV out-of-fold & holdout"
+SUBTITLE = "Q3: out-of-fold & holdout"
 ICON = "model_training"
 USES = {"model"}
 DESCRIPTIONS = {
@@ -62,12 +62,12 @@ def layout() -> html.Div:
 
 
 def tabs(model: str) -> html.Div:
-    """One tab per evaluated forecast; the active one is the global model."""
+    """The page header, then one tab per evaluated forecast (bound to the global model)."""
     validation = data.research_validation()
     metrics = data.research_metrics()
     buttons = [
         html.Button(
-            [label, t.tag("model", "") if key == MODEL_KEY else None],
+            [label, t.tag("Fitted", "info") if key == MODEL_KEY else None],
             id={"type": "pick-model", "key": key},
             className="tab active" if key == model else "tab",
             title=DESCRIPTIONS[key],
@@ -77,79 +77,58 @@ def tabs(model: str) -> html.Div:
     ]
     return html.Div(
         [
-            html.Div(
-                [
-                    html.Span("Forecast ::", className="mono-sm muted"),
-                    html.Div(buttons, className="tabs"),
+            t.page_header(
+                "Model performance",
+                "One model was fitted, a random forest regression, and scored out-of-fold against "
+                "four rule baselines. The holdout recorded strategy returns, not forecasts.",
+                eyebrow="Research question Q3",
+                meta=[
+                    ("Run", validation["fingerprint"]),
+                    ("Paths", f"{int(metrics['n_paths'])} from {int(metrics['n_splits'])} splits"),
+                    ("Shuffling", "none: purged and embargoed"),
                 ],
-                style={"display": "flex", "gap": "8px", "alignItems": "center", "flexWrap": "wrap"},
             ),
             html.Div(
-                [
-                    t.kv("Run fingerprint", validation["fingerprint"], "strong"),
-                    t.kv("Shuffled", "no (purged, embargoed)", "pos"),
-                    t.kv(
-                        "Paths",
-                        f"{int(metrics['n_paths'])} from {int(metrics['n_splits'])} splits",
-                        "strong",
-                    ),
-                ],
-                style={"display": "flex", "gap": "16px", "flexWrap": "wrap"},
+                t.page_controls(t.field("Forecast", html.Div(buttons, className="tabs"))),
+                style={"marginTop": "16px"},
             ),
-        ],
-        className="strip",
+        ]
     )
 
 
-def params(model: str) -> html.Div:
+def params(model: str) -> html.Section:
     """The model's configuration and the validation engine, as the run used them."""
     cfg = data.config()
     m = data.research_metrics()
     if model == MODEL_KEY:
         rf = cfg.model.random_forest
-        settings = (
-            f"Estimators: {rf['n_estimators']} | Max depth: {rf['max_depth']} "
-            f"| Min leaf: {rf['min_samples_leaf']} | Max features: {rf['max_features']} "
-            f"| Task: {cfg.model.task} | Labels: {cfg.labelling.method} "
-            f"({cfg.labelling.fixed_horizon.horizon_days} day) | Features: 19 "
-            f"| Fracdiff d: {m['fracdiff_d']:.2f}"
-        )
+        items = [
+            t.stat("Estimator", "Random forest", f"{cfg.model.task}, {rf['n_estimators']} trees"),
+            t.stat(
+                "Tree shape",
+                f"depth {rf['max_depth']}",
+                f"min leaf {rf['min_samples_leaf']}, max features {rf['max_features']}",
+            ),
+            t.stat(
+                "Labels",
+                f"{cfg.labelling.fixed_horizon.horizon_days}-day",
+                f"{cfg.labelling.method}",
+            ),
+            t.stat("Inputs", "19 features", f"fracdiff d = {m['fracdiff_d']:.2f}"),
+        ]
     else:
-        settings = f"Rule baseline · {DESCRIPTIONS[model]} · no parameters fitted"
-    validation = (
-        f"CPCV ({cfg.validation.cpcv.n_groups} groups, "
-        f"{cfg.validation.cpcv.n_test_groups} test) · {int(m['embargo_days'])}-day embargo · "
-        f"{fmt.integer(m['train_rows_mean'])} train rows per split"
+        items = [
+            t.stat("Estimator", "Rule baseline", DESCRIPTIONS[model]),
+            t.stat("Parameters", "none fitted"),
+        ]
+    items.append(
+        t.stat(
+            "Validation",
+            f"CPCV {cfg.validation.cpcv.n_groups}/{cfg.validation.cpcv.n_test_groups}",
+            f"{int(m['embargo_days'])}-day embargo, {fmt.integer(m['train_rows_mean'])} train rows",
+        )
     )
-    return html.Div(
-        [
-            html.Div(
-                [t.tag("Configuration"), html.Span(settings, className="mono-sm soft")],
-                style={"display": "flex", "gap": "8px", "alignItems": "center", "flexWrap": "wrap"},
-            ),
-            html.Div(
-                [
-                    t.tag("Validation engine", "info"),
-                    html.Span(validation, className="mono-sm soft"),
-                ],
-                style={"display": "flex", "gap": "8px", "alignItems": "center", "flexWrap": "wrap"},
-            ),
-        ],
-        className="strip",
-        style={"flexDirection": "column", "alignItems": "flex-start"},
-    )
-
-
-def _metric(label: str, main: str, sub: str, tone: str = "strong") -> html.Div:
-    return html.Div(
-        [
-            html.Span(label, className="caps muted"),
-            html.Span(main, className=f"mono-display {tone}"),
-            html.Span(sub, className="mono-sm muted"),
-        ],
-        className="kpi",
-        style={"background": "var(--surface-low)"},
-    )
+    return t.panel(t.stat_grid(items), title="Configuration", subtitle=MODEL_LABELS[model])
 
 
 def development_panel(model: str) -> html.Section:
@@ -164,40 +143,24 @@ def development_panel(model: str) -> html.Section:
         return f"path s.d. {paths[column].std():.1e}"
 
     cells = [
-        _metric("MAE", fmt.number(row.get("mae"), 4), spread("mae", 5)),
-        _metric("RMSE", fmt.number(row.get("rmse"), 4), spread("rmse", 5)),
-        _metric(
-            "Hit rate",
-            fmt.pct(row["hit_rate"], 2),
-            f"up rate {fmt.pct(row['up_rate'], 2)}",
-            fmt.tone(row["edge_over_always_up"]),
-        ),
-        _metric(
-            "Rank IC", fmt.number(row["ic"], 4, signed=True), spread("ic", 4), fmt.tone(row["ic"])
-        ),
-        _metric("R²", fmt.number(row.get("r2"), 4), spread("r2", 4)),
+        t.stat("MAE", fmt.number(row.get("mae"), 4), spread("mae", 5)),
+        t.stat("RMSE", fmt.number(row.get("rmse"), 4), spread("rmse", 5)),
+        t.stat("Hit rate", fmt.pct(row["hit_rate"], 2), f"always-up {fmt.pct(row['up_rate'], 2)}"),
+        t.stat("Rank IC", fmt.number(row["ic"], 4, signed=True), spread("ic", 4)),
+        t.stat("R²", fmt.number(row.get("r2"), 4), spread("r2", 4)),
     ]
     return t.panel(
         [
-            html.Div(cells, className="kpis", style={"--n": 5}),
-            html.Div(
-                [
-                    t.icon("info", "sm"),
-                    html.Span(
-                        " MAE, RMSE and R² exist only for the regression model; direction "
-                        "rules have none. In-sample fit metrics were not saved: every number "
-                        "here is out-of-fold.",
-                        className="body-sm soft",
-                    ),
-                ],
-                style={"marginTop": "8px", "display": "flex", "gap": "4px"},
+            t.stat_grid(cells),
+            t.note(
+                "MAE, RMSE and R² exist only for the regression model; direction rules have none. "
+                "In-sample fit metrics were not saved: every number here is out-of-fold."
             ),
         ],
-        kicker="Development · out-of-fold",
-        title=f"{MODEL_LABELS[model]}: 2005-07-22 → 2019-12-30",
-        subtitle=f"n = {fmt.integer(row['n'])} rows · each predicted by models that never saw it",
+        title=f"Development, out-of-fold: {MODEL_LABELS[model]}",
+        subtitle=f"2005-07-22 → 2019-12-30 · n = {fmt.integer(row['n'])} rows, each predicted by "
+        "models that never saw it",
         actions=t.tag("CPCV", "info"),
-        cls="low",
     )
 
 
@@ -245,7 +208,6 @@ def holdout_panel(model: str) -> html.Section:
     window = views.holdout_window()
     return t.panel(
         body,
-        kicker="Holdout · one-time evaluation",
         title=f"Holdout: {fmt.date_range(*window)}" if window else "Holdout",
         subtitle="Final model fitted once on all development rows · strategies' net Sharpe, "
         + views.trials_note(),
@@ -269,7 +231,7 @@ def years_panel(model: str) -> html.Section:
         t.graph(figure, 250, label="IC by calendar year"),
         title="IC by calendar year (out-of-fold)",
         subtitle="Pooled Spearman IC per year · whisker: s.d. over 5 CPCV paths · development",
-        actions=t.legend([("IC > 0", t.POS, "box"), ("IC < 0", t.NEG, "box")]),
+        legend=t.legend([("IC > 0", t.POS, "box"), ("IC < 0", t.NEG, "box")]),
         footer=[
             html.Span(
                 [
@@ -354,8 +316,7 @@ def board(model: str) -> html.Section:
             html.Div(
                 [
                     html.H2(
-                        [t.icon("table_chart"), " Forecast comparison: model against baselines"],
-                        className="h-sm strong",
+                        "Forecast comparison: model against baselines", className="section-title"
                     ),
                     html.Span(
                         f"{len(rows)} forecasts evaluated · development, out-of-fold",
@@ -377,7 +338,7 @@ def board(model: str) -> html.Section:
                         "results exist."
                     ),
                 ],
-                className="table-foot mono-sm",
+                className="table-foot",
             ),
         ],
         className="panel flush",
