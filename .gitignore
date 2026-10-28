@@ -29,6 +29,7 @@ mlflow.db
 *-mlflow.db
 mlruns/
 mlartifacts/
+task.md
 
 # Saved model bundles are rebuilt by the pipeline; the folder itself is kept.
 models/*
