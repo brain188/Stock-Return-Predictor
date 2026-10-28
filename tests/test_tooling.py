@@ -68,11 +68,11 @@ def test_targets_run_scripts_and_modules_that_exist():
                 assert (PROJECT_ROOT / notebook).is_file(), notebook
 
 
-def test_dashboard_says_it_is_not_built_and_fails():
+def test_dashboard_target_serves_the_dash_app():
     recipe = " ".join(makefile_targets()["dashboard"])
 
-    assert "Phase 9" in recipe
-    assert "exit 1" in recipe
+    assert "python -m dashboard.app" in recipe
+    assert (PROJECT_ROOT / "dashboard" / "app.py").is_file()
 
 
 def test_ci_never_runs_the_expensive_targets():
@@ -93,7 +93,9 @@ def test_ci_workflow_runs_ruff_format_check_and_pytest():
     assert "uv sync --locked" in commands
     # No script that downloads data or fits models; make targets only dry-run (-n).
     assert "entrypoint/" not in commands and "python -m src.pipelines" not in commands
-    assert re.findall(r"make (?!-n|dashboard)\S+", commands) == []
+    assert re.findall(r"make (?!-n)\S+", commands) == []
+    # The dashboard is a long-running server: CI only dry-runs its target.
+    assert "dashboard.app" not in commands
 
 
 def test_gitignore_covers_generated_files():

@@ -44,7 +44,6 @@ jobs:
 
       - name: Makefile targets parse (dry run, nothing executed)
         run: |
-          for target in install fetch research evaluate test lint format all; do
+          for target in install fetch research evaluate test lint format all dashboard; do
             make -n "$target" > /dev/null
           done
-          if make dashboard; then exit 1; fi

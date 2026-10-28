@@ -28,6 +28,7 @@ dependencies = [
     "matplotlib>=3.8,<4",
     "python-dotenv>=1.2.3",
     "mlflow>=3.1,<4",
+    "dash>=3.0,<4",
 ]
  
 [dependency-groups]
@@ -91,6 +92,10 @@ ignore = [
  
 # Entry points put the project root on sys.path before importing from it.
 "entrypoint/*" = ["E402"]
+
+# Interface text is typeset: a true minus sign, the multiplication sign and en
+# dashes in ranges are deliberate glyphs there, not typos for ASCII.
+"dashboard/*" = ["RUF001", "RUF002", "RUF003"]
  
 [tool.ruff.format]
 quote-style = "double"

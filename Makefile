@@ -56,9 +56,8 @@ holdout-check:  ## Preflight for the holdout run: every safeguard, no holdout da
 holdout:  ## Open the 2020-2024 holdout ONCE (needs approval, prepared artifacts, clean commit)
 	uv run python entrypoint/holdout.py run
 
-dashboard:  ## Not built yet: the dashboard is Phase 9
-	@echo "The dashboard is built in Phase 9 and does not exist yet." >&2
-	@exit 1
+dashboard:  ## The research dashboard on http://127.0.0.1:8050 (read-only view of saved results)
+	uv run python -m dashboard.app
 
 all: install research evaluate portfolio report reconcile results ## The whole development pipeline, end to end
 
